@@ -13,5 +13,5 @@ clean:
 	rm -f $(TARGETS)
 
 %.lisp: %.i
-	$(SWIG) -cffi -I/usr/include $<
+	$(SWIG) -cffi -generate-typedef -I/usr/include $<
 

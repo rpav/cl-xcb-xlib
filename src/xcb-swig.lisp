@@ -60,6 +60,118 @@
 
 (cl:export '#.(custom-lispify "_STDINT_H" 'constant))
 
+(cffi:defctype #.(custom-lispify "int8_t" 'typename) :char)
+
+(cl:export '#.(custom-lispify "int8_t" 'typename))
+
+(cffi:defctype #.(custom-lispify "int16_t" 'typename) :short)
+
+(cl:export '#.(custom-lispify "int16_t" 'typename))
+
+(cffi:defctype #.(custom-lispify "int32_t" 'typename) :int)
+
+(cl:export '#.(custom-lispify "int32_t" 'typename))
+
+(cffi:defctype #.(custom-lispify "int64_t" 'typename) :long-long)
+
+(cl:export '#.(custom-lispify "int64_t" 'typename))
+
+(cffi:defctype #.(custom-lispify "uint8_t" 'typename) :unsigned-char)
+
+(cl:export '#.(custom-lispify "uint8_t" 'typename))
+
+(cffi:defctype #.(custom-lispify "uint16_t" 'typename) :unsigned-short)
+
+(cl:export '#.(custom-lispify "uint16_t" 'typename))
+
+(cffi:defctype #.(custom-lispify "uint32_t" 'typename) :unsigned-int)
+
+(cl:export '#.(custom-lispify "uint32_t" 'typename))
+
+(cffi:defctype #.(custom-lispify "uint64_t" 'typename) :unsigned-long-long)
+
+(cl:export '#.(custom-lispify "uint64_t" 'typename))
+
+(cffi:defctype #.(custom-lispify "int_least8_t" 'typename) :char)
+
+(cl:export '#.(custom-lispify "int_least8_t" 'typename))
+
+(cffi:defctype #.(custom-lispify "int_least16_t" 'typename) :short)
+
+(cl:export '#.(custom-lispify "int_least16_t" 'typename))
+
+(cffi:defctype #.(custom-lispify "int_least32_t" 'typename) :int)
+
+(cl:export '#.(custom-lispify "int_least32_t" 'typename))
+
+(cffi:defctype #.(custom-lispify "int_least64_t" 'typename) :long-long)
+
+(cl:export '#.(custom-lispify "int_least64_t" 'typename))
+
+(cffi:defctype #.(custom-lispify "uint_least8_t" 'typename) :unsigned-char)
+
+(cl:export '#.(custom-lispify "uint_least8_t" 'typename))
+
+(cffi:defctype #.(custom-lispify "uint_least16_t" 'typename) :unsigned-short)
+
+(cl:export '#.(custom-lispify "uint_least16_t" 'typename))
+
+(cffi:defctype #.(custom-lispify "uint_least32_t" 'typename) :unsigned-int)
+
+(cl:export '#.(custom-lispify "uint_least32_t" 'typename))
+
+(cffi:defctype #.(custom-lispify "uint_least64_t" 'typename) :unsigned-long-long)
+
+(cl:export '#.(custom-lispify "uint_least64_t" 'typename))
+
+(cffi:defctype #.(custom-lispify "int_fast8_t" 'typename) :char)
+
+(cl:export '#.(custom-lispify "int_fast8_t" 'typename))
+
+(cffi:defctype #.(custom-lispify "int_fast16_t" 'typename) :int)
+
+(cl:export '#.(custom-lispify "int_fast16_t" 'typename))
+
+(cffi:defctype #.(custom-lispify "int_fast32_t" 'typename) :int)
+
+(cl:export '#.(custom-lispify "int_fast32_t" 'typename))
+
+(cffi:defctype #.(custom-lispify "int_fast64_t" 'typename) :long-long)
+
+(cl:export '#.(custom-lispify "int_fast64_t" 'typename))
+
+(cffi:defctype #.(custom-lispify "uint_fast8_t" 'typename) :unsigned-char)
+
+(cl:export '#.(custom-lispify "uint_fast8_t" 'typename))
+
+(cffi:defctype #.(custom-lispify "uint_fast16_t" 'typename) :unsigned-int)
+
+(cl:export '#.(custom-lispify "uint_fast16_t" 'typename))
+
+(cffi:defctype #.(custom-lispify "uint_fast32_t" 'typename) :unsigned-int)
+
+(cl:export '#.(custom-lispify "uint_fast32_t" 'typename))
+
+(cffi:defctype #.(custom-lispify "uint_fast64_t" 'typename) :unsigned-long-long)
+
+(cl:export '#.(custom-lispify "uint_fast64_t" 'typename))
+
+(cffi:defctype #.(custom-lispify "intptr_t" 'typename) :int)
+
+(cl:export '#.(custom-lispify "intptr_t" 'typename))
+
+(cffi:defctype #.(custom-lispify "uintptr_t" 'typename) :unsigned-int)
+
+(cl:export '#.(custom-lispify "uintptr_t" 'typename))
+
+(cffi:defctype #.(custom-lispify "intmax_t" 'typename) :long-long)
+
+(cl:export '#.(custom-lispify "intmax_t" 'typename))
+
+(cffi:defctype #.(custom-lispify "uintmax_t" 'typename) :unsigned-long-long)
+
+(cl:export '#.(custom-lispify "uintmax_t" 'typename))
+
 (cl:defconstant #.(custom-lispify "INT8_MIN" 'constant) -128)
 
 (cl:export '#.(custom-lispify "INT8_MIN" 'constant))
@@ -563,6 +675,10 @@
 
 (cl:export '#.(custom-lispify "index" 'slotname))
 
+(cffi:defctype #.(custom-lispify "xcb_window_t" 'typename) :unsigned-int)
+
+(cl:export '#.(custom-lispify "xcb_window_t" 'typename))
+
 (cffi:defcstruct #.(custom-lispify "xcb_window_iterator_t" 'classname)
 	(#.(custom-lispify "data" 'slotname) :pointer)
 	(#.(custom-lispify "rem" 'slotname) :int)
@@ -575,6 +691,10 @@
 (cl:export '#.(custom-lispify "rem" 'slotname))
 
 (cl:export '#.(custom-lispify "index" 'slotname))
+
+(cffi:defctype #.(custom-lispify "xcb_pixmap_t" 'typename) :unsigned-int)
+
+(cl:export '#.(custom-lispify "xcb_pixmap_t" 'typename))
 
 (cffi:defcstruct #.(custom-lispify "xcb_pixmap_iterator_t" 'classname)
 	(#.(custom-lispify "data" 'slotname) :pointer)
@@ -589,6 +709,10 @@
 
 (cl:export '#.(custom-lispify "index" 'slotname))
 
+(cffi:defctype #.(custom-lispify "xcb_cursor_t" 'typename) :unsigned-int)
+
+(cl:export '#.(custom-lispify "xcb_cursor_t" 'typename))
+
 (cffi:defcstruct #.(custom-lispify "xcb_cursor_iterator_t" 'classname)
 	(#.(custom-lispify "data" 'slotname) :pointer)
 	(#.(custom-lispify "rem" 'slotname) :int)
@@ -601,6 +725,10 @@
 (cl:export '#.(custom-lispify "rem" 'slotname))
 
 (cl:export '#.(custom-lispify "index" 'slotname))
+
+(cffi:defctype #.(custom-lispify "xcb_font_t" 'typename) :unsigned-int)
+
+(cl:export '#.(custom-lispify "xcb_font_t" 'typename))
 
 (cffi:defcstruct #.(custom-lispify "xcb_font_iterator_t" 'classname)
 	(#.(custom-lispify "data" 'slotname) :pointer)
@@ -615,6 +743,10 @@
 
 (cl:export '#.(custom-lispify "index" 'slotname))
 
+(cffi:defctype #.(custom-lispify "xcb_gcontext_t" 'typename) :unsigned-int)
+
+(cl:export '#.(custom-lispify "xcb_gcontext_t" 'typename))
+
 (cffi:defcstruct #.(custom-lispify "xcb_gcontext_iterator_t" 'classname)
 	(#.(custom-lispify "data" 'slotname) :pointer)
 	(#.(custom-lispify "rem" 'slotname) :int)
@@ -627,6 +759,10 @@
 (cl:export '#.(custom-lispify "rem" 'slotname))
 
 (cl:export '#.(custom-lispify "index" 'slotname))
+
+(cffi:defctype #.(custom-lispify "xcb_colormap_t" 'typename) :unsigned-int)
+
+(cl:export '#.(custom-lispify "xcb_colormap_t" 'typename))
 
 (cffi:defcstruct #.(custom-lispify "xcb_colormap_iterator_t" 'classname)
 	(#.(custom-lispify "data" 'slotname) :pointer)
@@ -641,6 +777,10 @@
 
 (cl:export '#.(custom-lispify "index" 'slotname))
 
+(cffi:defctype #.(custom-lispify "xcb_atom_t" 'typename) :unsigned-int)
+
+(cl:export '#.(custom-lispify "xcb_atom_t" 'typename))
+
 (cffi:defcstruct #.(custom-lispify "xcb_atom_iterator_t" 'classname)
 	(#.(custom-lispify "data" 'slotname) :pointer)
 	(#.(custom-lispify "rem" 'slotname) :int)
@@ -653,6 +793,10 @@
 (cl:export '#.(custom-lispify "rem" 'slotname))
 
 (cl:export '#.(custom-lispify "index" 'slotname))
+
+(cffi:defctype #.(custom-lispify "xcb_drawable_t" 'typename) :unsigned-int)
+
+(cl:export '#.(custom-lispify "xcb_drawable_t" 'typename))
 
 (cffi:defcstruct #.(custom-lispify "xcb_drawable_iterator_t" 'classname)
 	(#.(custom-lispify "data" 'slotname) :pointer)
@@ -667,6 +811,10 @@
 
 (cl:export '#.(custom-lispify "index" 'slotname))
 
+(cffi:defctype #.(custom-lispify "xcb_fontable_t" 'typename) :unsigned-int)
+
+(cl:export '#.(custom-lispify "xcb_fontable_t" 'typename))
+
 (cffi:defcstruct #.(custom-lispify "xcb_fontable_iterator_t" 'classname)
 	(#.(custom-lispify "data" 'slotname) :pointer)
 	(#.(custom-lispify "rem" 'slotname) :int)
@@ -679,6 +827,10 @@
 (cl:export '#.(custom-lispify "rem" 'slotname))
 
 (cl:export '#.(custom-lispify "index" 'slotname))
+
+(cffi:defctype #.(custom-lispify "xcb_visualid_t" 'typename) :unsigned-int)
+
+(cl:export '#.(custom-lispify "xcb_visualid_t" 'typename))
 
 (cffi:defcstruct #.(custom-lispify "xcb_visualid_iterator_t" 'classname)
 	(#.(custom-lispify "data" 'slotname) :pointer)
@@ -693,6 +845,10 @@
 
 (cl:export '#.(custom-lispify "index" 'slotname))
 
+(cffi:defctype #.(custom-lispify "xcb_timestamp_t" 'typename) :unsigned-int)
+
+(cl:export '#.(custom-lispify "xcb_timestamp_t" 'typename))
+
 (cffi:defcstruct #.(custom-lispify "xcb_timestamp_iterator_t" 'classname)
 	(#.(custom-lispify "data" 'slotname) :pointer)
 	(#.(custom-lispify "rem" 'slotname) :int)
@@ -705,6 +861,10 @@
 (cl:export '#.(custom-lispify "rem" 'slotname))
 
 (cl:export '#.(custom-lispify "index" 'slotname))
+
+(cffi:defctype #.(custom-lispify "xcb_keysym_t" 'typename) :unsigned-int)
+
+(cl:export '#.(custom-lispify "xcb_keysym_t" 'typename))
 
 (cffi:defcstruct #.(custom-lispify "xcb_keysym_iterator_t" 'classname)
 	(#.(custom-lispify "data" 'slotname) :pointer)
@@ -719,6 +879,10 @@
 
 (cl:export '#.(custom-lispify "index" 'slotname))
 
+(cffi:defctype #.(custom-lispify "xcb_keycode_t" 'typename) :unsigned-char)
+
+(cl:export '#.(custom-lispify "xcb_keycode_t" 'typename))
+
 (cffi:defcstruct #.(custom-lispify "xcb_keycode_iterator_t" 'classname)
 	(#.(custom-lispify "data" 'slotname) :pointer)
 	(#.(custom-lispify "rem" 'slotname) :int)
@@ -731,6 +895,10 @@
 (cl:export '#.(custom-lispify "rem" 'slotname))
 
 (cl:export '#.(custom-lispify "index" 'slotname))
+
+(cffi:defctype #.(custom-lispify "xcb_button_t" 'typename) :unsigned-char)
+
+(cl:export '#.(custom-lispify "xcb_button_t" 'typename))
 
 (cffi:defcstruct #.(custom-lispify "xcb_button_iterator_t" 'classname)
 	(#.(custom-lispify "data" 'slotname) :pointer)
@@ -1311,6 +1479,10 @@
 
 (cl:export '#.(custom-lispify "XCB_KEY_RELEASE" 'constant))
 
+(cffi:defctype #.(custom-lispify "xcb_key_release_event_t" 'typename) #.(custom-lispify "xcb_key_press_event_t" 'structname))
+
+(cl:export '#.(custom-lispify "xcb_key_release_event_t" 'typename))
+
 (cffi:defcenum #.(custom-lispify "xcb_button_mask_t" 'enumname)
 	(#.(custom-lispify "XCB_BUTTON_MASK_1" 'enumvalue :keyword) #.256)
 	(#.(custom-lispify "XCB_BUTTON_MASK_2" 'enumvalue :keyword) #.512)
@@ -1374,6 +1546,10 @@
 (cl:defconstant #.(custom-lispify "XCB_BUTTON_RELEASE" 'constant) 5)
 
 (cl:export '#.(custom-lispify "XCB_BUTTON_RELEASE" 'constant))
+
+(cffi:defctype #.(custom-lispify "xcb_button_release_event_t" 'typename) #.(custom-lispify "xcb_button_press_event_t" 'structname))
+
+(cl:export '#.(custom-lispify "xcb_button_release_event_t" 'typename))
 
 (cffi:defcenum #.(custom-lispify "xcb_motion_t" 'enumname)
 	(#.(custom-lispify "XCB_MOTION_NORMAL" 'enumvalue :keyword) #.0)
@@ -1505,6 +1681,10 @@
 
 (cl:export '#.(custom-lispify "XCB_LEAVE_NOTIFY" 'constant))
 
+(cffi:defctype #.(custom-lispify "xcb_leave_notify_event_t" 'typename) #.(custom-lispify "xcb_enter_notify_event_t" 'structname))
+
+(cl:export '#.(custom-lispify "xcb_leave_notify_event_t" 'typename))
+
 (cl:defconstant #.(custom-lispify "XCB_FOCUS_IN" 'constant) 9)
 
 (cl:export '#.(custom-lispify "XCB_FOCUS_IN" 'constant))
@@ -1534,6 +1714,10 @@
 (cl:defconstant #.(custom-lispify "XCB_FOCUS_OUT" 'constant) 10)
 
 (cl:export '#.(custom-lispify "XCB_FOCUS_OUT" 'constant))
+
+(cffi:defctype #.(custom-lispify "xcb_focus_out_event_t" 'typename) #.(custom-lispify "xcb_focus_in_event_t" 'structname))
+
+(cl:export '#.(custom-lispify "xcb_focus_out_event_t" 'typename))
 
 (cl:defconstant #.(custom-lispify "XCB_KEYMAP_NOTIFY" 'constant) 11)
 
@@ -2067,6 +2251,10 @@
 
 (cl:export '#.(custom-lispify "XCB_CIRCULATE_REQUEST" 'constant))
 
+(cffi:defctype #.(custom-lispify "xcb_circulate_request_event_t" 'typename) #.(custom-lispify "xcb_circulate_notify_event_t" 'structname))
+
+(cl:export '#.(custom-lispify "xcb_circulate_request_event_t" 'typename))
+
 (cffi:defcenum #.(custom-lispify "xcb_property_t" 'enumname)
 	(#.(custom-lispify "XCB_PROPERTY_NEW_VALUE" 'enumvalue :keyword) #.0)
 	(#.(custom-lispify "XCB_PROPERTY_DELETE" 'enumvalue :keyword) #.1))
@@ -2470,61 +2658,121 @@
 
 (cl:export '#.(custom-lispify "XCB_WINDOW" 'constant))
 
+(cffi:defctype #.(custom-lispify "xcb_window_error_t" 'typename) #.(custom-lispify "xcb_value_error_t" 'structname))
+
+(cl:export '#.(custom-lispify "xcb_window_error_t" 'typename))
+
 (cl:defconstant #.(custom-lispify "XCB_PIXMAP" 'constant) 4)
 
 (cl:export '#.(custom-lispify "XCB_PIXMAP" 'constant))
+
+(cffi:defctype #.(custom-lispify "xcb_pixmap_error_t" 'typename) #.(custom-lispify "xcb_value_error_t" 'structname))
+
+(cl:export '#.(custom-lispify "xcb_pixmap_error_t" 'typename))
 
 (cl:defconstant #.(custom-lispify "XCB_ATOM" 'constant) 5)
 
 (cl:export '#.(custom-lispify "XCB_ATOM" 'constant))
 
+(cffi:defctype #.(custom-lispify "xcb_atom_error_t" 'typename) #.(custom-lispify "xcb_value_error_t" 'structname))
+
+(cl:export '#.(custom-lispify "xcb_atom_error_t" 'typename))
+
 (cl:defconstant #.(custom-lispify "XCB_CURSOR" 'constant) 6)
 
 (cl:export '#.(custom-lispify "XCB_CURSOR" 'constant))
+
+(cffi:defctype #.(custom-lispify "xcb_cursor_error_t" 'typename) #.(custom-lispify "xcb_value_error_t" 'structname))
+
+(cl:export '#.(custom-lispify "xcb_cursor_error_t" 'typename))
 
 (cl:defconstant #.(custom-lispify "XCB_FONT" 'constant) 7)
 
 (cl:export '#.(custom-lispify "XCB_FONT" 'constant))
 
+(cffi:defctype #.(custom-lispify "xcb_font_error_t" 'typename) #.(custom-lispify "xcb_value_error_t" 'structname))
+
+(cl:export '#.(custom-lispify "xcb_font_error_t" 'typename))
+
 (cl:defconstant #.(custom-lispify "XCB_MATCH" 'constant) 8)
 
 (cl:export '#.(custom-lispify "XCB_MATCH" 'constant))
+
+(cffi:defctype #.(custom-lispify "xcb_match_error_t" 'typename) #.(custom-lispify "xcb_request_error_t" 'structname))
+
+(cl:export '#.(custom-lispify "xcb_match_error_t" 'typename))
 
 (cl:defconstant #.(custom-lispify "XCB_DRAWABLE" 'constant) 9)
 
 (cl:export '#.(custom-lispify "XCB_DRAWABLE" 'constant))
 
+(cffi:defctype #.(custom-lispify "xcb_drawable_error_t" 'typename) #.(custom-lispify "xcb_value_error_t" 'structname))
+
+(cl:export '#.(custom-lispify "xcb_drawable_error_t" 'typename))
+
 (cl:defconstant #.(custom-lispify "XCB_ACCESS" 'constant) 10)
 
 (cl:export '#.(custom-lispify "XCB_ACCESS" 'constant))
+
+(cffi:defctype #.(custom-lispify "xcb_access_error_t" 'typename) #.(custom-lispify "xcb_request_error_t" 'structname))
+
+(cl:export '#.(custom-lispify "xcb_access_error_t" 'typename))
 
 (cl:defconstant #.(custom-lispify "XCB_ALLOC" 'constant) 11)
 
 (cl:export '#.(custom-lispify "XCB_ALLOC" 'constant))
 
+(cffi:defctype #.(custom-lispify "xcb_alloc_error_t" 'typename) #.(custom-lispify "xcb_request_error_t" 'structname))
+
+(cl:export '#.(custom-lispify "xcb_alloc_error_t" 'typename))
+
 (cl:defconstant #.(custom-lispify "XCB_COLORMAP" 'constant) 12)
 
 (cl:export '#.(custom-lispify "XCB_COLORMAP" 'constant))
+
+(cffi:defctype #.(custom-lispify "xcb_colormap_error_t" 'typename) #.(custom-lispify "xcb_value_error_t" 'structname))
+
+(cl:export '#.(custom-lispify "xcb_colormap_error_t" 'typename))
 
 (cl:defconstant #.(custom-lispify "XCB_G_CONTEXT" 'constant) 13)
 
 (cl:export '#.(custom-lispify "XCB_G_CONTEXT" 'constant))
 
+(cffi:defctype #.(custom-lispify "xcb_g_context_error_t" 'typename) #.(custom-lispify "xcb_value_error_t" 'structname))
+
+(cl:export '#.(custom-lispify "xcb_g_context_error_t" 'typename))
+
 (cl:defconstant #.(custom-lispify "XCB_ID_CHOICE" 'constant) 14)
 
 (cl:export '#.(custom-lispify "XCB_ID_CHOICE" 'constant))
+
+(cffi:defctype #.(custom-lispify "xcb_id_choice_error_t" 'typename) #.(custom-lispify "xcb_value_error_t" 'structname))
+
+(cl:export '#.(custom-lispify "xcb_id_choice_error_t" 'typename))
 
 (cl:defconstant #.(custom-lispify "XCB_NAME" 'constant) 15)
 
 (cl:export '#.(custom-lispify "XCB_NAME" 'constant))
 
+(cffi:defctype #.(custom-lispify "xcb_name_error_t" 'typename) #.(custom-lispify "xcb_request_error_t" 'structname))
+
+(cl:export '#.(custom-lispify "xcb_name_error_t" 'typename))
+
 (cl:defconstant #.(custom-lispify "XCB_LENGTH" 'constant) 16)
 
 (cl:export '#.(custom-lispify "XCB_LENGTH" 'constant))
 
+(cffi:defctype #.(custom-lispify "xcb_length_error_t" 'typename) #.(custom-lispify "xcb_request_error_t" 'structname))
+
+(cl:export '#.(custom-lispify "xcb_length_error_t" 'typename))
+
 (cl:defconstant #.(custom-lispify "XCB_IMPLEMENTATION" 'constant) 17)
 
 (cl:export '#.(custom-lispify "XCB_IMPLEMENTATION" 'constant))
+
+(cffi:defctype #.(custom-lispify "xcb_implementation_error_t" 'typename) #.(custom-lispify "xcb_request_error_t" 'structname))
+
+(cl:export '#.(custom-lispify "xcb_implementation_error_t" 'typename))
 
 (cffi:defcenum #.(custom-lispify "xcb_window_class_t" 'enumname)
 	(#.(custom-lispify "XCB_WINDOW_CLASS_COPY_FROM_PARENT" 'enumvalue :keyword) #.0)

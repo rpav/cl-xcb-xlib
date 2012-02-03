@@ -70,6 +70,10 @@
 
 (cl:export '#.(custom-lispify "X_HAVE_UTF8_STRING" 'constant))
 
+(cffi:defctype #.(custom-lispify "XPointer" 'typename) :string)
+
+(cl:export '#.(custom-lispify "XPointer" 'typename))
+
 (cl:defconstant #.(custom-lispify "True" 'constant) 1)
 
 (cl:export '#.(custom-lispify "True" 'constant))
@@ -207,6 +211,10 @@
 (cl:export '#.(custom-lispify "dash_offset" 'slotname))
 
 (cl:export '#.(custom-lispify "dashes" 'slotname))
+
+(cffi:defctype #.(custom-lispify "GC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "GC" 'typename))
 
 (cffi:defcstruct #.(custom-lispify "Visual" 'classname)
 	(#.(custom-lispify "ext_data" 'slotname) :pointer)
@@ -744,6 +752,10 @@
 
 (cl:export '#.(custom-lispify "modifiermap" 'slotname))
 
+(cffi:defctype #.(custom-lispify "_XPrivDisplay" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "_XPrivDisplay" 'typename))
+
 (cffi:defcstruct #.(custom-lispify "XKeyEvent" 'classname)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
@@ -792,6 +804,14 @@
 (cl:export '#.(custom-lispify "keycode" 'slotname))
 
 (cl:export '#.(custom-lispify "same_screen" 'slotname))
+
+(cffi:defctype #.(custom-lispify "XKeyPressedEvent" 'typename) #.(custom-lispify "XKeyEvent" 'structname))
+
+(cl:export '#.(custom-lispify "XKeyPressedEvent" 'typename))
+
+(cffi:defctype #.(custom-lispify "XKeyReleasedEvent" 'typename) #.(custom-lispify "XKeyEvent" 'structname))
+
+(cl:export '#.(custom-lispify "XKeyReleasedEvent" 'typename))
 
 (cffi:defcstruct #.(custom-lispify "XButtonEvent" 'classname)
 	(#.(custom-lispify "type" 'slotname) :int)
@@ -842,6 +862,14 @@
 
 (cl:export '#.(custom-lispify "same_screen" 'slotname))
 
+(cffi:defctype #.(custom-lispify "XButtonPressedEvent" 'typename) #.(custom-lispify "XButtonEvent" 'structname))
+
+(cl:export '#.(custom-lispify "XButtonPressedEvent" 'typename))
+
+(cffi:defctype #.(custom-lispify "XButtonReleasedEvent" 'typename) #.(custom-lispify "XButtonEvent" 'structname))
+
+(cl:export '#.(custom-lispify "XButtonReleasedEvent" 'typename))
+
 (cffi:defcstruct #.(custom-lispify "XMotionEvent" 'classname)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
@@ -890,6 +918,10 @@
 (cl:export '#.(custom-lispify "is_hint" 'slotname))
 
 (cl:export '#.(custom-lispify "same_screen" 'slotname))
+
+(cffi:defctype #.(custom-lispify "XPointerMovedEvent" 'typename) #.(custom-lispify "XMotionEvent" 'structname))
+
+(cl:export '#.(custom-lispify "XPointerMovedEvent" 'typename))
 
 (cffi:defcstruct #.(custom-lispify "XCrossingEvent" 'classname)
 	(#.(custom-lispify "type" 'slotname) :int)
@@ -946,6 +978,14 @@
 
 (cl:export '#.(custom-lispify "state" 'slotname))
 
+(cffi:defctype #.(custom-lispify "XEnterWindowEvent" 'typename) #.(custom-lispify "XCrossingEvent" 'structname))
+
+(cl:export '#.(custom-lispify "XEnterWindowEvent" 'typename))
+
+(cffi:defctype #.(custom-lispify "XLeaveWindowEvent" 'typename) #.(custom-lispify "XCrossingEvent" 'structname))
+
+(cl:export '#.(custom-lispify "XLeaveWindowEvent" 'typename))
+
 (cffi:defcstruct #.(custom-lispify "XFocusChangeEvent" 'classname)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
@@ -970,6 +1010,14 @@
 (cl:export '#.(custom-lispify "mode" 'slotname))
 
 (cl:export '#.(custom-lispify "detail" 'slotname))
+
+(cffi:defctype #.(custom-lispify "XFocusInEvent" 'typename) #.(custom-lispify "XFocusChangeEvent" 'structname))
+
+(cl:export '#.(custom-lispify "XFocusInEvent" 'typename))
+
+(cffi:defctype #.(custom-lispify "XFocusOutEvent" 'typename) #.(custom-lispify "XFocusChangeEvent" 'structname))
+
+(cl:export '#.(custom-lispify "XFocusOutEvent" 'typename))
 
 (cffi:defcstruct #.(custom-lispify "XKeymapEvent" 'classname)
 	(#.(custom-lispify "type" 'slotname) :int)
@@ -2050,6 +2098,18 @@
 
 (cl:export '#.(custom-lispify "max_logical_extent" 'slotname))
 
+(cffi:defctype #.(custom-lispify "XOM" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "XOM" 'typename))
+
+(cffi:defctype #.(custom-lispify "XOC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "XOC" 'typename))
+
+(cffi:defctype #.(custom-lispify "XFontSet" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "XFontSet" 'typename))
+
 (cffi:defcstruct #.(custom-lispify "XmbTextItem" 'classname)
 	(#.(custom-lispify "chars" 'slotname) :string)
 	(#.(custom-lispify "nchars" 'slotname) :int)
@@ -2163,6 +2223,30 @@
 (cl:export '#.(custom-lispify "font_struct_list" 'slotname))
 
 (cl:export '#.(custom-lispify "font_name_list" 'slotname))
+
+(cffi:defctype #.(custom-lispify "XIM" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "XIM" 'typename))
+
+(cffi:defctype #.(custom-lispify "XIC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "XIC" 'typename))
+
+(cffi:defctype #.(custom-lispify "XIMProc" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "XIMProc" 'typename))
+
+(cffi:defctype #.(custom-lispify "XICProc" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "XICProc" 'typename))
+
+(cffi:defctype #.(custom-lispify "XIDProc" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "XIDProc" 'typename))
+
+(cffi:defctype #.(custom-lispify "XIMStyle" 'typename) :unsigned-long)
+
+(cl:export '#.(custom-lispify "XIMStyle" 'typename))
 
 (cffi:defcstruct #.(custom-lispify "XIMStyles" 'classname)
 	(#.(custom-lispify "count_styles" 'slotname) :unsigned-short)
@@ -2398,6 +2482,10 @@
 
 (cl:export '#.(custom-lispify "XLookupBoth" 'constant))
 
+(cffi:defctype #.(custom-lispify "XVaNestedList" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "XVaNestedList" 'typename))
+
 (cffi:defcstruct #.(custom-lispify "XIMCallback" 'classname)
 	(#.(custom-lispify "client_data" 'slotname) :string)
 	(#.(custom-lispify "callback" 'slotname) :pointer))
@@ -2417,6 +2505,10 @@
 (cl:export '#.(custom-lispify "client_data" 'slotname))
 
 (cl:export '#.(custom-lispify "callback" 'slotname))
+
+(cffi:defctype #.(custom-lispify "XIMFeedback" 'typename) :unsigned-long)
+
+(cl:export '#.(custom-lispify "XIMFeedback" 'typename))
 
 (cl:defconstant #.(custom-lispify "XIMReverse" 'constant) 1)
 
@@ -2480,6 +2572,10 @@
 
 (cl:export '#.(custom-lispify "wide_char" 'slotname))
 
+(cffi:defctype #.(custom-lispify "XIMPreeditState" 'typename) :unsigned-long)
+
+(cl:export '#.(custom-lispify "XIMPreeditState" 'typename))
+
 (cl:defconstant #.(custom-lispify "XIMPreeditUnKnown" 'constant) 0)
 
 (cl:export '#.(custom-lispify "XIMPreeditUnKnown" 'constant))
@@ -2499,6 +2595,10 @@
 
 (cl:export '#.(custom-lispify "state" 'slotname))
 
+(cffi:defctype #.(custom-lispify "XIMResetState" 'typename) :unsigned-long)
+
+(cl:export '#.(custom-lispify "XIMResetState" 'typename))
+
 (cl:defconstant #.(custom-lispify "XIMInitialState" 'constant) 1)
 
 (cl:export '#.(custom-lispify "XIMInitialState" 'constant))
@@ -2506,6 +2606,10 @@
 (cl:defconstant #.(custom-lispify "XIMPreserveState" 'constant) (cl:ash 1 1))
 
 (cl:export '#.(custom-lispify "XIMPreserveState" 'constant))
+
+(cffi:defctype #.(custom-lispify "XIMStringConversionFeedback" 'typename) :unsigned-long)
+
+(cl:export '#.(custom-lispify "XIMStringConversionFeedback" 'typename))
 
 (cl:defconstant #.(custom-lispify "XIMStringConversionLeftEdge" 'constant) #x000000001)
 
@@ -2557,6 +2661,14 @@
 
 (cl:export '#.(custom-lispify "wcs" 'slotname))
 
+(cffi:defctype #.(custom-lispify "XIMStringConversionPosition" 'typename) :unsigned-short)
+
+(cl:export '#.(custom-lispify "XIMStringConversionPosition" 'typename))
+
+(cffi:defctype #.(custom-lispify "XIMStringConversionType" 'typename) :unsigned-short)
+
+(cl:export '#.(custom-lispify "XIMStringConversionType" 'typename))
+
 (cl:defconstant #.(custom-lispify "XIMStringConversionBuffer" 'constant) #x00001)
 
 (cl:export '#.(custom-lispify "XIMStringConversionBuffer" 'constant))
@@ -2572,6 +2684,10 @@
 (cl:defconstant #.(custom-lispify "XIMStringConversionChar" 'constant) #x00004)
 
 (cl:export '#.(custom-lispify "XIMStringConversionChar" 'constant))
+
+(cffi:defctype #.(custom-lispify "XIMStringConversionOperation" 'typename) :unsigned-short)
+
+(cl:export '#.(custom-lispify "XIMStringConversionOperation" 'typename))
 
 (cl:defconstant #.(custom-lispify "XIMStringConversionSubstitution" 'constant) #x00001)
 
@@ -2700,6 +2816,10 @@
 (cl:export '#.(custom-lispify "num_hot_key" 'slotname))
 
 (cl:export '#.(custom-lispify "key" 'slotname))
+
+(cffi:defctype #.(custom-lispify "XIMHotKeyState" 'typename) :unsigned-long)
+
+(cl:export '#.(custom-lispify "XIMHotKeyState" 'typename))
 
 (cl:defconstant #.(custom-lispify "XIMHotKeyStateON" 'constant) #x00001)
 
@@ -3291,10 +3411,18 @@
 
 (cl:export '#.(custom-lispify "XScreenNumberOfScreen" 'function))
 
+(cffi:defctype #.(custom-lispify "XErrorHandler" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "XErrorHandler" 'typename))
+
 (cffi:defcfun ("XSetErrorHandler" #.(custom-lispify "XSetErrorHandler" 'function)) :pointer
   (arg0 :pointer))
 
 (cl:export '#.(custom-lispify "XSetErrorHandler" 'function))
+
+(cffi:defctype #.(custom-lispify "XIOErrorHandler" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "XIOErrorHandler" 'typename))
 
 (cffi:defcfun ("XSetIOErrorHandler" #.(custom-lispify "XSetIOErrorHandler" 'function)) :pointer
   (arg0 :pointer))
@@ -5697,6 +5825,10 @@
   (arg5 :string))
 
 (cl:export '#.(custom-lispify "XUnregisterIMInstantiateCallback" 'function))
+
+(cffi:defctype #.(custom-lispify "XConnectionWatchProc" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "XConnectionWatchProc" 'typename))
 
 (cffi:defcfun ("XInternalConnectionNumbers" #.(custom-lispify "XInternalConnectionNumbers" 'function)) :int
   (arg0 :pointer)
