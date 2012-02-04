@@ -2,8 +2,9 @@
 
 (defstruct (display (:conc-name %display-)
                     (:constructor %make-display))
+  (xlib-display (null-pointer) :type #.(type-of (null-pointer)))
   (xcb-connection (null-pointer) :type #.(type-of (null-pointer)))
-  (xlib-display (null-pointer) :type #.(type-of (null-pointer))))
+  (xcb-setup (null-pointer) :type #.(type-of (null-pointer))))
 
  ;; 2.2 Opening the Display
 
@@ -14,8 +15,11 @@
                                          (princ-to-string display)))))
     (if (null-pointer-p dpy)
         (error "Error opening display ~A" display))
-    (setf (%display-xlib-display d) dpy)
-    (setf (%display-xcb-connection d) (xget-xcbconnection dpy))
+    (let* ((c (xget-xcbconnection dpy))
+           (s (xcb-get-setup c)))
+      (setf (%display-xlib-display d) dpy)
+      (setf (%display-xcb-connection d) c)
+      (setf (%display-xcb-setup d) s))
     d))
 
  ;; 2.3 Display Attributes
@@ -39,16 +43,40 @@
 (stub display-pixmap-formats (display))
 (stub display-plist (display))
 (stub (setf display-plist) (display))
-(stub display-protocol-major-version (display))
-(stub display-protocol-minor-version (display))
+
+(defun display-protocol-major-version (display)
+  (xcb-setup-t-protocol-major-version (%display-xcb-setup display)))
+
+(defun display-protocol-minor-version (display)
+  (xcb-setup-t-protocol-minor-version (%display-xcb-setup display)))
+
 (stub dipslay-protocol-version (display))
 (stub display-resource-id-base (display))
 (stub display-resource-id-mask (display))
-(stub display-roots (display)) ;;
-(stub display-vendor (display))
-(stub display-vendor-name (display))
-(stub display-version-number (display))
+
+(defun display-roots (display)
+  (mapcar (lambda (ptr) (%make-screen :display display :xcb-screen ptr))
+          (xcb-setup-roots-iterator (%display-xcb-setup display))))
+
+(defun display-vendor-name (display)
+  (let ((end (xcb-setup-vendor-length (%display-xcb-setup display))))
+    (subseq (xcb-setup-vendor (%display-xcb-setup display)) 0 end)))
+
+;; FIXME?
+(defun display-release-number (display)
+  (xcb-setup-t-release-number (%display-xcb-setup display)))
+
+(defun display-vendor (display)
+  (values (display-vendor-name display)
+          (display-release-number display)))
+
+;; FIXME?
+(defun display-version-number (display)
+  (values (display-protocol-major-version display)
+          (display-protocol-minor-version display)))
+
 (stub display-xid (display))
+
 (stub-macro with-display (display &body body))
 
  ;; 2.4 Managing the Output Buffer
@@ -56,9 +84,18 @@
 (stub display-after-function (display))
 (stub (setf display-after-function) (display))
 
-(stub display-force-output (display))
-(stub display-finish-output (display))
+(defun display-force-output (display)
+  (xcb-flush (%display-xcb-connection display)))
+
+;; FIXME .. more should be done here?
+(defun display-finish-output (display)
+  (display-force-output display))
 
  ;; 2.5 Closing the Display
 
-(stub close-display (display))
+(defun close-display (display)
+  (xcb-disconnect (%display-xcb-connection display))
+  (setf (%display-xcb-connection display) (null-pointer))
+  (setf (%display-xcb-setup display) (null-pointer))
+  (setf (%display-xlib-display display) (null-pointer))
+  (values))

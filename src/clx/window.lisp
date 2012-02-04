@@ -6,12 +6,32 @@
 
  ;; 4.2 Creating Windows
 
-(stub create-window
-      (&key parent x y height (depth 0) (border-width 0)
-            (class :copy) (visual :copy) background
-            border gravity backing-store backing-planes
-            save-under event-mask do-not-propagate-mask
-            override-redirect colormap cursor))
+(defvar *window-class-to-xcb*
+  '((:copy . :+xcb-window-class-copy-from-parent+)
+    (:input-output . :+xcb-window-class-input-output+)
+    (:input . :+xcb-window-class-input-only+)))
+
+(defun create-window (&key parent x y width height (depth 0) (border-width 0)
+                        (class :copy) (visual :copy) background
+                        border gravity backing-store backing-planes
+                        save-under event-mask do-not-propagate-mask
+                        override-redirect colormap cursor)
+  (let* ((display (drawable-display parent))
+         (wid (xcb-generate-id (%display-xcb-connection display)))
+         (window (%make-window :display display :id wid)))
+    (xcb-create-window (%display-xcb-connection display)
+                       depth
+                       wid (%drawable-id parent)
+                       x y width height
+                       border-width
+                       (foreign-enum-value
+                        'xcb-window-class-t
+                        (cdr (assoc class *window-class-to-xcb*)))
+                       (if (eq visual :copy)
+                           (window-visual parent)
+                           visual)
+                       0 (null-pointer))
+    window))
 
  ;; 4.3 Window Attributes
 
@@ -68,7 +88,11 @@
 (stub window-save-under (window))
 (stub (setf window-save-under) (v window))
 
-(stub window-visual (window))
+(defun window-visual (window)
+  (let* ((con (%display-xcb-connection (%drawable-display window)))
+         (cookie (xcb-get-window-attributes con (%drawable-id window)))
+         (ptr (xcb-get-window-attributes-reply con cookie (null-pointer))))
+    (xcb-get-window-attributes-reply-t-visual ptr)))
 
  ;; 4.4 Stacking Order
 
@@ -84,13 +108,19 @@
 
  ;; 4.6 Mapping
 
-(stub map-window (window))
+(defun map-window (window)
+  (xcb-map-window (%display-xcb-connection (%drawable-display window))
+                  (%drawable-id window)))
+
 (stub map-subwindows (window))
 (stub unmap-window (window))
 (stub unmap-subwindows (window))
 
  ;; 4.7 Destroying Windows
 
-(stub destroy-window (window))
+(defun destroy-window (window)
+  (xcb-destroy-window (%display-xcb-connection (%drawable-display window))
+                      (%drawable-id window)))
+
 (stub destroy-subwindows (window))
 

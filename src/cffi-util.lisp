@@ -9,7 +9,7 @@
          ,@(loop for k being each hash-key in slots
                  as v = (gethash k slots)
                  collecting
-                    (let ((offset (foreign-slot-offset name k))
+                    (let ((offset (foreign-slot-offset `(:struct ,name) k))
                           (slot-type (cffi::slot-type v))
                           (slot-name (intern (slot-name k))))
                       `(progn

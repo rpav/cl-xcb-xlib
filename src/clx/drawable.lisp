@@ -2,12 +2,18 @@
 
 (defstruct (drawable (:conc-name %drawable-)
                      (:constructor %make-drawable))
+  (display nil :type display)
   (id 0 :type (integer 0 4294967295)))
 
  ;; 4.1 Drawables
 
-(stub drawable-display (drawable))
-(stub drawable-equal (drawable))
+(declaim (inline drawable-display))
+(defun drawable-display (drawable)
+  (%drawable-display drawable))
+
+(defun drawable-equal (d-1 d-2)
+  (and (eq (%drawable-display d-1) (%drawable-display d-2))
+       (eq (%drawable-id d-1) (%drawable-id d-2))))
 
 ;; DRAWABLE-P is implicit in DEFSTRUCT DRAWABLE
 
