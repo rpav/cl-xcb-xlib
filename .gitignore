@@ -1,1 +1,2 @@
 src/swig/*-swig.lisp
+*.fasl

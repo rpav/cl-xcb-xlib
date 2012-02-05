@@ -1,7 +1,8 @@
 (in-package :xcb.clx)
 
 (defstruct (gcontext (:conc-name %gcontext-)
-                     (:constructor %make-gcontext))
+                     (:constructor %make-gcontext)
+                     (:copier %copy-gcontext))
   (xcb-gcontext 0 :type (integer 0 4294967295)))
 
  ;; 5.2 Creating Graphics Contexts

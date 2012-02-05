@@ -24,8 +24,9 @@
 
  ;; 2.3 Display Attributes
 
-(stub display-authorization-data (display))
-(stub display-authorization-name (display))
+(defun display-authorization-data (display) "")
+(defun display-authorization-name (display) "")
+
 (stub display-bitmap-format (display))
 (stub display-byte-order (display))
 (stub display-display (display))
@@ -50,7 +51,10 @@
 (defun display-protocol-minor-version (display)
   (xcb-setup-t-protocol-minor-version (%display-xcb-setup display)))
 
-(stub dipslay-protocol-version (display))
+(defun display-protocol-version (display)
+  (values (display-protocol-major-version display)
+          (display-protocol-minor-version display)))
+
 (stub display-resource-id-base (display))
 (stub display-resource-id-mask (display))
 

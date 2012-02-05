@@ -4,6 +4,15 @@
                    (:conc-name %window-)
                    (:constructor %make-window)))
 
+ ;; Utility
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defun xcbwinattr (name &optional xcb-name)
+    (let ((kw (intern (format nil "+XCB-CW-~A+"
+                              (or xcb-name name))
+                      (find-package :keyword))))
+      (cons name (foreign-enum-value 'xcb-cw-t kw)))))
+
  ;; 4.2 Creating Windows
 
 (defvar *window-class-to-xcb*
@@ -11,27 +20,65 @@
     (:input-output . :+xcb-window-class-input-output+)
     (:input . :+xcb-window-class-input-only+)))
 
+(defvar *window-attr-to-xcb*
+  '(#.(xcbwinattr :backing :back-pixel)
+    #.(xcbwinattr :border :border-pixel)
+    #.(xcbwinattr :bit-gravity)
+    #.(xcbwinattr :gravity :win-gravity)
+    #.(xcbwinattr :backing-store)
+    #.(xcbwinattr :backing-planes)
+    #.(xcbwinattr :backing-pixel)
+    #.(xcbwinattr :override-redirect)
+    #.(xcbwinattr :save-under)
+    #.(xcbwinattr :event-mask)
+    #.(xcbwinattr :do-not-propagate-mask :dont-propagate)
+    #.(xcbwinattr :colormap)
+    #.(xcbwinattr :cursor)))
+
+(defconstant +max-window-attrs+ 16)
+
 (defun create-window (&key parent x y width height (depth 0) (border-width 0)
-                        (class :copy) (visual :copy) background
-                        border gravity backing-store backing-planes
-                        save-under event-mask do-not-propagate-mask
-                        override-redirect colormap cursor)
-  (let* ((display (drawable-display parent))
-         (wid (xcb-generate-id (%display-xcb-connection display)))
-         (window (%make-window :display display :id wid)))
-    (xcb-create-window (%display-xcb-connection display)
-                       depth
-                       wid (%drawable-id parent)
-                       x y width height
-                       border-width
-                       (foreign-enum-value
-                        'xcb-window-class-t
-                        (cdr (assoc class *window-class-to-xcb*)))
-                       (if (eq visual :copy)
-                           (window-visual parent)
-                           visual)
-                       0 (null-pointer))
-    window))
+                        (class :copy) (visual :copy) 
+                        background border bit-gravity gravity
+                        backing-store backing-planes backing-pixel
+                        override-redirect save-under event-mask
+                        do-not-propagate-mask colormap cursor)
+  (macrolet ((maybe-set (attr)
+               `(when ,attr
+                  (setf value-mask
+                        (logior value-mask
+                                (cdr (assoc ,(intern (string attr)
+                                                     (find-package :keyword))
+                                            *window-attr-to-xcb*))))
+                  (setf (mem-aref values-ptr 'uint-32-t attr-count) ,attr)
+                  (incf attr-count)))
+             (many-set (&rest attrs)
+               `(progn
+                  ,@(loop for a in attrs collect `(maybe-set ,a)))))
+    (let* ((display (drawable-display parent))
+           (wid (xcb-generate-id (%display-xcb-connection display)))
+           (window (%make-window :display display :id wid))
+           (value-mask 0)
+           (attr-count 0))
+      (with-foreign-object (values-ptr 'uint-32-t +max-window-attrs+)
+        ;; This is very much order-dependent:
+        (many-set background border bit-gravity gravity
+                  backing-store backing-planes backing-pixel
+                  override-redirect save-under event-mask
+                  do-not-propagate-mask colormap cursor)
+        (xcb-create-window (%display-xcb-connection display)
+                           depth
+                           wid (%drawable-id parent)
+                           x y width height
+                           border-width
+                           (foreign-enum-value
+                            'xcb-window-class-t
+                            (cdr (assoc class *window-class-to-xcb*)))
+                           (if (eq visual :copy)
+                               (window-visual parent)
+                               visual)
+                           value-mask values-ptr))
+        window)))
 
  ;; 4.3 Window Attributes
 
@@ -90,9 +137,10 @@
 
 (defun window-visual (window)
   (let* ((con (%display-xcb-connection (%drawable-display window)))
-         (cookie (xcb-get-window-attributes con (%drawable-id window)))
-         (ptr (xcb-get-window-attributes-reply con cookie (null-pointer))))
-    (xcb-get-window-attributes-reply-t-visual ptr)))
+         (cookie (xcb-get-window-attributes-unchecked con (%drawable-id window))))
+    (with-xcb-reply (ptr)
+        (xcb-get-window-attributes-reply con cookie (null-pointer))
+      (xcb-get-window-attributes-reply-t-visual ptr))))
 
  ;; 4.4 Stacking Order
 

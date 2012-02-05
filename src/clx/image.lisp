@@ -1,7 +1,8 @@
 (in-package :xcb.clx)
 
 (defstruct (image (:conc-name %image-)
-                  (:constructor %make-image)))
+                  (:constructor %make-image)
+                  (:copier %copy-image)))
 
  ;; 7.2.1 Basic Images
 

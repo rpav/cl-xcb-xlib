@@ -1,5 +1,86 @@
 (in-package :xcb.clx)
 
+ ;; Event Values
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defun xcbevm (type)
+    (let ((kw (intern (concatenate 'string "+XCB-EVENT-MASK-"
+                                   (string type) "+")
+                      (find-package :keyword))))
+      (cons type (foreign-enum-value 'xcb-event-mask-t kw)))))
+
+(defvar *event-mask-map*
+  '(#.(xcbevm :no-event)
+    #.(xcbevm :key-press)
+    #.(xcbevm :key-release)
+    #.(xcbevm :button-press)
+    #.(xcbevm :button-release)
+    #.(xcbevm :enter-window)
+    #.(xcbevm :leave-window)
+    #.(xcbevm :pointer-motion)
+    #.(xcbevm :pointer-motion-hint)
+    #.(xcbevm :button-1-motion)
+    #.(xcbevm :button-2-motion)
+    #.(xcbevm :button-3-motion)
+    #.(xcbevm :button-4-motion)
+    #.(xcbevm :button-5-motion)
+    #.(xcbevm :button-motion)
+    #.(xcbevm :keymap-state)
+    #.(xcbevm :exposure)
+    #.(xcbevm :visibility-change)
+    #.(xcbevm :structure-notify)
+    #.(xcbevm :resize-redirect)
+    #.(xcbevm :substructure-notify)
+    #.(xcbevm :substructure-redirect)
+    #.(xcbevm :focus-change)
+    #.(xcbevm :property-change)
+    #.(xcbevm :color-map-change)
+    #.(xcbevm :owner-grab-button)))
+
+(defun make-event-mask (&rest keys)
+  (apply #'logior
+         (mapcar (lambda (type) (cdr (assoc type *event-mask-map*)))
+                 keys)))
+
+;; FIXME? efficiency
+(defun make-event-keys (mask)
+  (let ((x 0) keys)
+    (loop for i from 0
+          if (logbitp i mask)
+            do (push (car (rassoc (ash 1 i) *event-mask-map*)) keys)
+               (incf x)
+          end
+          while (< x (logcount mask)))
+    keys))
+
+(defvar *event-type-map*
+  '((+xcb-motion-notify+ . :motion-notify)
+    (+xcb-button-press+ . :button-press)
+    (+xcb-button-release+ . :button-release)
+    (+xcb-colormap-notify+ . :colormap-notify)
+    (+xcb-enter-notify+ . :enter-notify)
+    (+xcb-expose+ . :exposure)
+    (+xcb-focus-in+ . :focus-in)
+    (+xcb-focus-out+ . :focus-out)
+    (+xcb-key-press+ . :key-press)
+    (+xcb-key-release+ . :key-release)
+    (+xcb-keymap-notify+ . :keymap-notify)
+    (+xcb-leave-notify+ . :leave-notify)
+    (+xcb-motion-notify+ . :motion-notify)
+    (+xcb-property-notify+ . :property-notify)
+    (+xcb-resize-request+ . :resize-request)
+    (+xcb-circulate-notify+ . :circulate-notify)
+    (+xcb-configure-notify+ . :configure-notify)
+    (+xcb-destroy-notify+ . :destroy-notify)
+    (+xcb-gravity-notify+ . :gravity-notify)
+    (+xcb-map-notify+ . :map-notify)
+    (+xcb-reparent-notify+ . :reparent-notify)
+    (+xcb-unmap-notify+ . :unmap-notify)
+    (+xcb-circulate-request+ . :circulate-request)
+    (+xcb-configure-request+ . :configure-request)
+    (+xcb-map-request+ . :map-request)
+    (+xcb-visibility-notify+ . :visibility-notify)))
+
  ;; 12.3 Processing Events
 
 (stub handler-function (&rest event-slots

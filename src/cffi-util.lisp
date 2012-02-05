@@ -1,5 +1,21 @@
 (in-package :xcb)
 
+ ;; memory
+
+(defcfun ("free" libc_free) :void
+  (ptr :pointer))
+
+(defmacro with-xcb-reply ((ptr) form &body body)
+  `(let ((,ptr (null-pointer)))
+     (unwind-protect
+          (progn (setf ,ptr ,form) ,@body)
+       (unless (null-pointer-p ,ptr)
+         (libc_free ,ptr)))))
+
+(export 'with-xcb-reply)
+
+ ;; cstruct accessors
+
 (defmacro make-cstruct-accessors (name)
   (let ((slots (cffi::slots (cffi::parse-type `(:struct ,name)))))
     (flet ((slot-name (slot)
