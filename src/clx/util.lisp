@@ -74,3 +74,21 @@
     (setf (queue-head q1) nil)
     (setf (queue-tail q1) nil))
   (values))
+
+ ;; Building value_lists
+
+(defmacro vl-maybe-set (attr list values-ptr value-mask value-count)
+  `(when ,attr
+     (let ((row (assoc ,(intern (string attr) :keyword)
+                       ,list)))
+       (unless row (error "Bad VALUE-LIST attribute for ~A: ~A"
+                          ',list ',attr))
+       (setf ,value-mask
+             (logior ,value-mask (cdr row)))
+       (setf (mem-aref ,values-ptr 'uint-32-t ,value-count) ,attr)
+       (incf ,value-count))))
+
+(defmacro vl-maybe-set-many ((list ptr mask count) &rest attrs)
+  `(progn
+     ,@(loop for a in attrs collect
+             `(vl-maybe-set ,a ,list ,ptr ,mask ,count))))

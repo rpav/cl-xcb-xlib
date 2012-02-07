@@ -47,43 +47,31 @@
                         backing-store backing-planes backing-pixel
                         override-redirect save-under event-mask
                         do-not-propagate-mask colormap cursor)
-  (macrolet ((maybe-set (attr)
-               `(when ,attr
-                  (let ((row (assoc ,(intern (string attr)
-                                             (find-package :keyword))
-                                    *window-attr-to-xcb*)))
-                    (unless row (error "Not an attribute: ~A" ',attr))
-                    (setf value-mask
-                          (logior value-mask (cdr row)))
-                    (setf (mem-aref values-ptr 'uint-32-t attr-count) ,attr)
-                    (incf attr-count))))
-             (many-set (&rest attrs)
-               `(progn
-                  ,@(loop for a in attrs collect `(maybe-set ,a)))))
-    (let* ((display (drawable-display parent))
-           (wid (xcb-generate-id (%display-xcb-connection display)))
-           (window (%make-window :display display :id wid))
-           (value-mask 0)
-           (attr-count 0))
-      (with-foreign-object (values-ptr 'uint-32-t +max-window-attrs+)
-        ;; This is very much order-dependent:
-        (many-set background border bit-gravity gravity
-                  backing-store backing-planes backing-pixel
-                  override-redirect save-under event-mask
-                  do-not-propagate-mask colormap cursor)
-        (xcb-create-window (%display-xcb-connection display)
-                           depth
-                           wid (%drawable-id parent)
-                           x y width height
-                           border-width
-                           (foreign-enum-value
-                            'xcb-window-class-t
-                            (cdr (assoc class *window-class-to-xcb*)))
-                           (if (eq visual :copy)
-                               (window-visual parent)
-                               visual)
-                           value-mask values-ptr))
-        window)))
+  (let* ((display (drawable-display parent))
+         (wid (xcb-generate-id (%display-xcb-connection display)))
+         (window (%make-window :display display :id wid))
+         (value-mask 0)
+         (attr-count 0))
+    (with-foreign-object (values-ptr 'uint-32-t +max-window-attrs+)
+      ;; This is very much order-dependent:
+      (vl-maybe-set-many (*window-attr-to-xcb* values-ptr value-mask attr-count)
+          background border bit-gravity gravity
+          backing-store backing-planes backing-pixel
+          override-redirect save-under event-mask
+          do-not-propagate-mask colormap cursor)
+      (xcb-create-window (%display-xcb-connection display)
+                         depth
+                         wid (%drawable-id parent)
+                         x y width height
+                         border-width
+                         (foreign-enum-value
+                          'xcb-window-class-t
+                          (cdr (assoc class *window-class-to-xcb*)))
+                         (if (eq visual :copy)
+                             (window-visual parent)
+                             visual)
+                         value-mask values-ptr))
+    window))
 
  ;; 4.3 Window Attributes
 
