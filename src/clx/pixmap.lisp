@@ -4,6 +4,10 @@
                    (:conc-name %pixmap-)
                    (:constructor %make-pixmap)))
 
+(defmethod print-object ((object pixmap) stream)
+  (print-unreadable-object (object stream)
+    (format stream "Pixmap (ID:~A)" (%drawable-id object))))
+
  ;; 4.8 Pixmaps
 
 (stub create-pixmap (&key width height depth drawable))

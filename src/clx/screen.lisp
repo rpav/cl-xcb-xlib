@@ -3,7 +3,8 @@
 (defstruct (screen (:conc-name %screen-)
                    (:constructor %make-screen))
   (display nil :type display)
-  (xcb-screen (null-pointer) :type #.(type-of (null-pointer))))
+  (xcb-screen (null-pointer) :type #.(type-of (null-pointer)))
+  (xlib-screen (null-pointer) :type #.(type-of (null-pointer))))
 
  ;; 3.2 Screen Attributes
 

@@ -4,6 +4,10 @@
                    (:conc-name %window-)
                    (:constructor %make-window)))
 
+(defmethod print-object ((object window) stream)
+  (print-unreadable-object (object stream)
+    (format stream "Window (ID:~A)" (%drawable-id object))))
+
  ;; Utility
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
@@ -21,7 +25,7 @@
     (:input . :+xcb-window-class-input-only+)))
 
 (defvar *window-attr-to-xcb*
-  '(#.(xcbwinattr :backing :back-pixel)
+  '(#.(xcbwinattr :background :back-pixel)
     #.(xcbwinattr :border :border-pixel)
     #.(xcbwinattr :bit-gravity)
     #.(xcbwinattr :gravity :win-gravity)
@@ -45,13 +49,14 @@
                         do-not-propagate-mask colormap cursor)
   (macrolet ((maybe-set (attr)
                `(when ,attr
-                  (setf value-mask
-                        (logior value-mask
-                                (cdr (assoc ,(intern (string attr)
-                                                     (find-package :keyword))
-                                            *window-attr-to-xcb*))))
-                  (setf (mem-aref values-ptr 'uint-32-t attr-count) ,attr)
-                  (incf attr-count)))
+                  (let ((row (assoc ,(intern (string attr)
+                                             (find-package :keyword))
+                                    *window-attr-to-xcb*)))
+                    (unless row (error "Not an attribute: ~A" ',attr))
+                    (setf value-mask
+                          (logior value-mask (cdr row)))
+                    (setf (mem-aref values-ptr 'uint-32-t attr-count) ,attr)
+                    (incf attr-count))))
              (many-set (&rest attrs)
                `(progn
                   ,@(loop for a in attrs collect `(maybe-set ,a)))))

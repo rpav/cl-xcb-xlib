@@ -4,7 +4,12 @@
                     (:constructor %make-display))
   (xlib-display (null-pointer) :type #.(type-of (null-pointer)))
   (xcb-connection (null-pointer) :type #.(type-of (null-pointer)))
-  (xcb-setup (null-pointer) :type #.(type-of (null-pointer))))
+  (xcb-setup (null-pointer) :type #.(type-of (null-pointer)))
+  (event-queue (make-queue) :type queue))
+
+(defmethod print-object ((object display) stream)
+  (print-unreadable-object (object stream)
+    (format stream "Display")))
 
  ;; 2.2 Opening the Display
 
@@ -15,6 +20,7 @@
                                          (princ-to-string display)))))
     (if (null-pointer-p dpy)
         (error "Error opening display ~A" display))
+    (xset-event-queue-owner dpy :+xcbowns-event-queue+)
     (let* ((c (xget-xcbconnection dpy))
            (s (xcb-get-setup c)))
       (setf (%display-xlib-display d) dpy)
@@ -59,8 +65,14 @@
 (stub display-resource-id-mask (display))
 
 (defun display-roots (display)
-  (mapcar (lambda (ptr) (%make-screen :display display :xcb-screen ptr))
-          (xcb-setup-roots-iterator (%display-xcb-setup display))))
+  (let ((dpyptr (%display-xlib-display display))
+        (i -1))
+    (mapcar (lambda (ptr)
+              (incf i)
+              (%make-screen :display display
+                            :xcb-screen ptr
+                            :xlib-screen (xscreen-of-display dpyptr i)))
+            (xcb-setup-roots-iterator (%display-xcb-setup display)))))
 
 (defun display-vendor-name (display)
   (let ((end (xcb-setup-vendor-length (%display-xcb-setup display))))

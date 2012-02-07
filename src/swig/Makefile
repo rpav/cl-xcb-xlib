@@ -1,6 +1,6 @@
 .PHONY: all install clean
 
-TARGETS = xcb-swig.lisp xlib-swig.lisp
+TARGETS = xcb-swig.lisp xlib-swig.lisp poll-swig.lisp
 
 SWIG = /home/rpav/repository/svn/swig/trunk/preinst-swig
 

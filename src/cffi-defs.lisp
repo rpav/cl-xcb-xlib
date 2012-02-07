@@ -39,6 +39,51 @@
 (make-cstruct-accessors xcb-client-message-event-t)
 (make-cstruct-accessors xcb-mapping-notify-event-t)
 
+ ;; poll
+(defbitfield (poll-events-mask :short)
+  (:in #.+pollin+)
+  (:pri #.+pollpri+)
+  (:out #.+pollout+)
+  (:error #.+pollerr+)
+  (:hup #.+pollhup+)
+  (:invalid #.+pollnval+))
+
+(defcstruct pollfd
+  (fd :int)
+  (events poll-events-mask)
+  (revents poll-events-mask))
+
+(make-cstruct-accessors pollfd)
+
+(defcfun ("poll" libc-poll) :int
+  (fds :pointer)
+  (nfds nfds-t)
+  (timeout :int))
+
+(defun poll (fds &key (events '(:in :out :error)) (timeout -1))
+  (let ((nfds (length fds)))
+    (with-foreign-object (fds-ptr '(:struct pollfd) nfds)
+      (loop for i from 0 below nfds
+            for fd in fds
+            as pollfd = (mem-aref fds-ptr 'pollfd i)
+            do (setf (pollfd-fd pollfd) fd)
+               (setf (pollfd-events pollfd) events))
+      (let ((err (libc-poll fds-ptr nfds timeout))
+            (outfds))
+        (cond
+          ((= err -1) ())
+          ((> err 0)
+           (loop for i from 0 below nfds
+                 while (> err 0)
+                 as pollfd = (mem-aref fds-ptr 'pollfd i)
+                 as revents = (pollfd-revents pollfd)
+                 do (when revents
+                      (push (cons (pollfd-fd pollfd) revents) outfds)
+                      (decf err)))))
+        outfds))))
+
+(export 'poll)
+
  ;; Type Translation
 (defmethod translate-from-foreign (ptr (type xcb-screen-iterator-t-tclass))
   (let (screens)
