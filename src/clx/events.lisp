@@ -135,18 +135,32 @@
         (xcb::libc_free ev)))
     parsed-event))
 
-;; FIXME, incomplete handing of peek/discard or handler-vector
+(defun %peek-next-event (display timeout)
+  (or (queue-peek (%display-event-queue display))
+      (%read-queue-event display timeout)))
+
+;; FIXME, doesn't handle handler-vector
 (defun process-event (display &key handler timeout peek-p discard-p
                                 (force-output-p t))
-  (let (ev)
-    (unwind-protect
-         (progn
-           (when force-output-p (display-force-output display))
-           (setf ev (xcb-wait-for-event (%display-xcb-connection display)))
-           (unless (null-pointer-p ev)
-             (apply handler (make-event display ev))))
-      (when (and ev (not (null-pointer-p ev)))
-        (xcb::libc_free ev)))))
+  (let ((handled)
+        (dpyq (%display-event-queue display))
+        (tq (make-queue)))
+    (loop do
+      (when force-output-p (display-force-output display))
+      (let ((ev (%peek-next-event display timeout)))
+        (unless ev (loop-finish))
+        (setf handled (apply handler ev))
+        (if handled
+            (progn
+              (if peek-p
+                  (queue-pop-to dpyq tq)
+                  (queue-pop dpyq))
+              (loop-finish))
+            (if discard-p
+                (queue-pop dpyq)
+                (queue-pop-to dpyq tq)))))
+    (queue-prepend-to tq dpyq)
+    handled))
 
 (defmacro with-event-slots ((&rest slots) event &body body)
   `(destructuring-bind (&key ,@slots &allow-other-keys) ,event ,@body))
@@ -169,8 +183,7 @@
             (,tq (make-queue))
             ,handled)
        (loop do (when ,force-output-p (display-force-output ,dpy))
-                (let ((,ev (or (queue-peek ,dpyq)
-                               (%read-queue-event ,dpy ,timeout))))
+                (let ((,ev (%peek-next-event ,dpy ,timeout)))
                   (unless ,ev (loop-finish))
                   (setf ,handled (case (cadr ,ev) ,@body))
                   (if ,handled
@@ -200,8 +213,13 @@
 (stub queue-event (display event-key &rest event-slots
                    &key append-p &allow-other-keys))
 
-(stub discard-current-event (display))
-(stub event-listen (display &optional (timeout 0)))
+(defun discard-current-event (display)
+  (let ((ev (queue-pop (%display-event-queue display))))
+    (and ev t)))
+
+(defun event-listen (display &optional (timeout 0))
+  (%read-queue-event display timeout)
+  (length (queue-head (%display-event-queue display))))
 
 (stub-macro with-event-queue ((display) &body body))
 
