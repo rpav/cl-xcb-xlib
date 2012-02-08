@@ -2,40 +2,14 @@
 
  ;; Event Values
 
-(eval-when (:compile-toplevel :load-toplevel :execute)
-  (defun xcbevm (type)
-    (let ((kw (intern (concatenate 'string "+XCB-EVENT-MASK-"
-                                   (string type) "+")
-                      (find-package :keyword))))
-      (cons type (foreign-enum-value 'xcb-event-mask-t kw)))))
-
-(defvar *event-mask-map*
-  '(#.(xcbevm :no-event)
-    #.(xcbevm :key-press)
-    #.(xcbevm :key-release)
-    #.(xcbevm :button-press)
-    #.(xcbevm :button-release)
-    #.(xcbevm :enter-window)
-    #.(xcbevm :leave-window)
-    #.(xcbevm :pointer-motion)
-    #.(xcbevm :pointer-motion-hint)
-    #.(xcbevm :button-1-motion)
-    #.(xcbevm :button-2-motion)
-    #.(xcbevm :button-3-motion)
-    #.(xcbevm :button-4-motion)
-    #.(xcbevm :button-5-motion)
-    #.(xcbevm :button-motion)
-    #.(xcbevm :keymap-state)
-    #.(xcbevm :exposure)
-    #.(xcbevm :visibility-change)
-    #.(xcbevm :structure-notify)
-    #.(xcbevm :resize-redirect)
-    #.(xcbevm :substructure-notify)
-    #.(xcbevm :substructure-redirect)
-    #.(xcbevm :focus-change)
-    #.(xcbevm :property-change)
-    #.(xcbevm :color-map-change)
-    #.(xcbevm :owner-grab-button)))
+(define-enum-table *event-mask-map* (xcb-event-mask-t "XCB-EVENT-MASK")
+  :no-event :key-press :key-release :button-press :button-release
+  :enter-window :leave-window :pointer-motion :pointer-motion-hint
+  :button-1-motion :button-2-motion :button-3-motion :button-4-motion
+  :button-5-motion :button-motion :keymap-state :exposure :visibility-change
+  :structure-notify :resize-redirect :substructure-notify
+  :substructure-redirect :focus-change :property-change :color-map-change
+  :owner-grab-button)
 
 (defun make-event-mask (&rest keys)
   (apply #'logior
@@ -56,49 +30,15 @@
 (defvar *event-map* (make-hash-table))
 (defvar *event-slot-map* (make-hash-table))
 
-(defmacro xcbresp (type &optional xcb-name)
-  (let ((xcb-name (intern (concatenate 'string "+XCB-"
-                                       (if xcb-name
-                                           (string xcb-name)
-                                           (string type))
-                                       "+"))))
-    `(cons ,type ,xcb-name)))
-
-(defvar *event-type-map*
-  '(#.(xcbresp :key-press)
-    #.(xcbresp :key-release)
-    #.(xcbresp :button-press)
-    #.(xcbresp :button-release)
-    #.(xcbresp :motion-notify)
-    #.(xcbresp :enter-notify)
-    #.(xcbresp :leave-notify)
-    #.(xcbresp :focus-in)
-    #.(xcbresp :focus-out)
-    #.(xcbresp :keymap-notify)
-    #.(xcbresp :exposure :expose)
-    #.(xcbresp :graphics-exposure)
-    #.(xcbresp :no-exposure)
-    #.(xcbresp :visibility-notify)
-    #.(xcbresp :create-notify)
-    #.(xcbresp :destroy-notify)
-    #.(xcbresp :unmap-notify)
-    #.(xcbresp :map-notify)
-    #.(xcbresp :map-request)
-    #.(xcbresp :reparent-notify)
-    #.(xcbresp :configure-notify)
-    #.(xcbresp :configure-request)
-    #.(xcbresp :gravity-notify)
-    #.(xcbresp :resize-request)
-    #.(xcbresp :circulate-notify)
-    #.(xcbresp :circulate-request)
-    #.(xcbresp :property-notify)
-    #.(xcbresp :selection-clear)
-    #.(xcbresp :selection-request)
-    #.(xcbresp :selection-notify)
-    #.(xcbresp :colormap-notify)
-    #.(xcbresp :client-message)
-    #.(xcbresp :mapping-notify)))
-
+(define-const-table *event-type-map*
+  :key-press :key-release :button-press :button-release :motion-notify
+  :enter-notify :leave-notify :focus-in :focus-out :keymap-notify
+  (:exposure :expose) :graphics-exposure :no-exposure :visibility-notify
+  :create-notify :destroy-notify :unmap-notify :map-notify :map-request
+  :reparent-notify :configure-notify :configure-request :gravity-notify
+  :resize-request :circulate-notify :circulate-request :property-notify
+  :selection-clear :selection-request :selection-notify :colormap-notify
+  :client-message :mapping-notify)
 
  ;; 12.3 Processing Events
 

@@ -92,3 +92,30 @@
   `(progn
      ,@(loop for a in attrs collect
              `(vl-maybe-set ,a ,list ,ptr ,mask ,count))))
+
+ ;; Generalized enum tables
+
+(defmacro define-enum-table (name (xcb-type xcb-prefix) &rest entries)
+  (flet ((make-entry (name &optional xcb-name)
+           (let ((kw (intern (format nil "+~A-~A+" xcb-prefix
+                                     (or xcb-name name))
+                             :keyword)))
+             (cons name (foreign-enum-value xcb-type kw)))))
+    `(eval-when (:compile-toplevel :load-toplevel :execute)
+       (defparameter ,name
+         '(,@(loop for i in entries
+                   collecting (if (consp i)
+                                  (make-entry (car i) (cadr i))
+                                  (make-entry i))))))))
+
+(defmacro define-const-table (name &rest entries)
+  (flet ((make-entry (name &optional xcb-name)
+           (let ((sym (intern (format nil "+XCB-~A+" (or xcb-name name)) :xcb)))
+             (cons name (symbol-value sym)))))
+    `(eval-when (:compile-toplevel :load-toplevel :execute)
+       (defparameter ,name
+         '(,@(loop for i in entries
+                   collecting (if (consp i)
+                     (make-entry (car i) (cadr i))
+                     (make-entry i))))))))
+

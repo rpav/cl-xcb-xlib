@@ -1,5 +1,39 @@
 (in-package :xcb.clx)
 
+ ;; Utility
+(defmacro with-points (point-list (ptr count) &body body)
+  (let ((points (gensym "POINTS"))
+        (point-ptr (gensym "PTR"))
+        (x (gensym "X"))
+        (y (gensym "Y"))
+        (i (gensym "I")))
+  `(let* ((,points ,point-list)
+          (,count (truncate (length ,points) 2)))
+     (with-foreign-object (,ptr 'xcb-point-t ,count)
+       (loop for ,i from 0 below ,count
+             for ,x in ,points by #'cddr
+             for ,y in (cdr ,points) by #'cddr
+             for ,point-ptr = (mem-aref ,ptr 'xcb-point-t ,i)
+             do (setf (xcb-point-t-x ,point-ptr) ,x)
+                (setf (xcb-point-t-y ,point-ptr) ,y))
+       ,@body))))
+
+ ;; Tables
+
+(define-enum-table *poly-shape-to-xcb* (xcb-poly-shape-t "XCB-POLY-SHAPE")
+  :complex (:non-convex :nonconvex) :convex)
+
+(declaim (inline %poly-shape))
+(defun %poly-shape (n)
+  (cdr (assoc n *poly-shape-to-xcb*)))
+
+(define-enum-table *coord-mode-to-xcb* (xcb-coord-mode-t "XCB-COORD-MODE")
+  :origin :previous)
+
+(declaim (inline %coord-mode))
+(defun %coord-mode (n)
+  (cdr (assoc n *coord-mode-to-xcb*)))
+
  ;; 6.2 Area and Plane Operations
 
 (stub clear-area (window &key (x 0) (y 0) width height exposures-p))
@@ -17,9 +51,28 @@
 
  ;; 6.4 Drawing Lines
 
-(stub draw-line (drawable gcontext x1 y1 x2 y2 &optional relative-p))
-(stub draw-lines (drawable gcontext points
-                  &key relative-p fill-p (shape :complex)))
+(defun draw-line (drawable gcontext x1 y1 x2 y2 &optional relative-p)
+  (let ((con (%display-xcb-connection (%drawable-display drawable)))
+        (points (list x1 y1 x2 y2))
+        (mode (%coord-mode (if relative-p :previous :origin))))
+    (with-points points (ptr count)
+      (xcb-poly-line con mode (%drawable-id drawable)
+                     (%gcontext-xcb-gcontext gcontext)
+                     count ptr))))
+
+(defun draw-lines (drawable gcontext points
+                  &key relative-p fill-p (shape :complex))
+  (let ((con (%display-xcb-connection (%drawable-display drawable)))
+        (mode (%coord-mode (if relative-p :previous :origin))))
+    (with-points points (ptr count)
+      (if fill-p
+          (xcb-fill-poly con (%drawable-id drawable)
+                         (%gcontext-xcb-gcontext gcontext)
+                         (%poly-shape shape) mode count ptr)
+          (xcb-poly-line con mode (%drawable-id drawable)
+                         (%gcontext-xcb-gcontext gcontext)
+                         count ptr)))))
+
 (stub draw-segments (drawable gcontext segments))
 
  ;; 6.5 Drawing Rectangles

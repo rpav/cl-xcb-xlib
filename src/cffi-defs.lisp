@@ -39,6 +39,9 @@
 (make-cstruct-accessors xcb-client-message-event-t)
 (make-cstruct-accessors xcb-mapping-notify-event-t)
 
+ ;; Graphics
+(make-cstruct-accessors xcb-point-t)
+
  ;; poll
 (defbitfield (poll-events-mask :short)
   (:in #.+pollin+)

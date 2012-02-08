@@ -3,16 +3,58 @@
 (defstruct (gcontext (:conc-name %gcontext-)
                      (:constructor %make-gcontext)
                      (:copier %copy-gcontext))
-  (xcb-gcontext 0 :type (integer 0 4294967295)))
+  (display nil :type display)
+  (xcb-gcontext 0 :type (integer 0 4294967295))
+  (clip-ordering 0 :type (integer 0 3)))
 
  ;; 5.2 Creating Graphics Contexts
 
-(stub create-gcontext (&key arc-mode background (cache-p t) cap-style
-                            clip-mask clip-ordering clip-x clip-y
-                            dash-offset dashes drawable exposures
-                            fill-rule fill-style font foreground function
-                            join-style line-style line-width plane-mask
-                            stipple subwindow-mode tile ts-x ts-y))
+(define-enum-table *gc-attr-to-xcb* (xcb-gc-t "XCB-GC")
+  :function :plane-mask :foreground :background :line-style
+  :line-width :cap-style :join-style :fill-style :fill-rule
+  :tile :stipple (:ts-x :tile-stipple-origin-x)
+  (:ts-y :tile-stipple-origin-y) :font :subwindow-mode
+  (:exposures :graphics-exposures) (:clip-x :clip-origin-x)
+  (:clip-y :clip-origin-y) :clip-mask :dash-offset
+  (:dashes :dash-list) :arc-mode)
+
+(defconstant +max-gc-attr-to-xcb+ (length *gc-attr-to-xcb*))
+
+(define-enum-table *clip-ordering-to-xcb*
+    (xcb-clip-ordering-t "XCB-CLIP-ORDERING")
+  :unsorted :y-sorted :yx-sorted :yx-banded)
+
+(define-enum-table *gc-func-to-xcb* (xcb-gx-t "XCB-GX")
+  (boole-clr :clear) (boole-and :and) (boole-andc2 :and-reverse)
+  (boole-1 :copy)  (boole-andc1 :and-inverted) (boole-2 :noop)
+  (boole-xor :xor) (boole-ior :or) (boole-nor :nor) (boole-eqv :equiv)
+  (boole-c2 :invert) (boole-orc2 :or-reverse) (boole-c1 :copy-inverted)
+  (boole-orc1 :or-inverted) (boole-nand :nand) (boole-set :set))
+
+(defun create-gcontext (&key arc-mode background (cache-p t) cap-style
+                          clip-mask clip-ordering clip-x clip-y
+                          dash-offset dashes drawable exposures
+                          fill-rule fill-style font foreground function
+                          join-style line-style line-width plane-mask
+                          stipple subwindow-mode tile ts-x ts-y)
+  ;; FIXME, implement caching, clip-ordering
+  (declare (ignore cache-p clip-ordering))
+  (let* ((dpy (drawable-display drawable))
+         (id (xcb-generate-id (%display-xcb-connection dpy)))
+         (gcon (%make-gcontext :display dpy :xcb-gcontext id))
+         (function (cdr (assoc function *gc-func-to-xcb*)))
+         (value-mask 0)
+         (value-count 0))
+    (with-foreign-object (values-ptr 'uint-32-t +max-gc-attr-to-xcb+)
+      ;; Remember, order specified is critical:
+      (vl-maybe-set-many (*gc-attr-to-xcb* values-ptr value-mask value-count)
+        function plane-mask foreground background line-style line-width
+        cap-style join-style fill-style fill-rule tile stipple
+        ts-x ts-y font subwindow-mode exposures clip-x clip-y
+        clip-mask dash-offset dashes arc-mode)
+      (xcb-create-gc (%display-xcb-connection dpy) id
+                     (%drawable-id drawable) value-mask values-ptr)
+      gcon)))
 
  ;; 5.3 Graphics Context Attributes
 
@@ -29,7 +71,7 @@
 (stub (setf gcontext-cap-style) (v gcontext))
 
 (stub gcontext-clip-mask (gcontext))
-(stub set-gcontext-clip-mask (gcontext &optional ordering) (v))
+(stub set-gcontext-clip-mask (gc v &optional ordering))
 
 (stub gcontext-clip-x (gcontext))
 (stub (setf gcontext-clip-x) (v gcontext))
@@ -108,7 +150,9 @@
 
  ;; 5.5 Destroying Graphics Contexts
 
-(stub free-gcontext (gcontext))
+(defun free-gcontext (gcontext)
+  (xcb-free-gc (%display-xcb-connection (%gcontext-display gcontext))
+               (%gcontext-xcb-gcontext gcontext)))
 
  ;; 5.6 Graphics Context Cache
 
