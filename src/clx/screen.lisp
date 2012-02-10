@@ -3,8 +3,12 @@
 (defstruct (screen (:conc-name %screen-)
                    (:constructor %make-screen))
   (display nil :type display)
-  (xcb-screen (null-pointer) :type #.(type-of (null-pointer)))
-  (xlib-screen (null-pointer) :type #.(type-of (null-pointer))))
+  (number 0 :type fixnum)
+  (xcb-screen (null-pointer) :type #.(type-of (null-pointer))))
+
+(defmethod print-object ((object screen) stream)
+  (print-unreadable-object (object stream)
+    (format stream "Screen ~A" (%screen-number object))))
 
  ;; 3.2 Screen Attributes
 

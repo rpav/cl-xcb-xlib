@@ -30,7 +30,7 @@
 (defvar *event-map* (make-hash-table))
 (defvar *event-slot-map* (make-hash-table))
 
-(define-const-table *event-type-map*
+(define-const-table *event-type-map* ("XCB")
   :key-press :key-release :button-press :button-release :motion-notify
   :enter-notify :leave-notify :focus-in :focus-out :keymap-notify
   (:exposure :expose) :graphics-exposure :no-exposure :visibility-notify

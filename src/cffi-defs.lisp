@@ -42,6 +42,11 @@
  ;; Graphics
 (make-cstruct-accessors xcb-point-t)
 
+ ;; Xlib
+
+(make-cstruct-accessors xvisual-info)
+(make-cstruct-accessors xerror-event)
+
  ;; poll
 (defbitfield (poll-events-mask :short)
   (:in #.+pollin+)
@@ -68,7 +73,7 @@
     (with-foreign-object (fds-ptr '(:struct pollfd) nfds)
       (loop for i from 0 below nfds
             for fd in fds
-            as pollfd = (mem-aref fds-ptr 'pollfd i)
+            as pollfd = (mem-pref fds-ptr 'pollfd i)
             do (setf (pollfd-fd pollfd) fd)
                (setf (pollfd-events pollfd) events))
       (let ((err (libc-poll fds-ptr nfds timeout))
@@ -78,7 +83,7 @@
           ((> err 0)
            (loop for i from 0 below nfds
                  while (> err 0)
-                 as pollfd = (mem-aref fds-ptr 'pollfd i)
+                 as pollfd = (mem-pref fds-ptr 'pollfd i)
                  as revents = (pollfd-revents pollfd)
                  do (when revents
                       (push (cons (pollfd-fd pollfd) revents) outfds)

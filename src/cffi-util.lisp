@@ -1,5 +1,21 @@
 (in-package :xcb)
 
+ ;; cffi-fsbv changes mem-aref semantics
+
+(defun mem-pref (ptr type &optional (index 0))
+  (mem-ref ptr :pointer
+           (* index (foreign-type-size type))))
+
+(define-compiler-macro mem-pref (&whole whole ptr type &optional (index 0))
+  (if (constantp type)
+      (if (constantp index)
+          `(mem-ref ,ptr ,type
+                    ,(* (eval index) (foreign-type-size (eval type))))
+          `(mem-ref ,ptr ,type (* ,index ,(foreign-type-size (eval type)))))
+      whole))
+
+(export 'mem-pref)
+
  ;; memory
 
 (defcfun ("free" libc_free) :void

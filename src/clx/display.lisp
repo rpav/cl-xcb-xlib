@@ -1,32 +1,66 @@
 (in-package :xcb.clx)
 
+ ;; Threading
+
+(defvar *display*)
+
+(defstruct display-msg
+  return-channel fn)
+
+(defun display-thread-loop (display)
+  (let ((*display* display)
+        (channel (%display-send-channel display)))
+    (loop while *display* do
+      (let ((msg (chanl:recv channel)))
+        (chanl:send (display-msg-return-channel msg)
+                    (funcall (display-msg-fn msg)))))))
+
+(defun send-to-display (display function)
+  (let ((msg (make-display-msg :return-channel (make-instance 'chanl:channel)
+                               :fn function)))
+    (chanl:send (%display-send-channel display) msg)
+    (values (chanl:recv (display-msg-return-channel msg)))))
+
+(defmacro do-on-display (display &body body)
+  `(send-to-display ,display (lambda () ,@body)))
+
+ ;; DISPLAY type
+
 (defstruct (display (:conc-name %display-)
                     (:constructor %make-display))
+  (number 0 :type fixnum)
   (xlib-display (null-pointer) :type #.(type-of (null-pointer)))
   (xcb-connection (null-pointer) :type #.(type-of (null-pointer)))
   (xcb-setup (null-pointer) :type #.(type-of (null-pointer)))
-  (event-queue (make-queue) :type queue))
+  (event-queue (make-queue) :type queue)
+  (send-channel (make-instance 'chanl:channel) :type chanl:channel))
 
 (defmethod print-object ((object display) stream)
   (print-unreadable-object (object stream)
-    (format stream "Display")))
+    (format stream "Display ~A" (%display-number object))))
 
  ;; 2.2 Opening the Display
 
 (defun open-display (host &key (display 0) protocol)
   (declare (ignore protocol))
-  (let ((d (%make-display))
-        (dpy (xopen-display (concatenate 'string host ":"
-                                         (princ-to-string display)))))
-    (if (null-pointer-p dpy)
-        (error "Error opening display ~A" display))
-    (xset-event-queue-owner dpy :+xcbowns-event-queue+)
-    (let* ((c (xget-xcbconnection dpy))
-           (s (xcb-get-setup c)))
-      (setf (%display-xlib-display d) dpy)
-      (setf (%display-xcb-connection d) c)
-      (setf (%display-xcb-setup d) s))
-    d))
+  (let* ((d (%make-display))
+         (fn (lambda () (display-thread-loop d))))
+    (chanl:pcall fn)
+    (do-on-display d
+      (let ((dpy (xopen-display (concatenate 'string host ":"
+                                             (princ-to-string display)))))
+        (if (null-pointer-p dpy)
+            (error "Error opening display ~A" display))
+        (xset-event-queue-owner dpy :+xcbowns-event-queue+)
+        (let* ((c (xget-xcbconnection dpy))
+               (s (xcb-get-setup c)))
+          (setf (%display-number d) display)
+          (setf (%display-xlib-display d) dpy)
+          (setf (%display-xcb-connection d) c)
+          (setf (%display-xcb-setup d) s))
+        (xset-error-handler (callback xcb::xlib-error-handler))
+        (xset-ioerror-handler (callback xcb::xlib-io-error-handler))
+        d))))
 
  ;; 2.3 Display Attributes
 
@@ -65,14 +99,14 @@
 (stub display-resource-id-mask (display))
 
 (defun display-roots (display)
-  (let ((dpyptr (%display-xlib-display display))
-        (i -1))
-    (mapcar (lambda (ptr)
-              (incf i)
-              (%make-screen :display display
-                            :xcb-screen ptr
-                            :xlib-screen (xscreen-of-display dpyptr i)))
-            (xcb-setup-roots-iterator (%display-xcb-setup display)))))
+  (let* ((list (mapcar (lambda (ptr)
+                         (%make-screen :display display :xcb-screen ptr))
+                       (xcb-setup-roots-iterator (%display-xcb-setup display))))
+         (len (1- (length list))))
+    (dolist (screen list)
+      (setf (%screen-number screen) len)
+      (decf len))
+    (nreverse list)))
 
 (defun display-vendor-name (display)
   (let ((end (xcb-setup-vendor-length (%display-xcb-setup display))))
@@ -110,8 +144,10 @@
  ;; 2.5 Closing the Display
 
 (defun close-display (display)
-  (xcb-disconnect (%display-xcb-connection display))
-  (setf (%display-xcb-connection display) (null-pointer))
-  (setf (%display-xcb-setup display) (null-pointer))
-  (setf (%display-xlib-display display) (null-pointer))
-  (values))
+  (do-on-display display
+    (setf *display* nil)
+    (xcb-disconnect (%display-xcb-connection display))
+    (setf (%display-xcb-connection display) (null-pointer))
+    (setf (%display-xcb-setup display) (null-pointer))
+    (setf (%display-xlib-display display) (null-pointer))
+    (values)))

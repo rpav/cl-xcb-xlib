@@ -56,6 +56,18 @@
 ;;;SWIG wrapper code ends here
 
 
+(cl:defconstant #.(custom-lispify "None" 'constant) 0)
+
+(cl:export '#.(custom-lispify "None" 'constant))
+
+(cffi:defctype #.(custom-lispify "XID" 'typename) :unsigned-long)
+
+(cl:export '#.(custom-lispify "XID" 'typename))
+
+(cffi:defctype #.(custom-lispify "Window" 'typename) :unsigned-long)
+
+(cl:export '#.(custom-lispify "Window" 'typename))
+
 (cl:defconstant #.(custom-lispify "XlibSpecificationRelease" 'constant) 6)
 
 (cl:export '#.(custom-lispify "XlibSpecificationRelease" 'constant))
@@ -260,7 +272,7 @@
 (cffi:defcstruct #.(custom-lispify "Screen" 'classname)
 	(#.(custom-lispify "ext_data" 'slotname) :pointer)
 	(#.(custom-lispify "display" 'slotname) :pointer)
-	(#.(custom-lispify "root" 'slotname) :pointer)
+	(#.(custom-lispify "root" 'slotname) :unsigned-long)
 	(#.(custom-lispify "width" 'slotname) :int)
 	(#.(custom-lispify "height" 'slotname) :int)
 	(#.(custom-lispify "mwidth" 'slotname) :int)
@@ -394,7 +406,7 @@
 	(#.(custom-lispify "border_width" 'slotname) :int)
 	(#.(custom-lispify "depth" 'slotname) :int)
 	(#.(custom-lispify "visual" 'slotname) :pointer)
-	(#.(custom-lispify "root" 'slotname) :pointer)
+	(#.(custom-lispify "root" 'slotname) :unsigned-long)
 	(#.(custom-lispify "class" 'slotname) :int)
 	(#.(custom-lispify "bit_gravity" 'slotname) :int)
 	(#.(custom-lispify "win_gravity" 'slotname) :int)
@@ -571,7 +583,7 @@
 	(#.(custom-lispify "width" 'slotname) :int)
 	(#.(custom-lispify "height" 'slotname) :int)
 	(#.(custom-lispify "border_width" 'slotname) :int)
-	(#.(custom-lispify "sibling" 'slotname) :pointer)
+	(#.(custom-lispify "sibling" 'slotname) :unsigned-long)
 	(#.(custom-lispify "stack_mode" 'slotname) :int))
 
 (cl:export '#.(custom-lispify "XWindowChanges" 'classname))
@@ -761,9 +773,9 @@
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
-	(#.(custom-lispify "window" 'slotname) :pointer)
-	(#.(custom-lispify "root" 'slotname) :pointer)
-	(#.(custom-lispify "subwindow" 'slotname) :pointer)
+	(#.(custom-lispify "window" 'slotname) :unsigned-long)
+	(#.(custom-lispify "root" 'slotname) :unsigned-long)
+	(#.(custom-lispify "subwindow" 'slotname) :unsigned-long)
 	(#.(custom-lispify "time" 'slotname) :pointer)
 	(#.(custom-lispify "x" 'slotname) :int)
 	(#.(custom-lispify "y" 'slotname) :int)
@@ -818,9 +830,9 @@
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
-	(#.(custom-lispify "window" 'slotname) :pointer)
-	(#.(custom-lispify "root" 'slotname) :pointer)
-	(#.(custom-lispify "subwindow" 'slotname) :pointer)
+	(#.(custom-lispify "window" 'slotname) :unsigned-long)
+	(#.(custom-lispify "root" 'slotname) :unsigned-long)
+	(#.(custom-lispify "subwindow" 'slotname) :unsigned-long)
 	(#.(custom-lispify "time" 'slotname) :pointer)
 	(#.(custom-lispify "x" 'slotname) :int)
 	(#.(custom-lispify "y" 'slotname) :int)
@@ -875,9 +887,9 @@
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
-	(#.(custom-lispify "window" 'slotname) :pointer)
-	(#.(custom-lispify "root" 'slotname) :pointer)
-	(#.(custom-lispify "subwindow" 'slotname) :pointer)
+	(#.(custom-lispify "window" 'slotname) :unsigned-long)
+	(#.(custom-lispify "root" 'slotname) :unsigned-long)
+	(#.(custom-lispify "subwindow" 'slotname) :unsigned-long)
 	(#.(custom-lispify "time" 'slotname) :pointer)
 	(#.(custom-lispify "x" 'slotname) :int)
 	(#.(custom-lispify "y" 'slotname) :int)
@@ -928,9 +940,9 @@
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
-	(#.(custom-lispify "window" 'slotname) :pointer)
-	(#.(custom-lispify "root" 'slotname) :pointer)
-	(#.(custom-lispify "subwindow" 'slotname) :pointer)
+	(#.(custom-lispify "window" 'slotname) :unsigned-long)
+	(#.(custom-lispify "root" 'slotname) :unsigned-long)
+	(#.(custom-lispify "subwindow" 'slotname) :unsigned-long)
 	(#.(custom-lispify "time" 'slotname) :pointer)
 	(#.(custom-lispify "x" 'slotname) :int)
 	(#.(custom-lispify "y" 'slotname) :int)
@@ -991,7 +1003,7 @@
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
-	(#.(custom-lispify "window" 'slotname) :pointer)
+	(#.(custom-lispify "window" 'slotname) :unsigned-long)
 	(#.(custom-lispify "mode" 'slotname) :int)
 	(#.(custom-lispify "detail" 'slotname) :int))
 
@@ -1024,7 +1036,7 @@
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
-	(#.(custom-lispify "window" 'slotname) :pointer)
+	(#.(custom-lispify "window" 'slotname) :unsigned-long)
 	(#.(custom-lispify "key_vector" 'slotname) :pointer))
 
 (cl:export '#.(custom-lispify "XKeymapEvent" 'classname))
@@ -1046,7 +1058,7 @@
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
-	(#.(custom-lispify "window" 'slotname) :pointer)
+	(#.(custom-lispify "window" 'slotname) :unsigned-long)
 	(#.(custom-lispify "x" 'slotname) :int)
 	(#.(custom-lispify "y" 'slotname) :int)
 	(#.(custom-lispify "width" 'slotname) :int)
@@ -1145,7 +1157,7 @@
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
-	(#.(custom-lispify "window" 'slotname) :pointer)
+	(#.(custom-lispify "window" 'slotname) :unsigned-long)
 	(#.(custom-lispify "state" 'slotname) :int))
 
 (cl:export '#.(custom-lispify "XVisibilityEvent" 'classname))
@@ -1167,8 +1179,8 @@
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
-	(#.(custom-lispify "parent" 'slotname) :pointer)
-	(#.(custom-lispify "window" 'slotname) :pointer)
+	(#.(custom-lispify "parent" 'slotname) :unsigned-long)
+	(#.(custom-lispify "window" 'slotname) :unsigned-long)
 	(#.(custom-lispify "x" 'slotname) :int)
 	(#.(custom-lispify "y" 'slotname) :int)
 	(#.(custom-lispify "width" 'slotname) :int)
@@ -1207,8 +1219,8 @@
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
-	(#.(custom-lispify "event" 'slotname) :pointer)
-	(#.(custom-lispify "window" 'slotname) :pointer))
+	(#.(custom-lispify "event" 'slotname) :unsigned-long)
+	(#.(custom-lispify "window" 'slotname) :unsigned-long))
 
 (cl:export '#.(custom-lispify "XDestroyWindowEvent" 'classname))
 
@@ -1229,8 +1241,8 @@
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
-	(#.(custom-lispify "event" 'slotname) :pointer)
-	(#.(custom-lispify "window" 'slotname) :pointer)
+	(#.(custom-lispify "event" 'slotname) :unsigned-long)
+	(#.(custom-lispify "window" 'slotname) :unsigned-long)
 	(#.(custom-lispify "from_configure" 'slotname) :int))
 
 (cl:export '#.(custom-lispify "XUnmapEvent" 'classname))
@@ -1254,8 +1266,8 @@
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
-	(#.(custom-lispify "event" 'slotname) :pointer)
-	(#.(custom-lispify "window" 'slotname) :pointer)
+	(#.(custom-lispify "event" 'slotname) :unsigned-long)
+	(#.(custom-lispify "window" 'slotname) :unsigned-long)
 	(#.(custom-lispify "override_redirect" 'slotname) :int))
 
 (cl:export '#.(custom-lispify "XMapEvent" 'classname))
@@ -1279,8 +1291,8 @@
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
-	(#.(custom-lispify "parent" 'slotname) :pointer)
-	(#.(custom-lispify "window" 'slotname) :pointer))
+	(#.(custom-lispify "parent" 'slotname) :unsigned-long)
+	(#.(custom-lispify "window" 'slotname) :unsigned-long))
 
 (cl:export '#.(custom-lispify "XMapRequestEvent" 'classname))
 
@@ -1301,9 +1313,9 @@
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
-	(#.(custom-lispify "event" 'slotname) :pointer)
-	(#.(custom-lispify "window" 'slotname) :pointer)
-	(#.(custom-lispify "parent" 'slotname) :pointer)
+	(#.(custom-lispify "event" 'slotname) :unsigned-long)
+	(#.(custom-lispify "window" 'slotname) :unsigned-long)
+	(#.(custom-lispify "parent" 'slotname) :unsigned-long)
 	(#.(custom-lispify "x" 'slotname) :int)
 	(#.(custom-lispify "y" 'slotname) :int)
 	(#.(custom-lispify "override_redirect" 'slotname) :int))
@@ -1335,14 +1347,14 @@
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
-	(#.(custom-lispify "event" 'slotname) :pointer)
-	(#.(custom-lispify "window" 'slotname) :pointer)
+	(#.(custom-lispify "event" 'slotname) :unsigned-long)
+	(#.(custom-lispify "window" 'slotname) :unsigned-long)
 	(#.(custom-lispify "x" 'slotname) :int)
 	(#.(custom-lispify "y" 'slotname) :int)
 	(#.(custom-lispify "width" 'slotname) :int)
 	(#.(custom-lispify "height" 'slotname) :int)
 	(#.(custom-lispify "border_width" 'slotname) :int)
-	(#.(custom-lispify "above" 'slotname) :pointer)
+	(#.(custom-lispify "above" 'slotname) :unsigned-long)
 	(#.(custom-lispify "override_redirect" 'slotname) :int))
 
 (cl:export '#.(custom-lispify "XConfigureEvent" 'classname))
@@ -1378,8 +1390,8 @@
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
-	(#.(custom-lispify "event" 'slotname) :pointer)
-	(#.(custom-lispify "window" 'slotname) :pointer)
+	(#.(custom-lispify "event" 'slotname) :unsigned-long)
+	(#.(custom-lispify "window" 'slotname) :unsigned-long)
 	(#.(custom-lispify "x" 'slotname) :int)
 	(#.(custom-lispify "y" 'slotname) :int))
 
@@ -1406,7 +1418,7 @@
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
-	(#.(custom-lispify "window" 'slotname) :pointer)
+	(#.(custom-lispify "window" 'slotname) :unsigned-long)
 	(#.(custom-lispify "width" 'slotname) :int)
 	(#.(custom-lispify "height" 'slotname) :int))
 
@@ -1431,14 +1443,14 @@
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
-	(#.(custom-lispify "parent" 'slotname) :pointer)
-	(#.(custom-lispify "window" 'slotname) :pointer)
+	(#.(custom-lispify "parent" 'slotname) :unsigned-long)
+	(#.(custom-lispify "window" 'slotname) :unsigned-long)
 	(#.(custom-lispify "x" 'slotname) :int)
 	(#.(custom-lispify "y" 'slotname) :int)
 	(#.(custom-lispify "width" 'slotname) :int)
 	(#.(custom-lispify "height" 'slotname) :int)
 	(#.(custom-lispify "border_width" 'slotname) :int)
-	(#.(custom-lispify "above" 'slotname) :pointer)
+	(#.(custom-lispify "above" 'slotname) :unsigned-long)
 	(#.(custom-lispify "detail" 'slotname) :int)
 	(#.(custom-lispify "value_mask" 'slotname) :unsigned-long))
 
@@ -1477,8 +1489,8 @@
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
-	(#.(custom-lispify "event" 'slotname) :pointer)
-	(#.(custom-lispify "window" 'slotname) :pointer)
+	(#.(custom-lispify "event" 'slotname) :unsigned-long)
+	(#.(custom-lispify "window" 'slotname) :unsigned-long)
 	(#.(custom-lispify "place" 'slotname) :int))
 
 (cl:export '#.(custom-lispify "XCirculateEvent" 'classname))
@@ -1502,8 +1514,8 @@
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
-	(#.(custom-lispify "parent" 'slotname) :pointer)
-	(#.(custom-lispify "window" 'slotname) :pointer)
+	(#.(custom-lispify "parent" 'slotname) :unsigned-long)
+	(#.(custom-lispify "window" 'slotname) :unsigned-long)
 	(#.(custom-lispify "place" 'slotname) :int))
 
 (cl:export '#.(custom-lispify "XCirculateRequestEvent" 'classname))
@@ -1527,7 +1539,7 @@
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
-	(#.(custom-lispify "window" 'slotname) :pointer)
+	(#.(custom-lispify "window" 'slotname) :unsigned-long)
 	(#.(custom-lispify "atom" 'slotname) :pointer)
 	(#.(custom-lispify "time" 'slotname) :pointer)
 	(#.(custom-lispify "state" 'slotname) :int))
@@ -1555,7 +1567,7 @@
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
-	(#.(custom-lispify "window" 'slotname) :pointer)
+	(#.(custom-lispify "window" 'slotname) :unsigned-long)
 	(#.(custom-lispify "selection" 'slotname) :pointer)
 	(#.(custom-lispify "time" 'slotname) :pointer))
 
@@ -1580,8 +1592,8 @@
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
-	(#.(custom-lispify "owner" 'slotname) :pointer)
-	(#.(custom-lispify "requestor" 'slotname) :pointer)
+	(#.(custom-lispify "owner" 'slotname) :unsigned-long)
+	(#.(custom-lispify "requestor" 'slotname) :unsigned-long)
 	(#.(custom-lispify "selection" 'slotname) :pointer)
 	(#.(custom-lispify "target" 'slotname) :pointer)
 	(#.(custom-lispify "property" 'slotname) :pointer)
@@ -1614,7 +1626,7 @@
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
-	(#.(custom-lispify "requestor" 'slotname) :pointer)
+	(#.(custom-lispify "requestor" 'slotname) :unsigned-long)
 	(#.(custom-lispify "selection" 'slotname) :pointer)
 	(#.(custom-lispify "target" 'slotname) :pointer)
 	(#.(custom-lispify "property" 'slotname) :pointer)
@@ -1645,7 +1657,7 @@
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
-	(#.(custom-lispify "window" 'slotname) :pointer)
+	(#.(custom-lispify "window" 'slotname) :unsigned-long)
 	(#.(custom-lispify "colormap" 'slotname) :pointer)
 	(#.(custom-lispify "new" 'slotname) :int)
 	(#.(custom-lispify "state" 'slotname) :int))
@@ -1673,7 +1685,7 @@
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
-	(#.(custom-lispify "window" 'slotname) :pointer)
+	(#.(custom-lispify "window" 'slotname) :unsigned-long)
 	(#.(custom-lispify "message_type" 'slotname) :pointer)
 	(#.(custom-lispify "format" 'slotname) :int)
 	(#.(custom-lispify "data" 'slotname) :pointer))
@@ -1714,7 +1726,7 @@
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
-	(#.(custom-lispify "window" 'slotname) :pointer)
+	(#.(custom-lispify "window" 'slotname) :unsigned-long)
 	(#.(custom-lispify "request" 'slotname) :int)
 	(#.(custom-lispify "first_keycode" 'slotname) :int)
 	(#.(custom-lispify "count" 'slotname) :int))
@@ -1740,7 +1752,7 @@
 (cffi:defcstruct #.(custom-lispify "XErrorEvent" 'classname)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
-	(#.(custom-lispify "resourceid" 'slotname) :pointer)
+	(#.(custom-lispify "resourceid" 'slotname) :unsigned-long)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "error_code" 'slotname) :unsigned-char)
 	(#.(custom-lispify "request_code" 'slotname) :unsigned-char)
@@ -1767,7 +1779,7 @@
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
-	(#.(custom-lispify "window" 'slotname) :pointer))
+	(#.(custom-lispify "window" 'slotname) :unsigned-long))
 
 (cl:export '#.(custom-lispify "XAnyEvent" 'classname))
 
@@ -2852,13 +2864,13 @@
 
 (cffi:defcfun ("XQueryFont" #.(custom-lispify "XQueryFont" 'function)) :pointer
   (arg0 :pointer)
-  (arg1 :pointer))
+  (arg1 :unsigned-long))
 
 (cl:export '#.(custom-lispify "XQueryFont" 'function))
 
 (cffi:defcfun ("XGetMotionEvents" #.(custom-lispify "XGetMotionEvents" 'function)) :pointer
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :pointer)
   (arg3 :pointer)
   (arg4 :pointer))
@@ -3024,7 +3036,7 @@
 
 (cffi:defcfun ("XCreateColormap" #.(custom-lispify "XCreateColormap" 'function)) :pointer
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :pointer)
   (arg3 :int))
 
@@ -3113,9 +3125,9 @@
 
 (cl:export '#.(custom-lispify "XCreatePixmapFromBitmapData" 'function))
 
-(cffi:defcfun ("XCreateSimpleWindow" #.(custom-lispify "XCreateSimpleWindow" 'function)) :pointer
+(cffi:defcfun ("XCreateSimpleWindow" #.(custom-lispify "XCreateSimpleWindow" 'function)) :unsigned-long
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :int)
   (arg3 :int)
   (arg4 :unsigned-int)
@@ -3126,15 +3138,15 @@
 
 (cl:export '#.(custom-lispify "XCreateSimpleWindow" 'function))
 
-(cffi:defcfun ("XGetSelectionOwner" #.(custom-lispify "XGetSelectionOwner" 'function)) :pointer
+(cffi:defcfun ("XGetSelectionOwner" #.(custom-lispify "XGetSelectionOwner" 'function)) :unsigned-long
   (arg0 :pointer)
   (arg1 :pointer))
 
 (cl:export '#.(custom-lispify "XGetSelectionOwner" 'function))
 
-(cffi:defcfun ("XCreateWindow" #.(custom-lispify "XCreateWindow" 'function)) :pointer
+(cffi:defcfun ("XCreateWindow" #.(custom-lispify "XCreateWindow" 'function)) :unsigned-long
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :int)
   (arg3 :int)
   (arg4 :unsigned-int)
@@ -3150,7 +3162,7 @@
 
 (cffi:defcfun ("XListInstalledColormaps" #.(custom-lispify "XListInstalledColormaps" 'function)) :pointer
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :pointer))
 
 (cl:export '#.(custom-lispify "XListInstalledColormaps" 'function))
@@ -3186,7 +3198,7 @@
 
 (cffi:defcfun ("XListProperties" #.(custom-lispify "XListProperties" 'function)) :pointer
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :pointer))
 
 (cl:export '#.(custom-lispify "XListProperties" 'function))
@@ -3290,18 +3302,18 @@
 
 (cl:export '#.(custom-lispify "XEHeadOfExtensionList" 'function))
 
-(cffi:defcfun ("XRootWindow" #.(custom-lispify "XRootWindow" 'function)) :pointer
+(cffi:defcfun ("XRootWindow" #.(custom-lispify "XRootWindow" 'function)) :unsigned-long
   (arg0 :pointer)
   (arg1 :int))
 
 (cl:export '#.(custom-lispify "XRootWindow" 'function))
 
-(cffi:defcfun ("XDefaultRootWindow" #.(custom-lispify "XDefaultRootWindow" 'function)) :pointer
+(cffi:defcfun ("XDefaultRootWindow" #.(custom-lispify "XDefaultRootWindow" 'function)) :unsigned-long
   (arg0 :pointer))
 
 (cl:export '#.(custom-lispify "XDefaultRootWindow" 'function))
 
-(cffi:defcfun ("XRootWindowOfScreen" #.(custom-lispify "XRootWindowOfScreen" 'function)) :pointer
+(cffi:defcfun ("XRootWindowOfScreen" #.(custom-lispify "XRootWindowOfScreen" 'function)) :unsigned-long
   (arg0 :pointer))
 
 (cl:export '#.(custom-lispify "XRootWindowOfScreen" 'function))
@@ -3444,7 +3456,7 @@
 
 (cffi:defcfun ("XReconfigureWMWindow" #.(custom-lispify "XReconfigureWMWindow" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :int)
   (arg3 :unsigned-int)
   (arg4 :pointer))
@@ -3453,7 +3465,7 @@
 
 (cffi:defcfun ("XGetWMProtocols" #.(custom-lispify "XGetWMProtocols" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :pointer)
   (arg3 :pointer))
 
@@ -3461,7 +3473,7 @@
 
 (cffi:defcfun ("XSetWMProtocols" #.(custom-lispify "XSetWMProtocols" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :pointer)
   (arg3 :int))
 
@@ -3469,21 +3481,21 @@
 
 (cffi:defcfun ("XIconifyWindow" #.(custom-lispify "XIconifyWindow" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :int))
 
 (cl:export '#.(custom-lispify "XIconifyWindow" 'function))
 
 (cffi:defcfun ("XWithdrawWindow" #.(custom-lispify "XWithdrawWindow" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :int))
 
 (cl:export '#.(custom-lispify "XWithdrawWindow" 'function))
 
 (cffi:defcfun ("XGetCommand" #.(custom-lispify "XGetCommand" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :pointer)
   (arg3 :pointer))
 
@@ -3491,7 +3503,7 @@
 
 (cffi:defcfun ("XGetWMColormapWindows" #.(custom-lispify "XGetWMColormapWindows" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :pointer)
   (arg3 :pointer))
 
@@ -3499,7 +3511,7 @@
 
 (cffi:defcfun ("XSetWMColormapWindows" #.(custom-lispify "XSetWMColormapWindows" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :pointer)
   (arg3 :int))
 
@@ -3512,8 +3524,8 @@
 
 (cffi:defcfun ("XSetTransientForHint" #.(custom-lispify "XSetTransientForHint" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
-  (arg2 :pointer))
+  (arg1 :unsigned-long)
+  (arg2 :unsigned-long))
 
 (cl:export '#.(custom-lispify "XSetTransientForHint" 'function))
 
@@ -3543,7 +3555,7 @@
 
 (cffi:defcfun ("XAddToSaveSet" #.(custom-lispify "XAddToSaveSet" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer))
+  (arg1 :unsigned-long))
 
 (cl:export '#.(custom-lispify "XAddToSaveSet" 'function))
 
@@ -3676,7 +3688,7 @@
 
 (cffi:defcfun ("XChangeProperty" #.(custom-lispify "XChangeProperty" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :pointer)
   (arg3 :pointer)
   (arg4 :int)
@@ -3688,14 +3700,14 @@
 
 (cffi:defcfun ("XChangeSaveSet" #.(custom-lispify "XChangeSaveSet" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :int))
 
 (cl:export '#.(custom-lispify "XChangeSaveSet" 'function))
 
 (cffi:defcfun ("XChangeWindowAttributes" #.(custom-lispify "XChangeWindowAttributes" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :unsigned-long)
   (arg3 :pointer))
 
@@ -3725,7 +3737,7 @@
 
 (cffi:defcfun ("XCheckTypedWindowEvent" #.(custom-lispify "XCheckTypedWindowEvent" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :int)
   (arg3 :pointer))
 
@@ -3733,7 +3745,7 @@
 
 (cffi:defcfun ("XCheckWindowEvent" #.(custom-lispify "XCheckWindowEvent" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :long)
   (arg3 :pointer))
 
@@ -3741,26 +3753,26 @@
 
 (cffi:defcfun ("XCirculateSubwindows" #.(custom-lispify "XCirculateSubwindows" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :int))
 
 (cl:export '#.(custom-lispify "XCirculateSubwindows" 'function))
 
 (cffi:defcfun ("XCirculateSubwindowsDown" #.(custom-lispify "XCirculateSubwindowsDown" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer))
+  (arg1 :unsigned-long))
 
 (cl:export '#.(custom-lispify "XCirculateSubwindowsDown" 'function))
 
 (cffi:defcfun ("XCirculateSubwindowsUp" #.(custom-lispify "XCirculateSubwindowsUp" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer))
+  (arg1 :unsigned-long))
 
 (cl:export '#.(custom-lispify "XCirculateSubwindowsUp" 'function))
 
 (cffi:defcfun ("XClearArea" #.(custom-lispify "XClearArea" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :int)
   (arg3 :int)
   (arg4 :unsigned-int)
@@ -3771,7 +3783,7 @@
 
 (cffi:defcfun ("XClearWindow" #.(custom-lispify "XClearWindow" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer))
+  (arg1 :unsigned-long))
 
 (cl:export '#.(custom-lispify "XClearWindow" 'function))
 
@@ -3782,7 +3794,7 @@
 
 (cffi:defcfun ("XConfigureWindow" #.(custom-lispify "XConfigureWindow" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :unsigned-int)
   (arg3 :pointer))
 
@@ -3798,7 +3810,7 @@
   (arg1 :pointer)
   (arg2 :pointer)
   (arg3 :pointer)
-  (arg4 :pointer)
+  (arg4 :unsigned-long)
   (arg5 :pointer))
 
 (cl:export '#.(custom-lispify "XConvertSelection" 'function))
@@ -3858,27 +3870,27 @@
 
 (cffi:defcfun ("XDefineCursor" #.(custom-lispify "XDefineCursor" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :pointer))
 
 (cl:export '#.(custom-lispify "XDefineCursor" 'function))
 
 (cffi:defcfun ("XDeleteProperty" #.(custom-lispify "XDeleteProperty" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :pointer))
 
 (cl:export '#.(custom-lispify "XDeleteProperty" 'function))
 
 (cffi:defcfun ("XDestroyWindow" #.(custom-lispify "XDestroyWindow" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer))
+  (arg1 :unsigned-long))
 
 (cl:export '#.(custom-lispify "XDestroyWindow" 'function))
 
 (cffi:defcfun ("XDestroySubwindows" #.(custom-lispify "XDestroySubwindows" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer))
+  (arg1 :unsigned-long))
 
 (cl:export '#.(custom-lispify "XDestroySubwindows" 'function))
 
@@ -4110,7 +4122,7 @@
 
 (cffi:defcfun ("XFetchName" #.(custom-lispify "XFetchName" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :pointer))
 
 (cl:export '#.(custom-lispify "XFetchName" 'function))
@@ -4315,7 +4327,7 @@
 
 (cffi:defcfun ("XGetIconName" #.(custom-lispify "XGetIconName" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :pointer))
 
 (cl:export '#.(custom-lispify "XGetIconName" 'function))
@@ -4359,14 +4371,14 @@
 
 (cffi:defcfun ("XGetTransientForHint" #.(custom-lispify "XGetTransientForHint" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :pointer))
 
 (cl:export '#.(custom-lispify "XGetTransientForHint" 'function))
 
 (cffi:defcfun ("XGetWindowProperty" #.(custom-lispify "XGetWindowProperty" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :pointer)
   (arg3 :long)
   (arg4 :long)
@@ -4382,7 +4394,7 @@
 
 (cffi:defcfun ("XGetWindowAttributes" #.(custom-lispify "XGetWindowAttributes" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :pointer))
 
 (cl:export '#.(custom-lispify "XGetWindowAttributes" 'function))
@@ -4391,12 +4403,12 @@
   (arg0 :pointer)
   (arg1 :unsigned-int)
   (arg2 :unsigned-int)
-  (arg3 :pointer)
+  (arg3 :unsigned-long)
   (arg4 :int)
   (arg5 :unsigned-int)
   (arg6 :int)
   (arg7 :int)
-  (arg8 :pointer)
+  (arg8 :unsigned-long)
   (arg9 :pointer))
 
 (cl:export '#.(custom-lispify "XGrabButton" 'function))
@@ -4405,7 +4417,7 @@
   (arg0 :pointer)
   (arg1 :int)
   (arg2 :unsigned-int)
-  (arg3 :pointer)
+  (arg3 :unsigned-long)
   (arg4 :int)
   (arg5 :int)
   (arg6 :int))
@@ -4414,7 +4426,7 @@
 
 (cffi:defcfun ("XGrabKeyboard" #.(custom-lispify "XGrabKeyboard" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :int)
   (arg3 :int)
   (arg4 :int)
@@ -4424,12 +4436,12 @@
 
 (cffi:defcfun ("XGrabPointer" #.(custom-lispify "XGrabPointer" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :int)
   (arg3 :unsigned-int)
   (arg4 :int)
   (arg5 :int)
-  (arg6 :pointer)
+  (arg6 :unsigned-long)
   (arg7 :pointer)
   (arg8 :pointer))
 
@@ -4477,7 +4489,7 @@
 
 (cffi:defcfun ("XKillClient" #.(custom-lispify "XKillClient" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer))
+  (arg1 :unsigned-long))
 
 (cl:export '#.(custom-lispify "XKillClient" 'function))
 
@@ -4492,25 +4504,25 @@
 
 (cffi:defcfun ("XLowerWindow" #.(custom-lispify "XLowerWindow" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer))
+  (arg1 :unsigned-long))
 
 (cl:export '#.(custom-lispify "XLowerWindow" 'function))
 
 (cffi:defcfun ("XMapRaised" #.(custom-lispify "XMapRaised" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer))
+  (arg1 :unsigned-long))
 
 (cl:export '#.(custom-lispify "XMapRaised" 'function))
 
 (cffi:defcfun ("XMapSubwindows" #.(custom-lispify "XMapSubwindows" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer))
+  (arg1 :unsigned-long))
 
 (cl:export '#.(custom-lispify "XMapSubwindows" 'function))
 
 (cffi:defcfun ("XMapWindow" #.(custom-lispify "XMapWindow" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer))
+  (arg1 :unsigned-long))
 
 (cl:export '#.(custom-lispify "XMapWindow" 'function))
 
@@ -4533,7 +4545,7 @@
 
 (cffi:defcfun ("XMoveResizeWindow" #.(custom-lispify "XMoveResizeWindow" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :int)
   (arg3 :int)
   (arg4 :unsigned-int)
@@ -4543,7 +4555,7 @@
 
 (cffi:defcfun ("XMoveWindow" #.(custom-lispify "XMoveWindow" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :int)
   (arg3 :int))
 
@@ -4709,7 +4721,7 @@
 
 (cffi:defcfun ("XQueryPointer" #.(custom-lispify "XQueryPointer" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :pointer)
   (arg3 :pointer)
   (arg4 :pointer)
@@ -4722,7 +4734,7 @@
 
 (cffi:defcfun ("XQueryTextExtents" #.(custom-lispify "XQueryTextExtents" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :string)
   (arg3 :int)
   (arg4 :pointer)
@@ -4734,7 +4746,7 @@
 
 (cffi:defcfun ("XQueryTextExtents16" #.(custom-lispify "XQueryTextExtents16" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :pointer)
   (arg3 :int)
   (arg4 :pointer)
@@ -4746,7 +4758,7 @@
 
 (cffi:defcfun ("XQueryTree" #.(custom-lispify "XQueryTree" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :pointer)
   (arg3 :pointer)
   (arg4 :pointer)
@@ -4756,7 +4768,7 @@
 
 (cffi:defcfun ("XRaiseWindow" #.(custom-lispify "XRaiseWindow" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer))
+  (arg1 :unsigned-long))
 
 (cl:export '#.(custom-lispify "XRaiseWindow" 'function))
 
@@ -4807,7 +4819,7 @@
 
 (cffi:defcfun ("XRemoveFromSaveSet" #.(custom-lispify "XRemoveFromSaveSet" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer))
+  (arg1 :unsigned-long))
 
 (cl:export '#.(custom-lispify "XRemoveFromSaveSet" 'function))
 
@@ -4826,8 +4838,8 @@
 
 (cffi:defcfun ("XReparentWindow" #.(custom-lispify "XReparentWindow" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
-  (arg2 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :unsigned-long)
   (arg3 :int)
   (arg4 :int))
 
@@ -4840,7 +4852,7 @@
 
 (cffi:defcfun ("XResizeWindow" #.(custom-lispify "XResizeWindow" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :unsigned-int)
   (arg3 :unsigned-int))
 
@@ -4861,7 +4873,7 @@
 
 (cffi:defcfun ("XRotateWindowProperties" #.(custom-lispify "XRotateWindowProperties" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :pointer)
   (arg3 :int)
   (arg4 :int))
@@ -4875,14 +4887,14 @@
 
 (cffi:defcfun ("XSelectInput" #.(custom-lispify "XSelectInput" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :long))
 
 (cl:export '#.(custom-lispify "XSelectInput" 'function))
 
 (cffi:defcfun ("XSendEvent" #.(custom-lispify "XSendEvent" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :int)
   (arg3 :long)
   (arg4 :pointer))
@@ -4943,7 +4955,7 @@
 
 (cffi:defcfun ("XSetCommand" #.(custom-lispify "XSetCommand" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :pointer)
   (arg3 :int))
 
@@ -5009,14 +5021,14 @@
 
 (cffi:defcfun ("XSetIconName" #.(custom-lispify "XSetIconName" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :string))
 
 (cl:export '#.(custom-lispify "XSetIconName" 'function))
 
 (cffi:defcfun ("XSetInputFocus" #.(custom-lispify "XSetInputFocus" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :int)
   (arg3 :pointer))
 
@@ -5064,7 +5076,7 @@
 (cffi:defcfun ("XSetSelectionOwner" #.(custom-lispify "XSetSelectionOwner" 'function)) :int
   (arg0 :pointer)
   (arg1 :pointer)
-  (arg2 :pointer)
+  (arg2 :unsigned-long)
   (arg3 :pointer))
 
 (cl:export '#.(custom-lispify "XSetSelectionOwner" 'function))
@@ -5110,42 +5122,42 @@
 
 (cffi:defcfun ("XSetWindowBackground" #.(custom-lispify "XSetWindowBackground" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :unsigned-long))
 
 (cl:export '#.(custom-lispify "XSetWindowBackground" 'function))
 
 (cffi:defcfun ("XSetWindowBackgroundPixmap" #.(custom-lispify "XSetWindowBackgroundPixmap" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :pointer))
 
 (cl:export '#.(custom-lispify "XSetWindowBackgroundPixmap" 'function))
 
 (cffi:defcfun ("XSetWindowBorder" #.(custom-lispify "XSetWindowBorder" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :unsigned-long))
 
 (cl:export '#.(custom-lispify "XSetWindowBorder" 'function))
 
 (cffi:defcfun ("XSetWindowBorderPixmap" #.(custom-lispify "XSetWindowBorderPixmap" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :pointer))
 
 (cl:export '#.(custom-lispify "XSetWindowBorderPixmap" 'function))
 
 (cffi:defcfun ("XSetWindowBorderWidth" #.(custom-lispify "XSetWindowBorderWidth" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :unsigned-int))
 
 (cl:export '#.(custom-lispify "XSetWindowBorderWidth" 'function))
 
 (cffi:defcfun ("XSetWindowColormap" #.(custom-lispify "XSetWindowColormap" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :pointer))
 
 (cl:export '#.(custom-lispify "XSetWindowColormap" 'function))
@@ -5182,7 +5194,7 @@
 
 (cffi:defcfun ("XStoreName" #.(custom-lispify "XStoreName" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :string))
 
 (cl:export '#.(custom-lispify "XStoreName" 'function))
@@ -5240,8 +5252,8 @@
 
 (cffi:defcfun ("XTranslateCoordinates" #.(custom-lispify "XTranslateCoordinates" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
-  (arg2 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :unsigned-long)
   (arg3 :int)
   (arg4 :int)
   (arg5 :pointer)
@@ -5252,7 +5264,7 @@
 
 (cffi:defcfun ("XUndefineCursor" #.(custom-lispify "XUndefineCursor" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer))
+  (arg1 :unsigned-long))
 
 (cl:export '#.(custom-lispify "XUndefineCursor" 'function))
 
@@ -5260,7 +5272,7 @@
   (arg0 :pointer)
   (arg1 :unsigned-int)
   (arg2 :unsigned-int)
-  (arg3 :pointer))
+  (arg3 :unsigned-long))
 
 (cl:export '#.(custom-lispify "XUngrabButton" 'function))
 
@@ -5268,7 +5280,7 @@
   (arg0 :pointer)
   (arg1 :int)
   (arg2 :unsigned-int)
-  (arg3 :pointer))
+  (arg3 :unsigned-long))
 
 (cl:export '#.(custom-lispify "XUngrabKey" 'function))
 
@@ -5303,13 +5315,13 @@
 
 (cffi:defcfun ("XUnmapSubwindows" #.(custom-lispify "XUnmapSubwindows" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer))
+  (arg1 :unsigned-long))
 
 (cl:export '#.(custom-lispify "XUnmapSubwindows" 'function))
 
 (cffi:defcfun ("XUnmapWindow" #.(custom-lispify "XUnmapWindow" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer))
+  (arg1 :unsigned-long))
 
 (cl:export '#.(custom-lispify "XUnmapWindow" 'function))
 
@@ -5320,8 +5332,8 @@
 
 (cffi:defcfun ("XWarpPointer" #.(custom-lispify "XWarpPointer" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
-  (arg2 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :unsigned-long)
   (arg3 :int)
   (arg4 :int)
   (arg5 :unsigned-int)
@@ -5343,7 +5355,7 @@
 
 (cffi:defcfun ("XWindowEvent" #.(custom-lispify "XWindowEvent" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer)
+  (arg1 :unsigned-long)
   (arg2 :long)
   (arg3 :pointer))
 
@@ -5766,7 +5778,7 @@
 
 (cffi:defcfun ("XFilterEvent" #.(custom-lispify "XFilterEvent" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer))
+  (arg1 :unsigned-long))
 
 (cl:export '#.(custom-lispify "XFilterEvent" 'function))
 
@@ -5889,5 +5901,3817 @@
   (arg1 :pointer))
 
 (cl:export '#.(custom-lispify "XFreeEventData" 'function))
+
+(cl:defconstant #.(custom-lispify "NoValue" 'constant) #x00000)
+
+(cl:export '#.(custom-lispify "NoValue" 'constant))
+
+(cl:defconstant #.(custom-lispify "XValue" 'constant) #x00001)
+
+(cl:export '#.(custom-lispify "XValue" 'constant))
+
+(cl:defconstant #.(custom-lispify "YValue" 'constant) #x00002)
+
+(cl:export '#.(custom-lispify "YValue" 'constant))
+
+(cl:defconstant #.(custom-lispify "WidthValue" 'constant) #x00004)
+
+(cl:export '#.(custom-lispify "WidthValue" 'constant))
+
+(cl:defconstant #.(custom-lispify "HeightValue" 'constant) #x00008)
+
+(cl:export '#.(custom-lispify "HeightValue" 'constant))
+
+(cl:defconstant #.(custom-lispify "AllValues" 'constant) #x0000F)
+
+(cl:export '#.(custom-lispify "AllValues" 'constant))
+
+(cl:defconstant #.(custom-lispify "XNegative" 'constant) #x00010)
+
+(cl:export '#.(custom-lispify "XNegative" 'constant))
+
+(cl:defconstant #.(custom-lispify "YNegative" 'constant) #x00020)
+
+(cl:export '#.(custom-lispify "YNegative" 'constant))
+
+(cffi:defcstruct #.(custom-lispify "XSizeHints" 'classname)
+	(#.(custom-lispify "flags" 'slotname) :long)
+	(#.(custom-lispify "x" 'slotname) :int)
+	(#.(custom-lispify "y" 'slotname) :int)
+	(#.(custom-lispify "width" 'slotname) :int)
+	(#.(custom-lispify "height" 'slotname) :int)
+	(#.(custom-lispify "min_width" 'slotname) :int)
+	(#.(custom-lispify "min_height" 'slotname) :int)
+	(#.(custom-lispify "max_width" 'slotname) :int)
+	(#.(custom-lispify "max_height" 'slotname) :int)
+	(#.(custom-lispify "width_inc" 'slotname) :int)
+	(#.(custom-lispify "height_inc" 'slotname) :int)
+	(#.(custom-lispify "base_width" 'slotname) :int)
+	(#.(custom-lispify "base_height" 'slotname) :int)
+	(#.(custom-lispify "win_gravity" 'slotname) :int)
+	(#.(custom-lispify "min_aspect" 'slotname) :pointer)
+	(#.(custom-lispify "max_aspect" 'slotname) :pointer))
+
+(cl:export '#.(custom-lispify "XSizeHints" 'classname))
+
+(cl:export '#.(custom-lispify "flags" 'slotname))
+
+(cl:export '#.(custom-lispify "x" 'slotname))
+
+(cl:export '#.(custom-lispify "y" 'slotname))
+
+(cl:export '#.(custom-lispify "width" 'slotname))
+
+(cl:export '#.(custom-lispify "height" 'slotname))
+
+(cl:export '#.(custom-lispify "min_width" 'slotname))
+
+(cl:export '#.(custom-lispify "min_height" 'slotname))
+
+(cl:export '#.(custom-lispify "max_width" 'slotname))
+
+(cl:export '#.(custom-lispify "max_height" 'slotname))
+
+(cl:export '#.(custom-lispify "width_inc" 'slotname))
+
+(cl:export '#.(custom-lispify "height_inc" 'slotname))
+
+(cl:export '#.(custom-lispify "base_width" 'slotname))
+
+(cl:export '#.(custom-lispify "base_height" 'slotname))
+
+(cl:export '#.(custom-lispify "win_gravity" 'slotname))
+
+(cl:export '#.(custom-lispify "min_aspect" 'slotname))
+
+(cl:export '#.(custom-lispify "max_aspect" 'slotname))
+
+(cffi:defcstruct #.(custom-lispify "XSizeHints_max_aspect" 'classname)
+	(#.(custom-lispify "x" 'slotname) :int)
+	(#.(custom-lispify "y" 'slotname) :int))
+
+(cl:export '#.(custom-lispify "XSizeHints_max_aspect" 'classname))
+
+(cl:export '#.(custom-lispify "x" 'slotname))
+
+(cl:export '#.(custom-lispify "y" 'slotname))
+
+(cffi:defcstruct #.(custom-lispify "XSizeHints_min_aspect" 'classname)
+	(#.(custom-lispify "x" 'slotname) :int)
+	(#.(custom-lispify "y" 'slotname) :int))
+
+(cl:export '#.(custom-lispify "XSizeHints_min_aspect" 'classname))
+
+(cl:export '#.(custom-lispify "x" 'slotname))
+
+(cl:export '#.(custom-lispify "y" 'slotname))
+
+(cl:defconstant #.(custom-lispify "USPosition" 'constant) (cl:ash 1 0))
+
+(cl:export '#.(custom-lispify "USPosition" 'constant))
+
+(cl:defconstant #.(custom-lispify "USSize" 'constant) (cl:ash 1 1))
+
+(cl:export '#.(custom-lispify "USSize" 'constant))
+
+(cl:defconstant #.(custom-lispify "PPosition" 'constant) (cl:ash 1 2))
+
+(cl:export '#.(custom-lispify "PPosition" 'constant))
+
+(cl:defconstant #.(custom-lispify "PSize" 'constant) (cl:ash 1 3))
+
+(cl:export '#.(custom-lispify "PSize" 'constant))
+
+(cl:defconstant #.(custom-lispify "PMinSize" 'constant) (cl:ash 1 4))
+
+(cl:export '#.(custom-lispify "PMinSize" 'constant))
+
+(cl:defconstant #.(custom-lispify "PMaxSize" 'constant) (cl:ash 1 5))
+
+(cl:export '#.(custom-lispify "PMaxSize" 'constant))
+
+(cl:defconstant #.(custom-lispify "PResizeInc" 'constant) (cl:ash 1 6))
+
+(cl:export '#.(custom-lispify "PResizeInc" 'constant))
+
+(cl:defconstant #.(custom-lispify "PAspect" 'constant) (cl:ash 1 7))
+
+(cl:export '#.(custom-lispify "PAspect" 'constant))
+
+(cl:defconstant #.(custom-lispify "PBaseSize" 'constant) (cl:ash 1 8))
+
+(cl:export '#.(custom-lispify "PBaseSize" 'constant))
+
+(cl:defconstant #.(custom-lispify "PWinGravity" 'constant) (cl:ash 1 9))
+
+(cl:export '#.(custom-lispify "PWinGravity" 'constant))
+
+(cl:defconstant #.(custom-lispify "PAllHints" 'constant) (cl:logior (cl:ash 1 2) (cl:ash 1 3) (cl:ash 1 4) (cl:ash 1 5) (cl:ash 1 6) (cl:ash 1 7)))
+
+(cl:export '#.(custom-lispify "PAllHints" 'constant))
+
+(cffi:defcstruct #.(custom-lispify "XWMHints" 'classname)
+	(#.(custom-lispify "flags" 'slotname) :long)
+	(#.(custom-lispify "input" 'slotname) :int)
+	(#.(custom-lispify "initial_state" 'slotname) :int)
+	(#.(custom-lispify "icon_pixmap" 'slotname) :pointer)
+	(#.(custom-lispify "icon_window" 'slotname) :unsigned-long)
+	(#.(custom-lispify "icon_x" 'slotname) :int)
+	(#.(custom-lispify "icon_y" 'slotname) :int)
+	(#.(custom-lispify "icon_mask" 'slotname) :pointer)
+	(#.(custom-lispify "window_group" 'slotname) :unsigned-long))
+
+(cl:export '#.(custom-lispify "XWMHints" 'classname))
+
+(cl:export '#.(custom-lispify "flags" 'slotname))
+
+(cl:export '#.(custom-lispify "input" 'slotname))
+
+(cl:export '#.(custom-lispify "initial_state" 'slotname))
+
+(cl:export '#.(custom-lispify "icon_pixmap" 'slotname))
+
+(cl:export '#.(custom-lispify "icon_window" 'slotname))
+
+(cl:export '#.(custom-lispify "icon_x" 'slotname))
+
+(cl:export '#.(custom-lispify "icon_y" 'slotname))
+
+(cl:export '#.(custom-lispify "icon_mask" 'slotname))
+
+(cl:export '#.(custom-lispify "window_group" 'slotname))
+
+(cl:defconstant #.(custom-lispify "InputHint" 'constant) (cl:ash 1 0))
+
+(cl:export '#.(custom-lispify "InputHint" 'constant))
+
+(cl:defconstant #.(custom-lispify "StateHint" 'constant) (cl:ash 1 1))
+
+(cl:export '#.(custom-lispify "StateHint" 'constant))
+
+(cl:defconstant #.(custom-lispify "IconPixmapHint" 'constant) (cl:ash 1 2))
+
+(cl:export '#.(custom-lispify "IconPixmapHint" 'constant))
+
+(cl:defconstant #.(custom-lispify "IconWindowHint" 'constant) (cl:ash 1 3))
+
+(cl:export '#.(custom-lispify "IconWindowHint" 'constant))
+
+(cl:defconstant #.(custom-lispify "IconPositionHint" 'constant) (cl:ash 1 4))
+
+(cl:export '#.(custom-lispify "IconPositionHint" 'constant))
+
+(cl:defconstant #.(custom-lispify "IconMaskHint" 'constant) (cl:ash 1 5))
+
+(cl:export '#.(custom-lispify "IconMaskHint" 'constant))
+
+(cl:defconstant #.(custom-lispify "WindowGroupHint" 'constant) (cl:ash 1 6))
+
+(cl:export '#.(custom-lispify "WindowGroupHint" 'constant))
+
+(cl:defconstant #.(custom-lispify "AllHints" 'constant) (cl:logior (cl:ash 1 0) (cl:ash 1 1) (cl:ash 1 2) (cl:ash 1 3) (cl:ash 1 4) (cl:ash 1 5) (cl:ash 1 6)))
+
+(cl:export '#.(custom-lispify "AllHints" 'constant))
+
+(cl:defconstant #.(custom-lispify "XUrgencyHint" 'constant) (cl:ash 1 8))
+
+(cl:export '#.(custom-lispify "XUrgencyHint" 'constant))
+
+(cl:defconstant #.(custom-lispify "WithdrawnState" 'constant) 0)
+
+(cl:export '#.(custom-lispify "WithdrawnState" 'constant))
+
+(cl:defconstant #.(custom-lispify "NormalState" 'constant) 1)
+
+(cl:export '#.(custom-lispify "NormalState" 'constant))
+
+(cl:defconstant #.(custom-lispify "IconicState" 'constant) 3)
+
+(cl:export '#.(custom-lispify "IconicState" 'constant))
+
+(cl:defconstant #.(custom-lispify "DontCareState" 'constant) 0)
+
+(cl:export '#.(custom-lispify "DontCareState" 'constant))
+
+(cl:defconstant #.(custom-lispify "ZoomState" 'constant) 2)
+
+(cl:export '#.(custom-lispify "ZoomState" 'constant))
+
+(cl:defconstant #.(custom-lispify "InactiveState" 'constant) 4)
+
+(cl:export '#.(custom-lispify "InactiveState" 'constant))
+
+(cffi:defcstruct #.(custom-lispify "XTextProperty" 'classname)
+	(#.(custom-lispify "value" 'slotname) :pointer)
+	(#.(custom-lispify "encoding" 'slotname) :pointer)
+	(#.(custom-lispify "format" 'slotname) :int)
+	(#.(custom-lispify "nitems" 'slotname) :unsigned-long))
+
+(cl:export '#.(custom-lispify "XTextProperty" 'classname))
+
+(cl:export '#.(custom-lispify "value" 'slotname))
+
+(cl:export '#.(custom-lispify "encoding" 'slotname))
+
+(cl:export '#.(custom-lispify "format" 'slotname))
+
+(cl:export '#.(custom-lispify "nitems" 'slotname))
+
+(cl:defconstant #.(custom-lispify "XNoMemory" 'constant) -1)
+
+(cl:export '#.(custom-lispify "XNoMemory" 'constant))
+
+(cl:defconstant #.(custom-lispify "XLocaleNotSupported" 'constant) -2)
+
+(cl:export '#.(custom-lispify "XLocaleNotSupported" 'constant))
+
+(cl:defconstant #.(custom-lispify "XConverterNotFound" 'constant) -3)
+
+(cl:export '#.(custom-lispify "XConverterNotFound" 'constant))
+
+(cffi:defcenum #.(custom-lispify "XICCEncodingStyle" 'enumname)
+	#.(custom-lispify "XStringStyle" 'enumvalue :keyword)
+	#.(custom-lispify "XCompoundTextStyle" 'enumvalue :keyword)
+	#.(custom-lispify "XTextStyle" 'enumvalue :keyword)
+	#.(custom-lispify "XStdICCTextStyle" 'enumvalue :keyword)
+	#.(custom-lispify "XUTF8StringStyle" 'enumvalue :keyword))
+
+(cl:export '#.(custom-lispify "XICCEncodingStyle" 'enumname))
+
+(cffi:defcstruct #.(custom-lispify "XIconSize" 'classname)
+	(#.(custom-lispify "min_width" 'slotname) :int)
+	(#.(custom-lispify "min_height" 'slotname) :int)
+	(#.(custom-lispify "max_width" 'slotname) :int)
+	(#.(custom-lispify "max_height" 'slotname) :int)
+	(#.(custom-lispify "width_inc" 'slotname) :int)
+	(#.(custom-lispify "height_inc" 'slotname) :int))
+
+(cl:export '#.(custom-lispify "XIconSize" 'classname))
+
+(cl:export '#.(custom-lispify "min_width" 'slotname))
+
+(cl:export '#.(custom-lispify "min_height" 'slotname))
+
+(cl:export '#.(custom-lispify "max_width" 'slotname))
+
+(cl:export '#.(custom-lispify "max_height" 'slotname))
+
+(cl:export '#.(custom-lispify "width_inc" 'slotname))
+
+(cl:export '#.(custom-lispify "height_inc" 'slotname))
+
+(cffi:defcstruct #.(custom-lispify "XClassHint" 'classname)
+	(#.(custom-lispify "res_name" 'slotname) :string)
+	(#.(custom-lispify "res_class" 'slotname) :string))
+
+(cl:export '#.(custom-lispify "XClassHint" 'classname))
+
+(cl:export '#.(custom-lispify "res_name" 'slotname))
+
+(cl:export '#.(custom-lispify "res_class" 'slotname))
+
+(cffi:defcstruct #.(custom-lispify "XComposeStatus" 'classname)
+	(#.(custom-lispify "compose_ptr" 'slotname) :string)
+	(#.(custom-lispify "chars_matched" 'slotname) :int))
+
+(cl:export '#.(custom-lispify "XComposeStatus" 'classname))
+
+(cl:export '#.(custom-lispify "compose_ptr" 'slotname))
+
+(cl:export '#.(custom-lispify "chars_matched" 'slotname))
+
+(cffi:defctype #.(custom-lispify "Region" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "Region" 'typename))
+
+(cl:defconstant #.(custom-lispify "RectangleOut" 'constant) 0)
+
+(cl:export '#.(custom-lispify "RectangleOut" 'constant))
+
+(cl:defconstant #.(custom-lispify "RectangleIn" 'constant) 1)
+
+(cl:export '#.(custom-lispify "RectangleIn" 'constant))
+
+(cl:defconstant #.(custom-lispify "RectanglePart" 'constant) 2)
+
+(cl:export '#.(custom-lispify "RectanglePart" 'constant))
+
+(cffi:defcstruct #.(custom-lispify "XVisualInfo" 'classname)
+	(#.(custom-lispify "visual" 'slotname) :pointer)
+	(#.(custom-lispify "visualid" 'slotname) :pointer)
+	(#.(custom-lispify "screen" 'slotname) :int)
+	(#.(custom-lispify "depth" 'slotname) :int)
+	(#.(custom-lispify "class" 'slotname) :int)
+	(#.(custom-lispify "red_mask" 'slotname) :unsigned-long)
+	(#.(custom-lispify "green_mask" 'slotname) :unsigned-long)
+	(#.(custom-lispify "blue_mask" 'slotname) :unsigned-long)
+	(#.(custom-lispify "colormap_size" 'slotname) :int)
+	(#.(custom-lispify "bits_per_rgb" 'slotname) :int))
+
+(cl:export '#.(custom-lispify "XVisualInfo" 'classname))
+
+(cl:export '#.(custom-lispify "visual" 'slotname))
+
+(cl:export '#.(custom-lispify "visualid" 'slotname))
+
+(cl:export '#.(custom-lispify "screen" 'slotname))
+
+(cl:export '#.(custom-lispify "depth" 'slotname))
+
+(cl:export '#.(custom-lispify "class" 'slotname))
+
+(cl:export '#.(custom-lispify "red_mask" 'slotname))
+
+(cl:export '#.(custom-lispify "green_mask" 'slotname))
+
+(cl:export '#.(custom-lispify "blue_mask" 'slotname))
+
+(cl:export '#.(custom-lispify "colormap_size" 'slotname))
+
+(cl:export '#.(custom-lispify "bits_per_rgb" 'slotname))
+
+(cl:defconstant #.(custom-lispify "VisualNoMask" 'constant) #x00)
+
+(cl:export '#.(custom-lispify "VisualNoMask" 'constant))
+
+(cl:defconstant #.(custom-lispify "VisualIDMask" 'constant) #x01)
+
+(cl:export '#.(custom-lispify "VisualIDMask" 'constant))
+
+(cl:defconstant #.(custom-lispify "VisualScreenMask" 'constant) #x02)
+
+(cl:export '#.(custom-lispify "VisualScreenMask" 'constant))
+
+(cl:defconstant #.(custom-lispify "VisualDepthMask" 'constant) #x04)
+
+(cl:export '#.(custom-lispify "VisualDepthMask" 'constant))
+
+(cl:defconstant #.(custom-lispify "VisualClassMask" 'constant) #x08)
+
+(cl:export '#.(custom-lispify "VisualClassMask" 'constant))
+
+(cl:defconstant #.(custom-lispify "VisualRedMaskMask" 'constant) #x010)
+
+(cl:export '#.(custom-lispify "VisualRedMaskMask" 'constant))
+
+(cl:defconstant #.(custom-lispify "VisualGreenMaskMask" 'constant) #x020)
+
+(cl:export '#.(custom-lispify "VisualGreenMaskMask" 'constant))
+
+(cl:defconstant #.(custom-lispify "VisualBlueMaskMask" 'constant) #x040)
+
+(cl:export '#.(custom-lispify "VisualBlueMaskMask" 'constant))
+
+(cl:defconstant #.(custom-lispify "VisualColormapSizeMask" 'constant) #x080)
+
+(cl:export '#.(custom-lispify "VisualColormapSizeMask" 'constant))
+
+(cl:defconstant #.(custom-lispify "VisualBitsPerRGBMask" 'constant) #x0100)
+
+(cl:export '#.(custom-lispify "VisualBitsPerRGBMask" 'constant))
+
+(cl:defconstant #.(custom-lispify "VisualAllMask" 'constant) #x01FF)
+
+(cl:export '#.(custom-lispify "VisualAllMask" 'constant))
+
+(cffi:defcstruct #.(custom-lispify "XStandardColormap" 'classname)
+	(#.(custom-lispify "colormap" 'slotname) :pointer)
+	(#.(custom-lispify "red_max" 'slotname) :unsigned-long)
+	(#.(custom-lispify "red_mult" 'slotname) :unsigned-long)
+	(#.(custom-lispify "green_max" 'slotname) :unsigned-long)
+	(#.(custom-lispify "green_mult" 'slotname) :unsigned-long)
+	(#.(custom-lispify "blue_max" 'slotname) :unsigned-long)
+	(#.(custom-lispify "blue_mult" 'slotname) :unsigned-long)
+	(#.(custom-lispify "base_pixel" 'slotname) :unsigned-long)
+	(#.(custom-lispify "visualid" 'slotname) :pointer)
+	(#.(custom-lispify "killid" 'slotname) :unsigned-long))
+
+(cl:export '#.(custom-lispify "XStandardColormap" 'classname))
+
+(cl:export '#.(custom-lispify "colormap" 'slotname))
+
+(cl:export '#.(custom-lispify "red_max" 'slotname))
+
+(cl:export '#.(custom-lispify "red_mult" 'slotname))
+
+(cl:export '#.(custom-lispify "green_max" 'slotname))
+
+(cl:export '#.(custom-lispify "green_mult" 'slotname))
+
+(cl:export '#.(custom-lispify "blue_max" 'slotname))
+
+(cl:export '#.(custom-lispify "blue_mult" 'slotname))
+
+(cl:export '#.(custom-lispify "base_pixel" 'slotname))
+
+(cl:export '#.(custom-lispify "visualid" 'slotname))
+
+(cl:export '#.(custom-lispify "killid" 'slotname))
+
+(cl:defconstant #.(custom-lispify "BitmapSuccess" 'constant) 0)
+
+(cl:export '#.(custom-lispify "BitmapSuccess" 'constant))
+
+(cl:defconstant #.(custom-lispify "BitmapOpenFailed" 'constant) 1)
+
+(cl:export '#.(custom-lispify "BitmapOpenFailed" 'constant))
+
+(cl:defconstant #.(custom-lispify "BitmapFileInvalid" 'constant) 2)
+
+(cl:export '#.(custom-lispify "BitmapFileInvalid" 'constant))
+
+(cl:defconstant #.(custom-lispify "BitmapNoMemory" 'constant) 3)
+
+(cl:export '#.(custom-lispify "BitmapNoMemory" 'constant))
+
+(cl:defconstant #.(custom-lispify "XCSUCCESS" 'constant) 0)
+
+(cl:export '#.(custom-lispify "XCSUCCESS" 'constant))
+
+(cl:defconstant #.(custom-lispify "XCNOMEM" 'constant) 1)
+
+(cl:export '#.(custom-lispify "XCNOMEM" 'constant))
+
+(cl:defconstant #.(custom-lispify "XCNOENT" 'constant) 2)
+
+(cl:export '#.(custom-lispify "XCNOENT" 'constant))
+
+(cffi:defctype #.(custom-lispify "XContext" 'typename) :int)
+
+(cl:export '#.(custom-lispify "XContext" 'typename))
+
+(cffi:defcfun ("XAllocClassHint" #.(custom-lispify "XAllocClassHint" 'function)) :pointer)
+
+(cl:export '#.(custom-lispify "XAllocClassHint" 'function))
+
+(cffi:defcfun ("XAllocIconSize" #.(custom-lispify "XAllocIconSize" 'function)) :pointer)
+
+(cl:export '#.(custom-lispify "XAllocIconSize" 'function))
+
+(cffi:defcfun ("XAllocSizeHints" #.(custom-lispify "XAllocSizeHints" 'function)) :pointer)
+
+(cl:export '#.(custom-lispify "XAllocSizeHints" 'function))
+
+(cffi:defcfun ("XAllocStandardColormap" #.(custom-lispify "XAllocStandardColormap" 'function)) :pointer)
+
+(cl:export '#.(custom-lispify "XAllocStandardColormap" 'function))
+
+(cffi:defcfun ("XAllocWMHints" #.(custom-lispify "XAllocWMHints" 'function)) :pointer)
+
+(cl:export '#.(custom-lispify "XAllocWMHints" 'function))
+
+(cffi:defcfun ("XClipBox" #.(custom-lispify "XClipBox" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :pointer))
+
+(cl:export '#.(custom-lispify "XClipBox" 'function))
+
+(cffi:defcfun ("XCreateRegion" #.(custom-lispify "XCreateRegion" 'function)) :pointer)
+
+(cl:export '#.(custom-lispify "XCreateRegion" 'function))
+
+(cffi:defcfun ("XDefaultString" #.(custom-lispify "XDefaultString" 'function)) :string)
+
+(cl:export '#.(custom-lispify "XDefaultString" 'function))
+
+(cffi:defcfun ("XDeleteContext" #.(custom-lispify "XDeleteContext" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :int))
+
+(cl:export '#.(custom-lispify "XDeleteContext" 'function))
+
+(cffi:defcfun ("XDestroyRegion" #.(custom-lispify "XDestroyRegion" 'function)) :int
+  (arg0 :pointer))
+
+(cl:export '#.(custom-lispify "XDestroyRegion" 'function))
+
+(cffi:defcfun ("XEmptyRegion" #.(custom-lispify "XEmptyRegion" 'function)) :int
+  (arg0 :pointer))
+
+(cl:export '#.(custom-lispify "XEmptyRegion" 'function))
+
+(cffi:defcfun ("XEqualRegion" #.(custom-lispify "XEqualRegion" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :pointer))
+
+(cl:export '#.(custom-lispify "XEqualRegion" 'function))
+
+(cffi:defcfun ("XFindContext" #.(custom-lispify "XFindContext" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :int)
+  (arg3 :pointer))
+
+(cl:export '#.(custom-lispify "XFindContext" 'function))
+
+(cffi:defcfun ("XGetClassHint" #.(custom-lispify "XGetClassHint" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :pointer))
+
+(cl:export '#.(custom-lispify "XGetClassHint" 'function))
+
+(cffi:defcfun ("XGetIconSizes" #.(custom-lispify "XGetIconSizes" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :pointer)
+  (arg3 :pointer))
+
+(cl:export '#.(custom-lispify "XGetIconSizes" 'function))
+
+(cffi:defcfun ("XGetNormalHints" #.(custom-lispify "XGetNormalHints" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :pointer))
+
+(cl:export '#.(custom-lispify "XGetNormalHints" 'function))
+
+(cffi:defcfun ("XGetRGBColormaps" #.(custom-lispify "XGetRGBColormaps" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :pointer)
+  (arg3 :pointer)
+  (arg4 :pointer))
+
+(cl:export '#.(custom-lispify "XGetRGBColormaps" 'function))
+
+(cffi:defcfun ("XGetSizeHints" #.(custom-lispify "XGetSizeHints" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :pointer)
+  (arg3 :pointer))
+
+(cl:export '#.(custom-lispify "XGetSizeHints" 'function))
+
+(cffi:defcfun ("XGetStandardColormap" #.(custom-lispify "XGetStandardColormap" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :pointer)
+  (arg3 :pointer))
+
+(cl:export '#.(custom-lispify "XGetStandardColormap" 'function))
+
+(cffi:defcfun ("XGetTextProperty" #.(custom-lispify "XGetTextProperty" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :pointer)
+  (arg3 :pointer))
+
+(cl:export '#.(custom-lispify "XGetTextProperty" 'function))
+
+(cffi:defcfun ("XGetVisualInfo" #.(custom-lispify "XGetVisualInfo" 'function)) :pointer
+  (arg0 :pointer)
+  (arg1 :long)
+  (arg2 :pointer)
+  (arg3 :pointer))
+
+(cl:export '#.(custom-lispify "XGetVisualInfo" 'function))
+
+(cffi:defcfun ("XGetWMClientMachine" #.(custom-lispify "XGetWMClientMachine" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :pointer))
+
+(cl:export '#.(custom-lispify "XGetWMClientMachine" 'function))
+
+(cffi:defcfun ("XGetWMHints" #.(custom-lispify "XGetWMHints" 'function)) :pointer
+  (arg0 :pointer)
+  (arg1 :unsigned-long))
+
+(cl:export '#.(custom-lispify "XGetWMHints" 'function))
+
+(cffi:defcfun ("XGetWMIconName" #.(custom-lispify "XGetWMIconName" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :pointer))
+
+(cl:export '#.(custom-lispify "XGetWMIconName" 'function))
+
+(cffi:defcfun ("XGetWMName" #.(custom-lispify "XGetWMName" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :pointer))
+
+(cl:export '#.(custom-lispify "XGetWMName" 'function))
+
+(cffi:defcfun ("XGetWMNormalHints" #.(custom-lispify "XGetWMNormalHints" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :pointer)
+  (arg3 :pointer))
+
+(cl:export '#.(custom-lispify "XGetWMNormalHints" 'function))
+
+(cffi:defcfun ("XGetWMSizeHints" #.(custom-lispify "XGetWMSizeHints" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :pointer)
+  (arg3 :pointer)
+  (arg4 :pointer))
+
+(cl:export '#.(custom-lispify "XGetWMSizeHints" 'function))
+
+(cffi:defcfun ("XGetZoomHints" #.(custom-lispify "XGetZoomHints" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :pointer))
+
+(cl:export '#.(custom-lispify "XGetZoomHints" 'function))
+
+(cffi:defcfun ("XIntersectRegion" #.(custom-lispify "XIntersectRegion" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :pointer)
+  (arg2 :pointer))
+
+(cl:export '#.(custom-lispify "XIntersectRegion" 'function))
+
+(cffi:defcfun ("XConvertCase" #.(custom-lispify "XConvertCase" 'function)) :void
+  (arg0 :pointer)
+  (arg1 :pointer)
+  (arg2 :pointer))
+
+(cl:export '#.(custom-lispify "XConvertCase" 'function))
+
+(cffi:defcfun ("XLookupString" #.(custom-lispify "XLookupString" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :string)
+  (arg2 :int)
+  (arg3 :pointer)
+  (arg4 :pointer))
+
+(cl:export '#.(custom-lispify "XLookupString" 'function))
+
+(cffi:defcfun ("XMatchVisualInfo" #.(custom-lispify "XMatchVisualInfo" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :int)
+  (arg2 :int)
+  (arg3 :int)
+  (arg4 :pointer))
+
+(cl:export '#.(custom-lispify "XMatchVisualInfo" 'function))
+
+(cffi:defcfun ("XOffsetRegion" #.(custom-lispify "XOffsetRegion" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :int)
+  (arg2 :int))
+
+(cl:export '#.(custom-lispify "XOffsetRegion" 'function))
+
+(cffi:defcfun ("XPointInRegion" #.(custom-lispify "XPointInRegion" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :int)
+  (arg2 :int))
+
+(cl:export '#.(custom-lispify "XPointInRegion" 'function))
+
+(cffi:defcfun ("XPolygonRegion" #.(custom-lispify "XPolygonRegion" 'function)) :pointer
+  (arg0 :pointer)
+  (arg1 :int)
+  (arg2 :int))
+
+(cl:export '#.(custom-lispify "XPolygonRegion" 'function))
+
+(cffi:defcfun ("XRectInRegion" #.(custom-lispify "XRectInRegion" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :int)
+  (arg2 :int)
+  (arg3 :unsigned-int)
+  (arg4 :unsigned-int))
+
+(cl:export '#.(custom-lispify "XRectInRegion" 'function))
+
+(cffi:defcfun ("XSaveContext" #.(custom-lispify "XSaveContext" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :int)
+  (arg3 :string))
+
+(cl:export '#.(custom-lispify "XSaveContext" 'function))
+
+(cffi:defcfun ("XSetClassHint" #.(custom-lispify "XSetClassHint" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :pointer))
+
+(cl:export '#.(custom-lispify "XSetClassHint" 'function))
+
+(cffi:defcfun ("XSetIconSizes" #.(custom-lispify "XSetIconSizes" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :pointer)
+  (arg3 :int))
+
+(cl:export '#.(custom-lispify "XSetIconSizes" 'function))
+
+(cffi:defcfun ("XSetNormalHints" #.(custom-lispify "XSetNormalHints" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :pointer))
+
+(cl:export '#.(custom-lispify "XSetNormalHints" 'function))
+
+(cffi:defcfun ("XSetRGBColormaps" #.(custom-lispify "XSetRGBColormaps" 'function)) :void
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :pointer)
+  (arg3 :int)
+  (arg4 :pointer))
+
+(cl:export '#.(custom-lispify "XSetRGBColormaps" 'function))
+
+(cffi:defcfun ("XSetSizeHints" #.(custom-lispify "XSetSizeHints" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :pointer)
+  (arg3 :pointer))
+
+(cl:export '#.(custom-lispify "XSetSizeHints" 'function))
+
+(cffi:defcfun ("XSetStandardProperties" #.(custom-lispify "XSetStandardProperties" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :string)
+  (arg3 :string)
+  (arg4 :pointer)
+  (arg5 :pointer)
+  (arg6 :int)
+  (arg7 :pointer))
+
+(cl:export '#.(custom-lispify "XSetStandardProperties" 'function))
+
+(cffi:defcfun ("XSetTextProperty" #.(custom-lispify "XSetTextProperty" 'function)) :void
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :pointer)
+  (arg3 :pointer))
+
+(cl:export '#.(custom-lispify "XSetTextProperty" 'function))
+
+(cffi:defcfun ("XSetWMClientMachine" #.(custom-lispify "XSetWMClientMachine" 'function)) :void
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :pointer))
+
+(cl:export '#.(custom-lispify "XSetWMClientMachine" 'function))
+
+(cffi:defcfun ("XSetWMHints" #.(custom-lispify "XSetWMHints" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :pointer))
+
+(cl:export '#.(custom-lispify "XSetWMHints" 'function))
+
+(cffi:defcfun ("XSetWMIconName" #.(custom-lispify "XSetWMIconName" 'function)) :void
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :pointer))
+
+(cl:export '#.(custom-lispify "XSetWMIconName" 'function))
+
+(cffi:defcfun ("XSetWMName" #.(custom-lispify "XSetWMName" 'function)) :void
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :pointer))
+
+(cl:export '#.(custom-lispify "XSetWMName" 'function))
+
+(cffi:defcfun ("XSetWMNormalHints" #.(custom-lispify "XSetWMNormalHints" 'function)) :void
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :pointer))
+
+(cl:export '#.(custom-lispify "XSetWMNormalHints" 'function))
+
+(cffi:defcfun ("XSetWMProperties" #.(custom-lispify "XSetWMProperties" 'function)) :void
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :pointer)
+  (arg3 :pointer)
+  (arg4 :pointer)
+  (arg5 :int)
+  (arg6 :pointer)
+  (arg7 :pointer)
+  (arg8 :pointer))
+
+(cl:export '#.(custom-lispify "XSetWMProperties" 'function))
+
+(cffi:defcfun ("XmbSetWMProperties" #.(custom-lispify "XmbSetWMProperties" 'function)) :void
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :string)
+  (arg3 :string)
+  (arg4 :pointer)
+  (arg5 :int)
+  (arg6 :pointer)
+  (arg7 :pointer)
+  (arg8 :pointer))
+
+(cl:export '#.(custom-lispify "XmbSetWMProperties" 'function))
+
+(cffi:defcfun ("Xutf8SetWMProperties" #.(custom-lispify "Xutf8SetWMProperties" 'function)) :void
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :string)
+  (arg3 :string)
+  (arg4 :pointer)
+  (arg5 :int)
+  (arg6 :pointer)
+  (arg7 :pointer)
+  (arg8 :pointer))
+
+(cl:export '#.(custom-lispify "Xutf8SetWMProperties" 'function))
+
+(cffi:defcfun ("XSetWMSizeHints" #.(custom-lispify "XSetWMSizeHints" 'function)) :void
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :pointer)
+  (arg3 :pointer))
+
+(cl:export '#.(custom-lispify "XSetWMSizeHints" 'function))
+
+(cffi:defcfun ("XSetRegion" #.(custom-lispify "XSetRegion" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :pointer)
+  (arg2 :pointer))
+
+(cl:export '#.(custom-lispify "XSetRegion" 'function))
+
+(cffi:defcfun ("XSetStandardColormap" #.(custom-lispify "XSetStandardColormap" 'function)) :void
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :pointer)
+  (arg3 :pointer))
+
+(cl:export '#.(custom-lispify "XSetStandardColormap" 'function))
+
+(cffi:defcfun ("XSetZoomHints" #.(custom-lispify "XSetZoomHints" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :unsigned-long)
+  (arg2 :pointer))
+
+(cl:export '#.(custom-lispify "XSetZoomHints" 'function))
+
+(cffi:defcfun ("XShrinkRegion" #.(custom-lispify "XShrinkRegion" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :int)
+  (arg2 :int))
+
+(cl:export '#.(custom-lispify "XShrinkRegion" 'function))
+
+(cffi:defcfun ("XStringListToTextProperty" #.(custom-lispify "XStringListToTextProperty" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :int)
+  (arg2 :pointer))
+
+(cl:export '#.(custom-lispify "XStringListToTextProperty" 'function))
+
+(cffi:defcfun ("XSubtractRegion" #.(custom-lispify "XSubtractRegion" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :pointer)
+  (arg2 :pointer))
+
+(cl:export '#.(custom-lispify "XSubtractRegion" 'function))
+
+(cffi:defcfun ("XmbTextListToTextProperty" #.(custom-lispify "XmbTextListToTextProperty" 'function)) :int
+  (display :pointer)
+  (list :pointer)
+  (count :int)
+  (style #.(custom-lispify "XICCEncodingStyle" 'enumname))
+  (text_prop_return :pointer))
+
+(cl:export '#.(custom-lispify "XmbTextListToTextProperty" 'function))
+
+(cffi:defcfun ("XwcTextListToTextProperty" #.(custom-lispify "XwcTextListToTextProperty" 'function)) :int
+  (display :pointer)
+  (list :pointer)
+  (count :int)
+  (style #.(custom-lispify "XICCEncodingStyle" 'enumname))
+  (text_prop_return :pointer))
+
+(cl:export '#.(custom-lispify "XwcTextListToTextProperty" 'function))
+
+(cffi:defcfun ("Xutf8TextListToTextProperty" #.(custom-lispify "Xutf8TextListToTextProperty" 'function)) :int
+  (display :pointer)
+  (list :pointer)
+  (count :int)
+  (style #.(custom-lispify "XICCEncodingStyle" 'enumname))
+  (text_prop_return :pointer))
+
+(cl:export '#.(custom-lispify "Xutf8TextListToTextProperty" 'function))
+
+(cffi:defcfun ("XwcFreeStringList" #.(custom-lispify "XwcFreeStringList" 'function)) :void
+  (list :pointer))
+
+(cl:export '#.(custom-lispify "XwcFreeStringList" 'function))
+
+(cffi:defcfun ("XTextPropertyToStringList" #.(custom-lispify "XTextPropertyToStringList" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :pointer)
+  (arg2 :pointer))
+
+(cl:export '#.(custom-lispify "XTextPropertyToStringList" 'function))
+
+(cffi:defcfun ("XmbTextPropertyToTextList" #.(custom-lispify "XmbTextPropertyToTextList" 'function)) :int
+  (display :pointer)
+  (text_prop :pointer)
+  (list_return :pointer)
+  (count_return :pointer))
+
+(cl:export '#.(custom-lispify "XmbTextPropertyToTextList" 'function))
+
+(cffi:defcfun ("XwcTextPropertyToTextList" #.(custom-lispify "XwcTextPropertyToTextList" 'function)) :int
+  (display :pointer)
+  (text_prop :pointer)
+  (list_return :pointer)
+  (count_return :pointer))
+
+(cl:export '#.(custom-lispify "XwcTextPropertyToTextList" 'function))
+
+(cffi:defcfun ("Xutf8TextPropertyToTextList" #.(custom-lispify "Xutf8TextPropertyToTextList" 'function)) :int
+  (display :pointer)
+  (text_prop :pointer)
+  (list_return :pointer)
+  (count_return :pointer))
+
+(cl:export '#.(custom-lispify "Xutf8TextPropertyToTextList" 'function))
+
+(cffi:defcfun ("XUnionRectWithRegion" #.(custom-lispify "XUnionRectWithRegion" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :pointer)
+  (arg2 :pointer))
+
+(cl:export '#.(custom-lispify "XUnionRectWithRegion" 'function))
+
+(cffi:defcfun ("XUnionRegion" #.(custom-lispify "XUnionRegion" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :pointer)
+  (arg2 :pointer))
+
+(cl:export '#.(custom-lispify "XUnionRegion" 'function))
+
+(cffi:defcfun ("XWMGeometry" #.(custom-lispify "XWMGeometry" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :int)
+  (arg2 :string)
+  (arg3 :string)
+  (arg4 :unsigned-int)
+  (arg5 :pointer)
+  (arg6 :pointer)
+  (arg7 :pointer)
+  (arg8 :pointer)
+  (arg9 :pointer)
+  (arg10 :pointer))
+
+(cl:export '#.(custom-lispify "XWMGeometry" 'function))
+
+(cffi:defcfun ("XXorRegion" #.(custom-lispify "XXorRegion" 'function)) :int
+  (arg0 :pointer)
+  (arg1 :pointer)
+  (arg2 :pointer))
+
+(cl:export '#.(custom-lispify "XXorRegion" 'function))
+
+(cl:defconstant #.(custom-lispify "GLX_VERSION_1_1" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_VERSION_1_1" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_VERSION_1_2" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_VERSION_1_2" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_VERSION_1_3" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_VERSION_1_3" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_VERSION_1_4" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_VERSION_1_4" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_EXTENSION_NAME" 'constant) '#.(intern "GLX"))
+
+(cl:export '#.(custom-lispify "GLX_EXTENSION_NAME" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_USE_GL" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_USE_GL" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_BUFFER_SIZE" 'constant) 2)
+
+(cl:export '#.(custom-lispify "GLX_BUFFER_SIZE" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_LEVEL" 'constant) 3)
+
+(cl:export '#.(custom-lispify "GLX_LEVEL" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_RGBA" 'constant) 4)
+
+(cl:export '#.(custom-lispify "GLX_RGBA" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_DOUBLEBUFFER" 'constant) 5)
+
+(cl:export '#.(custom-lispify "GLX_DOUBLEBUFFER" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_STEREO" 'constant) 6)
+
+(cl:export '#.(custom-lispify "GLX_STEREO" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_AUX_BUFFERS" 'constant) 7)
+
+(cl:export '#.(custom-lispify "GLX_AUX_BUFFERS" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_RED_SIZE" 'constant) 8)
+
+(cl:export '#.(custom-lispify "GLX_RED_SIZE" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_GREEN_SIZE" 'constant) 9)
+
+(cl:export '#.(custom-lispify "GLX_GREEN_SIZE" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_BLUE_SIZE" 'constant) 10)
+
+(cl:export '#.(custom-lispify "GLX_BLUE_SIZE" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_ALPHA_SIZE" 'constant) 11)
+
+(cl:export '#.(custom-lispify "GLX_ALPHA_SIZE" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_DEPTH_SIZE" 'constant) 12)
+
+(cl:export '#.(custom-lispify "GLX_DEPTH_SIZE" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_STENCIL_SIZE" 'constant) 13)
+
+(cl:export '#.(custom-lispify "GLX_STENCIL_SIZE" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_ACCUM_RED_SIZE" 'constant) 14)
+
+(cl:export '#.(custom-lispify "GLX_ACCUM_RED_SIZE" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_ACCUM_GREEN_SIZE" 'constant) 15)
+
+(cl:export '#.(custom-lispify "GLX_ACCUM_GREEN_SIZE" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_ACCUM_BLUE_SIZE" 'constant) 16)
+
+(cl:export '#.(custom-lispify "GLX_ACCUM_BLUE_SIZE" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_ACCUM_ALPHA_SIZE" 'constant) 17)
+
+(cl:export '#.(custom-lispify "GLX_ACCUM_ALPHA_SIZE" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_BAD_SCREEN" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_BAD_SCREEN" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_BAD_ATTRIBUTE" 'constant) 2)
+
+(cl:export '#.(custom-lispify "GLX_BAD_ATTRIBUTE" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_NO_EXTENSION" 'constant) 3)
+
+(cl:export '#.(custom-lispify "GLX_NO_EXTENSION" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_BAD_VISUAL" 'constant) 4)
+
+(cl:export '#.(custom-lispify "GLX_BAD_VISUAL" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_BAD_CONTEXT" 'constant) 5)
+
+(cl:export '#.(custom-lispify "GLX_BAD_CONTEXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_BAD_VALUE" 'constant) 6)
+
+(cl:export '#.(custom-lispify "GLX_BAD_VALUE" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_BAD_ENUM" 'constant) 7)
+
+(cl:export '#.(custom-lispify "GLX_BAD_ENUM" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_VENDOR" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_VENDOR" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_VERSION" 'constant) 2)
+
+(cl:export '#.(custom-lispify "GLX_VERSION" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_EXTENSIONS" 'constant) 3)
+
+(cl:export '#.(custom-lispify "GLX_EXTENSIONS" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_CONFIG_CAVEAT" 'constant) #x020)
+
+(cl:export '#.(custom-lispify "GLX_CONFIG_CAVEAT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_DONT_CARE" 'constant) #x0FFFFFFFF)
+
+(cl:export '#.(custom-lispify "GLX_DONT_CARE" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_X_VISUAL_TYPE" 'constant) #x022)
+
+(cl:export '#.(custom-lispify "GLX_X_VISUAL_TYPE" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_TRANSPARENT_TYPE" 'constant) #x023)
+
+(cl:export '#.(custom-lispify "GLX_TRANSPARENT_TYPE" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_TRANSPARENT_INDEX_VALUE" 'constant) #x024)
+
+(cl:export '#.(custom-lispify "GLX_TRANSPARENT_INDEX_VALUE" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_TRANSPARENT_RED_VALUE" 'constant) #x025)
+
+(cl:export '#.(custom-lispify "GLX_TRANSPARENT_RED_VALUE" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_TRANSPARENT_GREEN_VALUE" 'constant) #x026)
+
+(cl:export '#.(custom-lispify "GLX_TRANSPARENT_GREEN_VALUE" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_TRANSPARENT_BLUE_VALUE" 'constant) #x027)
+
+(cl:export '#.(custom-lispify "GLX_TRANSPARENT_BLUE_VALUE" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_TRANSPARENT_ALPHA_VALUE" 'constant) #x028)
+
+(cl:export '#.(custom-lispify "GLX_TRANSPARENT_ALPHA_VALUE" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_WINDOW_BIT" 'constant) #x000000001)
+
+(cl:export '#.(custom-lispify "GLX_WINDOW_BIT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_PIXMAP_BIT" 'constant) #x000000002)
+
+(cl:export '#.(custom-lispify "GLX_PIXMAP_BIT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_PBUFFER_BIT" 'constant) #x000000004)
+
+(cl:export '#.(custom-lispify "GLX_PBUFFER_BIT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_AUX_BUFFERS_BIT" 'constant) #x000000010)
+
+(cl:export '#.(custom-lispify "GLX_AUX_BUFFERS_BIT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_FRONT_LEFT_BUFFER_BIT" 'constant) #x000000001)
+
+(cl:export '#.(custom-lispify "GLX_FRONT_LEFT_BUFFER_BIT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_FRONT_RIGHT_BUFFER_BIT" 'constant) #x000000002)
+
+(cl:export '#.(custom-lispify "GLX_FRONT_RIGHT_BUFFER_BIT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_BACK_LEFT_BUFFER_BIT" 'constant) #x000000004)
+
+(cl:export '#.(custom-lispify "GLX_BACK_LEFT_BUFFER_BIT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_BACK_RIGHT_BUFFER_BIT" 'constant) #x000000008)
+
+(cl:export '#.(custom-lispify "GLX_BACK_RIGHT_BUFFER_BIT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_DEPTH_BUFFER_BIT" 'constant) #x000000020)
+
+(cl:export '#.(custom-lispify "GLX_DEPTH_BUFFER_BIT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_STENCIL_BUFFER_BIT" 'constant) #x000000040)
+
+(cl:export '#.(custom-lispify "GLX_STENCIL_BUFFER_BIT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_ACCUM_BUFFER_BIT" 'constant) #x000000080)
+
+(cl:export '#.(custom-lispify "GLX_ACCUM_BUFFER_BIT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_NONE" 'constant) #x08000)
+
+(cl:export '#.(custom-lispify "GLX_NONE" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_SLOW_CONFIG" 'constant) #x08001)
+
+(cl:export '#.(custom-lispify "GLX_SLOW_CONFIG" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_TRUE_COLOR" 'constant) #x08002)
+
+(cl:export '#.(custom-lispify "GLX_TRUE_COLOR" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_DIRECT_COLOR" 'constant) #x08003)
+
+(cl:export '#.(custom-lispify "GLX_DIRECT_COLOR" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_PSEUDO_COLOR" 'constant) #x08004)
+
+(cl:export '#.(custom-lispify "GLX_PSEUDO_COLOR" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_STATIC_COLOR" 'constant) #x08005)
+
+(cl:export '#.(custom-lispify "GLX_STATIC_COLOR" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_GRAY_SCALE" 'constant) #x08006)
+
+(cl:export '#.(custom-lispify "GLX_GRAY_SCALE" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_STATIC_GRAY" 'constant) #x08007)
+
+(cl:export '#.(custom-lispify "GLX_STATIC_GRAY" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_TRANSPARENT_RGB" 'constant) #x08008)
+
+(cl:export '#.(custom-lispify "GLX_TRANSPARENT_RGB" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_TRANSPARENT_INDEX" 'constant) #x08009)
+
+(cl:export '#.(custom-lispify "GLX_TRANSPARENT_INDEX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_VISUAL_ID" 'constant) #x0800B)
+
+(cl:export '#.(custom-lispify "GLX_VISUAL_ID" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_SCREEN" 'constant) #x0800C)
+
+(cl:export '#.(custom-lispify "GLX_SCREEN" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_NON_CONFORMANT_CONFIG" 'constant) #x0800D)
+
+(cl:export '#.(custom-lispify "GLX_NON_CONFORMANT_CONFIG" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_DRAWABLE_TYPE" 'constant) #x08010)
+
+(cl:export '#.(custom-lispify "GLX_DRAWABLE_TYPE" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_RENDER_TYPE" 'constant) #x08011)
+
+(cl:export '#.(custom-lispify "GLX_RENDER_TYPE" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_X_RENDERABLE" 'constant) #x08012)
+
+(cl:export '#.(custom-lispify "GLX_X_RENDERABLE" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_FBCONFIG_ID" 'constant) #x08013)
+
+(cl:export '#.(custom-lispify "GLX_FBCONFIG_ID" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_RGBA_TYPE" 'constant) #x08014)
+
+(cl:export '#.(custom-lispify "GLX_RGBA_TYPE" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_COLOR_INDEX_TYPE" 'constant) #x08015)
+
+(cl:export '#.(custom-lispify "GLX_COLOR_INDEX_TYPE" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_MAX_PBUFFER_WIDTH" 'constant) #x08016)
+
+(cl:export '#.(custom-lispify "GLX_MAX_PBUFFER_WIDTH" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_MAX_PBUFFER_HEIGHT" 'constant) #x08017)
+
+(cl:export '#.(custom-lispify "GLX_MAX_PBUFFER_HEIGHT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_MAX_PBUFFER_PIXELS" 'constant) #x08018)
+
+(cl:export '#.(custom-lispify "GLX_MAX_PBUFFER_PIXELS" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_PRESERVED_CONTENTS" 'constant) #x0801B)
+
+(cl:export '#.(custom-lispify "GLX_PRESERVED_CONTENTS" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_LARGEST_PBUFFER" 'constant) #x0801C)
+
+(cl:export '#.(custom-lispify "GLX_LARGEST_PBUFFER" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_WIDTH" 'constant) #x0801D)
+
+(cl:export '#.(custom-lispify "GLX_WIDTH" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_HEIGHT" 'constant) #x0801E)
+
+(cl:export '#.(custom-lispify "GLX_HEIGHT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_EVENT_MASK" 'constant) #x0801F)
+
+(cl:export '#.(custom-lispify "GLX_EVENT_MASK" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_DAMAGED" 'constant) #x08020)
+
+(cl:export '#.(custom-lispify "GLX_DAMAGED" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_SAVED" 'constant) #x08021)
+
+(cl:export '#.(custom-lispify "GLX_SAVED" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_WINDOW" 'constant) #x08022)
+
+(cl:export '#.(custom-lispify "GLX_WINDOW" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_PBUFFER" 'constant) #x08023)
+
+(cl:export '#.(custom-lispify "GLX_PBUFFER" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_PBUFFER_HEIGHT" 'constant) #x08040)
+
+(cl:export '#.(custom-lispify "GLX_PBUFFER_HEIGHT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_PBUFFER_WIDTH" 'constant) #x08041)
+
+(cl:export '#.(custom-lispify "GLX_PBUFFER_WIDTH" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_RGBA_BIT" 'constant) #x000000001)
+
+(cl:export '#.(custom-lispify "GLX_RGBA_BIT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_COLOR_INDEX_BIT" 'constant) #x000000002)
+
+(cl:export '#.(custom-lispify "GLX_COLOR_INDEX_BIT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_PBUFFER_CLOBBER_MASK" 'constant) #x008000000)
+
+(cl:export '#.(custom-lispify "GLX_PBUFFER_CLOBBER_MASK" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_SAMPLE_BUFFERS" 'constant) #x0186a0)
+
+(cl:export '#.(custom-lispify "GLX_SAMPLE_BUFFERS" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_SAMPLES" 'constant) #x0186a1)
+
+(cl:export '#.(custom-lispify "GLX_SAMPLES" 'constant))
+
+(cffi:defctype #.(custom-lispify "GLXContext" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "GLXContext" 'typename))
+
+(cffi:defctype #.(custom-lispify "GLXPixmap" 'typename) :unsigned-long)
+
+(cl:export '#.(custom-lispify "GLXPixmap" 'typename))
+
+(cffi:defctype #.(custom-lispify "GLXDrawable" 'typename) :unsigned-long)
+
+(cl:export '#.(custom-lispify "GLXDrawable" 'typename))
+
+(cffi:defctype #.(custom-lispify "GLXFBConfig" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "GLXFBConfig" 'typename))
+
+(cffi:defctype #.(custom-lispify "GLXFBConfigID" 'typename) :unsigned-long)
+
+(cl:export '#.(custom-lispify "GLXFBConfigID" 'typename))
+
+(cffi:defctype #.(custom-lispify "GLXContextID" 'typename) :unsigned-long)
+
+(cl:export '#.(custom-lispify "GLXContextID" 'typename))
+
+(cffi:defctype #.(custom-lispify "GLXWindow" 'typename) :unsigned-long)
+
+(cl:export '#.(custom-lispify "GLXWindow" 'typename))
+
+(cffi:defctype #.(custom-lispify "GLXPbuffer" 'typename) :unsigned-long)
+
+(cl:export '#.(custom-lispify "GLXPbuffer" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_PbufferClobber" 'constant) 0)
+
+(cl:export '#.(custom-lispify "GLX_PbufferClobber" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_BufferSwapComplete" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_BufferSwapComplete" 'constant))
+
+(cl:defconstant #.(custom-lispify "__GLX_NUMBER_EVENTS" 'constant) 17)
+
+(cl:export '#.(custom-lispify "__GLX_NUMBER_EVENTS" 'constant))
+
+(cffi:defcfun ("glXChooseVisual" #.(custom-lispify "glXChooseVisual" 'function)) :pointer
+  (dpy :pointer)
+  (screen :int)
+  (attribList :pointer))
+
+(cl:export '#.(custom-lispify "glXChooseVisual" 'function))
+
+(cffi:defcfun ("glXCreateContext" #.(custom-lispify "glXCreateContext" 'function)) :pointer
+  (dpy :pointer)
+  (vis :pointer)
+  (shareList :pointer)
+  (direct :int))
+
+(cl:export '#.(custom-lispify "glXCreateContext" 'function))
+
+(cffi:defcfun ("glXDestroyContext" #.(custom-lispify "glXDestroyContext" 'function)) :void
+  (dpy :pointer)
+  (ctx :pointer))
+
+(cl:export '#.(custom-lispify "glXDestroyContext" 'function))
+
+(cffi:defcfun ("glXMakeCurrent" #.(custom-lispify "glXMakeCurrent" 'function)) :int
+  (dpy :pointer)
+  (drawable :unsigned-long)
+  (ctx :pointer))
+
+(cl:export '#.(custom-lispify "glXMakeCurrent" 'function))
+
+(cffi:defcfun ("glXCopyContext" #.(custom-lispify "glXCopyContext" 'function)) :void
+  (dpy :pointer)
+  (src :pointer)
+  (dst :pointer)
+  (mask :unsigned-long))
+
+(cl:export '#.(custom-lispify "glXCopyContext" 'function))
+
+(cffi:defcfun ("glXSwapBuffers" #.(custom-lispify "glXSwapBuffers" 'function)) :void
+  (dpy :pointer)
+  (drawable :unsigned-long))
+
+(cl:export '#.(custom-lispify "glXSwapBuffers" 'function))
+
+(cffi:defcfun ("glXCreateGLXPixmap" #.(custom-lispify "glXCreateGLXPixmap" 'function)) :unsigned-long
+  (dpy :pointer)
+  (visual :pointer)
+  (pixmap :pointer))
+
+(cl:export '#.(custom-lispify "glXCreateGLXPixmap" 'function))
+
+(cffi:defcfun ("glXDestroyGLXPixmap" #.(custom-lispify "glXDestroyGLXPixmap" 'function)) :void
+  (dpy :pointer)
+  (pixmap :unsigned-long))
+
+(cl:export '#.(custom-lispify "glXDestroyGLXPixmap" 'function))
+
+(cffi:defcfun ("glXQueryExtension" #.(custom-lispify "glXQueryExtension" 'function)) :int
+  (dpy :pointer)
+  (errorb :pointer)
+  (event :pointer))
+
+(cl:export '#.(custom-lispify "glXQueryExtension" 'function))
+
+(cffi:defcfun ("glXQueryVersion" #.(custom-lispify "glXQueryVersion" 'function)) :int
+  (dpy :pointer)
+  (maj :pointer)
+  (min :pointer))
+
+(cl:export '#.(custom-lispify "glXQueryVersion" 'function))
+
+(cffi:defcfun ("glXIsDirect" #.(custom-lispify "glXIsDirect" 'function)) :int
+  (dpy :pointer)
+  (ctx :pointer))
+
+(cl:export '#.(custom-lispify "glXIsDirect" 'function))
+
+(cffi:defcfun ("glXGetConfig" #.(custom-lispify "glXGetConfig" 'function)) :int
+  (dpy :pointer)
+  (visual :pointer)
+  (attrib :int)
+  (value :pointer))
+
+(cl:export '#.(custom-lispify "glXGetConfig" 'function))
+
+(cffi:defcfun ("glXGetCurrentContext" #.(custom-lispify "glXGetCurrentContext" 'function)) :pointer)
+
+(cl:export '#.(custom-lispify "glXGetCurrentContext" 'function))
+
+(cffi:defcfun ("glXGetCurrentDrawable" #.(custom-lispify "glXGetCurrentDrawable" 'function)) :unsigned-long)
+
+(cl:export '#.(custom-lispify "glXGetCurrentDrawable" 'function))
+
+(cffi:defcfun ("glXWaitGL" #.(custom-lispify "glXWaitGL" 'function)) :void)
+
+(cl:export '#.(custom-lispify "glXWaitGL" 'function))
+
+(cffi:defcfun ("glXWaitX" #.(custom-lispify "glXWaitX" 'function)) :void)
+
+(cl:export '#.(custom-lispify "glXWaitX" 'function))
+
+(cffi:defcfun ("glXUseXFont" #.(custom-lispify "glXUseXFont" 'function)) :void
+  (font :pointer)
+  (first :int)
+  (count :int)
+  (list :int))
+
+(cl:export '#.(custom-lispify "glXUseXFont" 'function))
+
+(cffi:defcfun ("glXQueryExtensionsString" #.(custom-lispify "glXQueryExtensionsString" 'function)) :string
+  (dpy :pointer)
+  (screen :int))
+
+(cl:export '#.(custom-lispify "glXQueryExtensionsString" 'function))
+
+(cffi:defcfun ("glXQueryServerString" #.(custom-lispify "glXQueryServerString" 'function)) :string
+  (dpy :pointer)
+  (screen :int)
+  (name :int))
+
+(cl:export '#.(custom-lispify "glXQueryServerString" 'function))
+
+(cffi:defcfun ("glXGetClientString" #.(custom-lispify "glXGetClientString" 'function)) :string
+  (dpy :pointer)
+  (name :int))
+
+(cl:export '#.(custom-lispify "glXGetClientString" 'function))
+
+(cffi:defcfun ("glXGetCurrentDisplay" #.(custom-lispify "glXGetCurrentDisplay" 'function)) :pointer)
+
+(cl:export '#.(custom-lispify "glXGetCurrentDisplay" 'function))
+
+(cffi:defcfun ("glXChooseFBConfig" #.(custom-lispify "glXChooseFBConfig" 'function)) :pointer
+  (dpy :pointer)
+  (screen :int)
+  (attribList :pointer)
+  (nitems :pointer))
+
+(cl:export '#.(custom-lispify "glXChooseFBConfig" 'function))
+
+(cffi:defcfun ("glXGetFBConfigAttrib" #.(custom-lispify "glXGetFBConfigAttrib" 'function)) :int
+  (dpy :pointer)
+  (config :pointer)
+  (attribute :int)
+  (value :pointer))
+
+(cl:export '#.(custom-lispify "glXGetFBConfigAttrib" 'function))
+
+(cffi:defcfun ("glXGetFBConfigs" #.(custom-lispify "glXGetFBConfigs" 'function)) :pointer
+  (dpy :pointer)
+  (screen :int)
+  (nelements :pointer))
+
+(cl:export '#.(custom-lispify "glXGetFBConfigs" 'function))
+
+(cffi:defcfun ("glXGetVisualFromFBConfig" #.(custom-lispify "glXGetVisualFromFBConfig" 'function)) :pointer
+  (dpy :pointer)
+  (config :pointer))
+
+(cl:export '#.(custom-lispify "glXGetVisualFromFBConfig" 'function))
+
+(cffi:defcfun ("glXCreateWindow" #.(custom-lispify "glXCreateWindow" 'function)) :unsigned-long
+  (dpy :pointer)
+  (config :pointer)
+  (win :unsigned-long)
+  (attribList :pointer))
+
+(cl:export '#.(custom-lispify "glXCreateWindow" 'function))
+
+(cffi:defcfun ("glXDestroyWindow" #.(custom-lispify "glXDestroyWindow" 'function)) :void
+  (dpy :pointer)
+  (window :unsigned-long))
+
+(cl:export '#.(custom-lispify "glXDestroyWindow" 'function))
+
+(cffi:defcfun ("glXCreatePixmap" #.(custom-lispify "glXCreatePixmap" 'function)) :unsigned-long
+  (dpy :pointer)
+  (config :pointer)
+  (pixmap :pointer)
+  (attribList :pointer))
+
+(cl:export '#.(custom-lispify "glXCreatePixmap" 'function))
+
+(cffi:defcfun ("glXDestroyPixmap" #.(custom-lispify "glXDestroyPixmap" 'function)) :void
+  (dpy :pointer)
+  (pixmap :unsigned-long))
+
+(cl:export '#.(custom-lispify "glXDestroyPixmap" 'function))
+
+(cffi:defcfun ("glXCreatePbuffer" #.(custom-lispify "glXCreatePbuffer" 'function)) :unsigned-long
+  (dpy :pointer)
+  (config :pointer)
+  (attribList :pointer))
+
+(cl:export '#.(custom-lispify "glXCreatePbuffer" 'function))
+
+(cffi:defcfun ("glXDestroyPbuffer" #.(custom-lispify "glXDestroyPbuffer" 'function)) :void
+  (dpy :pointer)
+  (pbuf :unsigned-long))
+
+(cl:export '#.(custom-lispify "glXDestroyPbuffer" 'function))
+
+(cffi:defcfun ("glXQueryDrawable" #.(custom-lispify "glXQueryDrawable" 'function)) :void
+  (dpy :pointer)
+  (draw :unsigned-long)
+  (attribute :int)
+  (value :pointer))
+
+(cl:export '#.(custom-lispify "glXQueryDrawable" 'function))
+
+(cffi:defcfun ("glXCreateNewContext" #.(custom-lispify "glXCreateNewContext" 'function)) :pointer
+  (dpy :pointer)
+  (config :pointer)
+  (renderType :int)
+  (shareList :pointer)
+  (direct :int))
+
+(cl:export '#.(custom-lispify "glXCreateNewContext" 'function))
+
+(cffi:defcfun ("glXMakeContextCurrent" #.(custom-lispify "glXMakeContextCurrent" 'function)) :int
+  (dpy :pointer)
+  (draw :unsigned-long)
+  (read :unsigned-long)
+  (ctx :pointer))
+
+(cl:export '#.(custom-lispify "glXMakeContextCurrent" 'function))
+
+(cffi:defcfun ("glXGetCurrentReadDrawable" #.(custom-lispify "glXGetCurrentReadDrawable" 'function)) :unsigned-long)
+
+(cl:export '#.(custom-lispify "glXGetCurrentReadDrawable" 'function))
+
+(cffi:defcfun ("glXQueryContext" #.(custom-lispify "glXQueryContext" 'function)) :int
+  (dpy :pointer)
+  (ctx :pointer)
+  (attribute :int)
+  (value :pointer))
+
+(cl:export '#.(custom-lispify "glXQueryContext" 'function))
+
+(cffi:defcfun ("glXSelectEvent" #.(custom-lispify "glXSelectEvent" 'function)) :void
+  (dpy :pointer)
+  (drawable :unsigned-long)
+  (mask :unsigned-long))
+
+(cl:export '#.(custom-lispify "glXSelectEvent" 'function))
+
+(cffi:defcfun ("glXGetSelectedEvent" #.(custom-lispify "glXGetSelectedEvent" 'function)) :void
+  (dpy :pointer)
+  (drawable :unsigned-long)
+  (mask :pointer))
+
+(cl:export '#.(custom-lispify "glXGetSelectedEvent" 'function))
+
+(cffi:defctype #.(custom-lispify "PFNGLXGETFBCONFIGSPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXGETFBCONFIGSPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXCHOOSEFBCONFIGPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXCHOOSEFBCONFIGPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXGETFBCONFIGATTRIBPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXGETFBCONFIGATTRIBPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXGETVISUALFROMFBCONFIGPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXGETVISUALFROMFBCONFIGPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXCREATEWINDOWPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXCREATEWINDOWPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXDESTROYWINDOWPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXDESTROYWINDOWPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXCREATEPIXMAPPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXCREATEPIXMAPPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXDESTROYPIXMAPPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXDESTROYPIXMAPPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXCREATEPBUFFERPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXCREATEPBUFFERPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXDESTROYPBUFFERPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXDESTROYPBUFFERPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXQUERYDRAWABLEPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXQUERYDRAWABLEPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXCREATENEWCONTEXTPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXCREATENEWCONTEXTPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXMAKECONTEXTCURRENTPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXMAKECONTEXTCURRENTPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXGETCURRENTREADDRAWABLEPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXGETCURRENTREADDRAWABLEPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXGETCURRENTDISPLAYPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXGETCURRENTDISPLAYPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXQUERYCONTEXTPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXQUERYCONTEXTPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXSELECTEVENTPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXSELECTEVENTPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXGETSELECTEDEVENTPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXGETSELECTEDEVENTPROC" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_ARB_get_proc_address" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_ARB_get_proc_address" 'constant))
+
+(cffi:defctype #.(custom-lispify "__GLXextFuncPtr" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "__GLXextFuncPtr" 'typename))
+
+(cffi:defcfun ("glXGetProcAddressARB" #.(custom-lispify "glXGetProcAddressARB" 'function)) :pointer
+  (arg0 :pointer))
+
+(cl:export '#.(custom-lispify "glXGetProcAddressARB" 'function))
+
+(cffi:defcfun ("glXGetProcAddress" #.(custom-lispify "glXGetProcAddress" 'function)) :pointer
+  (procname :pointer))
+
+(cl:export '#.(custom-lispify "glXGetProcAddress" 'function))
+
+(cffi:defctype #.(custom-lispify "PFNGLXGETPROCADDRESSPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXGETPROCADDRESSPROC" 'typename))
+
+(cffi:defcfun ("glXAllocateMemoryNV" #.(custom-lispify "glXAllocateMemoryNV" 'function)) :pointer
+  (size :pointer)
+  (readfreq :pointer)
+  (writefreq :pointer)
+  (priority :pointer))
+
+(cl:export '#.(custom-lispify "glXAllocateMemoryNV" 'function))
+
+(cffi:defcfun ("glXFreeMemoryNV" #.(custom-lispify "glXFreeMemoryNV" 'function)) :void
+  (pointer :pointer))
+
+(cl:export '#.(custom-lispify "glXFreeMemoryNV" 'function))
+
+(cffi:defctype #.(custom-lispify "PFNGLXALLOCATEMEMORYNVPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXALLOCATEMEMORYNVPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXFREEMEMORYNVPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXFREEMEMORYNVPROC" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_ARB_render_texture" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_ARB_render_texture" 'constant))
+
+(cffi:defcfun ("glXBindTexImageARB" #.(custom-lispify "glXBindTexImageARB" 'function)) :int
+  (dpy :pointer)
+  (pbuffer :unsigned-long)
+  (buffer :int))
+
+(cl:export '#.(custom-lispify "glXBindTexImageARB" 'function))
+
+(cffi:defcfun ("glXReleaseTexImageARB" #.(custom-lispify "glXReleaseTexImageARB" 'function)) :int
+  (dpy :pointer)
+  (pbuffer :unsigned-long)
+  (buffer :int))
+
+(cl:export '#.(custom-lispify "glXReleaseTexImageARB" 'function))
+
+(cffi:defcfun ("glXDrawableAttribARB" #.(custom-lispify "glXDrawableAttribARB" 'function)) :int
+  (dpy :pointer)
+  (draw :unsigned-long)
+  (attribList :pointer))
+
+(cl:export '#.(custom-lispify "glXDrawableAttribARB" 'function))
+
+(cl:defconstant #.(custom-lispify "GLX_NV_float_buffer" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_NV_float_buffer" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_FLOAT_COMPONENTS_NV" 'constant) #x020B0)
+
+(cl:export '#.(custom-lispify "GLX_FLOAT_COMPONENTS_NV" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_MESA_swap_frame_usage" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_MESA_swap_frame_usage" 'constant))
+
+(cffi:defcfun ("glXGetFrameUsageMESA" #.(custom-lispify "glXGetFrameUsageMESA" 'function)) :int
+  (dpy :pointer)
+  (drawable :unsigned-long)
+  (usage :pointer))
+
+(cl:export '#.(custom-lispify "glXGetFrameUsageMESA" 'function))
+
+(cffi:defcfun ("glXBeginFrameTrackingMESA" #.(custom-lispify "glXBeginFrameTrackingMESA" 'function)) :int
+  (dpy :pointer)
+  (drawable :unsigned-long))
+
+(cl:export '#.(custom-lispify "glXBeginFrameTrackingMESA" 'function))
+
+(cffi:defcfun ("glXEndFrameTrackingMESA" #.(custom-lispify "glXEndFrameTrackingMESA" 'function)) :int
+  (dpy :pointer)
+  (drawable :unsigned-long))
+
+(cl:export '#.(custom-lispify "glXEndFrameTrackingMESA" 'function))
+
+(cffi:defcfun ("glXQueryFrameTrackingMESA" #.(custom-lispify "glXQueryFrameTrackingMESA" 'function)) :int
+  (dpy :pointer)
+  (drawable :unsigned-long)
+  (swapCount :pointer)
+  (missedFrames :pointer)
+  (lastMissedUsage :pointer))
+
+(cl:export '#.(custom-lispify "glXQueryFrameTrackingMESA" 'function))
+
+(cffi:defctype #.(custom-lispify "PFNGLXGETFRAMEUSAGEMESAPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXGETFRAMEUSAGEMESAPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXBEGINFRAMETRACKINGMESAPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXBEGINFRAMETRACKINGMESAPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXENDFRAMETRACKINGMESAPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXENDFRAMETRACKINGMESAPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXQUERYFRAMETRACKINGMESAPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXQUERYFRAMETRACKINGMESAPROC" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_MESA_swap_control" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_MESA_swap_control" 'constant))
+
+(cffi:defcfun ("glXSwapIntervalMESA" #.(custom-lispify "glXSwapIntervalMESA" 'function)) :int
+  (interval :unsigned-int))
+
+(cl:export '#.(custom-lispify "glXSwapIntervalMESA" 'function))
+
+(cffi:defcfun ("glXGetSwapIntervalMESA" #.(custom-lispify "glXGetSwapIntervalMESA" 'function)) :int)
+
+(cl:export '#.(custom-lispify "glXGetSwapIntervalMESA" 'function))
+
+(cffi:defctype #.(custom-lispify "PFNGLXSWAPINTERVALMESAPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXSWAPINTERVALMESAPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXGETSWAPINTERVALMESAPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXGETSWAPINTERVALMESAPROC" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_EXT_texture_from_pixmap" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_EXT_texture_from_pixmap" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_BIND_TO_TEXTURE_RGB_EXT" 'constant) #x020D0)
+
+(cl:export '#.(custom-lispify "GLX_BIND_TO_TEXTURE_RGB_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_BIND_TO_TEXTURE_RGBA_EXT" 'constant) #x020D1)
+
+(cl:export '#.(custom-lispify "GLX_BIND_TO_TEXTURE_RGBA_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_BIND_TO_MIPMAP_TEXTURE_EXT" 'constant) #x020D2)
+
+(cl:export '#.(custom-lispify "GLX_BIND_TO_MIPMAP_TEXTURE_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_BIND_TO_TEXTURE_TARGETS_EXT" 'constant) #x020D3)
+
+(cl:export '#.(custom-lispify "GLX_BIND_TO_TEXTURE_TARGETS_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_Y_INVERTED_EXT" 'constant) #x020D4)
+
+(cl:export '#.(custom-lispify "GLX_Y_INVERTED_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_TEXTURE_FORMAT_EXT" 'constant) #x020D5)
+
+(cl:export '#.(custom-lispify "GLX_TEXTURE_FORMAT_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_TEXTURE_TARGET_EXT" 'constant) #x020D6)
+
+(cl:export '#.(custom-lispify "GLX_TEXTURE_TARGET_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_MIPMAP_TEXTURE_EXT" 'constant) #x020D7)
+
+(cl:export '#.(custom-lispify "GLX_MIPMAP_TEXTURE_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_TEXTURE_FORMAT_NONE_EXT" 'constant) #x020D8)
+
+(cl:export '#.(custom-lispify "GLX_TEXTURE_FORMAT_NONE_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_TEXTURE_FORMAT_RGB_EXT" 'constant) #x020D9)
+
+(cl:export '#.(custom-lispify "GLX_TEXTURE_FORMAT_RGB_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_TEXTURE_FORMAT_RGBA_EXT" 'constant) #x020DA)
+
+(cl:export '#.(custom-lispify "GLX_TEXTURE_FORMAT_RGBA_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_TEXTURE_1D_BIT_EXT" 'constant) #x000000001)
+
+(cl:export '#.(custom-lispify "GLX_TEXTURE_1D_BIT_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_TEXTURE_2D_BIT_EXT" 'constant) #x000000002)
+
+(cl:export '#.(custom-lispify "GLX_TEXTURE_2D_BIT_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_TEXTURE_RECTANGLE_BIT_EXT" 'constant) #x000000004)
+
+(cl:export '#.(custom-lispify "GLX_TEXTURE_RECTANGLE_BIT_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_TEXTURE_1D_EXT" 'constant) #x020DB)
+
+(cl:export '#.(custom-lispify "GLX_TEXTURE_1D_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_TEXTURE_2D_EXT" 'constant) #x020DC)
+
+(cl:export '#.(custom-lispify "GLX_TEXTURE_2D_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_TEXTURE_RECTANGLE_EXT" 'constant) #x020DD)
+
+(cl:export '#.(custom-lispify "GLX_TEXTURE_RECTANGLE_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_FRONT_LEFT_EXT" 'constant) #x020DE)
+
+(cl:export '#.(custom-lispify "GLX_FRONT_LEFT_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_FRONT_RIGHT_EXT" 'constant) #x020DF)
+
+(cl:export '#.(custom-lispify "GLX_FRONT_RIGHT_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_BACK_LEFT_EXT" 'constant) #x020E0)
+
+(cl:export '#.(custom-lispify "GLX_BACK_LEFT_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_BACK_RIGHT_EXT" 'constant) #x020E1)
+
+(cl:export '#.(custom-lispify "GLX_BACK_RIGHT_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_FRONT_EXT" 'constant) #x020DE)
+
+(cl:export '#.(custom-lispify "GLX_FRONT_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_BACK_EXT" 'constant) #x020E0)
+
+(cl:export '#.(custom-lispify "GLX_BACK_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_AUX0_EXT" 'constant) #x020E2)
+
+(cl:export '#.(custom-lispify "GLX_AUX0_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_AUX1_EXT" 'constant) #x020E3)
+
+(cl:export '#.(custom-lispify "GLX_AUX1_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_AUX2_EXT" 'constant) #x020E4)
+
+(cl:export '#.(custom-lispify "GLX_AUX2_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_AUX3_EXT" 'constant) #x020E5)
+
+(cl:export '#.(custom-lispify "GLX_AUX3_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_AUX4_EXT" 'constant) #x020E6)
+
+(cl:export '#.(custom-lispify "GLX_AUX4_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_AUX5_EXT" 'constant) #x020E7)
+
+(cl:export '#.(custom-lispify "GLX_AUX5_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_AUX6_EXT" 'constant) #x020E8)
+
+(cl:export '#.(custom-lispify "GLX_AUX6_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_AUX7_EXT" 'constant) #x020E9)
+
+(cl:export '#.(custom-lispify "GLX_AUX7_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_AUX8_EXT" 'constant) #x020EA)
+
+(cl:export '#.(custom-lispify "GLX_AUX8_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_AUX9_EXT" 'constant) #x020EB)
+
+(cl:export '#.(custom-lispify "GLX_AUX9_EXT" 'constant))
+
+(cffi:defcfun ("glXBindTexImageEXT" #.(custom-lispify "glXBindTexImageEXT" 'function)) :void
+  (dpy :pointer)
+  (drawable :unsigned-long)
+  (buffer :int)
+  (attrib_list :pointer))
+
+(cl:export '#.(custom-lispify "glXBindTexImageEXT" 'function))
+
+(cffi:defcfun ("glXReleaseTexImageEXT" #.(custom-lispify "glXReleaseTexImageEXT" 'function)) :void
+  (dpy :pointer)
+  (drawable :unsigned-long)
+  (buffer :int))
+
+(cl:export '#.(custom-lispify "glXReleaseTexImageEXT" 'function))
+
+(cffi:defcstruct #.(custom-lispify "GLXPbufferClobberEvent" 'classname)
+	(#.(custom-lispify "event_type" 'slotname) :int)
+	(#.(custom-lispify "draw_type" 'slotname) :int)
+	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
+	(#.(custom-lispify "send_event" 'slotname) :int)
+	(#.(custom-lispify "display" 'slotname) :pointer)
+	(#.(custom-lispify "drawable" 'slotname) :unsigned-long)
+	(#.(custom-lispify "buffer_mask" 'slotname) :unsigned-int)
+	(#.(custom-lispify "aux_buffer" 'slotname) :unsigned-int)
+	(#.(custom-lispify "x" 'slotname) :int)
+	(#.(custom-lispify "y" 'slotname) :int)
+	(#.(custom-lispify "width" 'slotname) :int)
+	(#.(custom-lispify "height" 'slotname) :int)
+	(#.(custom-lispify "count" 'slotname) :int))
+
+(cl:export '#.(custom-lispify "GLXPbufferClobberEvent" 'classname))
+
+(cl:export '#.(custom-lispify "event_type" 'slotname))
+
+(cl:export '#.(custom-lispify "draw_type" 'slotname))
+
+(cl:export '#.(custom-lispify "serial" 'slotname))
+
+(cl:export '#.(custom-lispify "send_event" 'slotname))
+
+(cl:export '#.(custom-lispify "display" 'slotname))
+
+(cl:export '#.(custom-lispify "drawable" 'slotname))
+
+(cl:export '#.(custom-lispify "buffer_mask" 'slotname))
+
+(cl:export '#.(custom-lispify "aux_buffer" 'slotname))
+
+(cl:export '#.(custom-lispify "x" 'slotname))
+
+(cl:export '#.(custom-lispify "y" 'slotname))
+
+(cl:export '#.(custom-lispify "width" 'slotname))
+
+(cl:export '#.(custom-lispify "height" 'slotname))
+
+(cl:export '#.(custom-lispify "count" 'slotname))
+
+(cffi:defcstruct #.(custom-lispify "GLXBufferSwapComplete" 'classname)
+	(#.(custom-lispify "type" 'slotname) :int)
+	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
+	(#.(custom-lispify "send_event" 'slotname) :int)
+	(#.(custom-lispify "display" 'slotname) :pointer)
+	(#.(custom-lispify "drawable" 'slotname) :unsigned-long)
+	(#.(custom-lispify "event_type" 'slotname) :int)
+	(#.(custom-lispify "ust" 'slotname) :pointer)
+	(#.(custom-lispify "msc" 'slotname) :pointer)
+	(#.(custom-lispify "sbc" 'slotname) :pointer))
+
+(cl:export '#.(custom-lispify "GLXBufferSwapComplete" 'classname))
+
+(cl:export '#.(custom-lispify "type" 'slotname))
+
+(cl:export '#.(custom-lispify "serial" 'slotname))
+
+(cl:export '#.(custom-lispify "send_event" 'slotname))
+
+(cl:export '#.(custom-lispify "display" 'slotname))
+
+(cl:export '#.(custom-lispify "drawable" 'slotname))
+
+(cl:export '#.(custom-lispify "event_type" 'slotname))
+
+(cl:export '#.(custom-lispify "ust" 'slotname))
+
+(cl:export '#.(custom-lispify "msc" 'slotname))
+
+(cl:export '#.(custom-lispify "sbc" 'slotname))
+
+(cffi:defcunion #.(custom-lispify "GLXEvent" 'classname)
+	(#.(custom-lispify "glxpbufferclobber" 'slotname) #.(custom-lispify "GLXPbufferClobberEvent" 'structname))
+	(#.(custom-lispify "glxbufferswapcomplete" 'slotname) #.(custom-lispify "GLXBufferSwapComplete" 'structname))
+	(#.(custom-lispify "pad" 'slotname) :pointer))
+
+(cl:export '#.(custom-lispify "GLXEvent" 'classname))
+
+(cl:export '#.(custom-lispify "glxpbufferclobber" 'slotname))
+
+(cl:export '#.(custom-lispify "glxbufferswapcomplete" 'slotname))
+
+(cl:export '#.(custom-lispify "pad" 'slotname))
+
+(cl:defconstant #.(custom-lispify "GLX_GLXEXT_VERSION" 'constant) 32)
+
+(cl:export '#.(custom-lispify "GLX_GLXEXT_VERSION" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_SAMPLE_BUFFERS_ARB" 'constant) 100000)
+
+(cl:export '#.(custom-lispify "GLX_SAMPLE_BUFFERS_ARB" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_SAMPLES_ARB" 'constant) 100001)
+
+(cl:export '#.(custom-lispify "GLX_SAMPLES_ARB" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_CONTEXT_ALLOW_BUFFER_BYTE_ORDER_MISMATCH_ARB" 'constant) #x02095)
+
+(cl:export '#.(custom-lispify "GLX_CONTEXT_ALLOW_BUFFER_BYTE_ORDER_MISMATCH_ARB" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_RGBA_FLOAT_TYPE_ARB" 'constant) #x020B9)
+
+(cl:export '#.(custom-lispify "GLX_RGBA_FLOAT_TYPE_ARB" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_RGBA_FLOAT_BIT_ARB" 'constant) #x000000004)
+
+(cl:export '#.(custom-lispify "GLX_RGBA_FLOAT_BIT_ARB" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB" 'constant) #x020B2)
+
+(cl:export '#.(custom-lispify "GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_CONTEXT_DEBUG_BIT_ARB" 'constant) #x000000001)
+
+(cl:export '#.(custom-lispify "GLX_CONTEXT_DEBUG_BIT_ARB" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB" 'constant) #x000000002)
+
+(cl:export '#.(custom-lispify "GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_CONTEXT_MAJOR_VERSION_ARB" 'constant) #x02091)
+
+(cl:export '#.(custom-lispify "GLX_CONTEXT_MAJOR_VERSION_ARB" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_CONTEXT_MINOR_VERSION_ARB" 'constant) #x02092)
+
+(cl:export '#.(custom-lispify "GLX_CONTEXT_MINOR_VERSION_ARB" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_CONTEXT_FLAGS_ARB" 'constant) #x02094)
+
+(cl:export '#.(custom-lispify "GLX_CONTEXT_FLAGS_ARB" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_CONTEXT_CORE_PROFILE_BIT_ARB" 'constant) #x000000001)
+
+(cl:export '#.(custom-lispify "GLX_CONTEXT_CORE_PROFILE_BIT_ARB" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB" 'constant) #x000000002)
+
+(cl:export '#.(custom-lispify "GLX_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_CONTEXT_PROFILE_MASK_ARB" 'constant) #x09126)
+
+(cl:export '#.(custom-lispify "GLX_CONTEXT_PROFILE_MASK_ARB" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_CONTEXT_ROBUST_ACCESS_BIT_ARB" 'constant) #x000000004)
+
+(cl:export '#.(custom-lispify "GLX_CONTEXT_ROBUST_ACCESS_BIT_ARB" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_LOSE_CONTEXT_ON_RESET_ARB" 'constant) #x08252)
+
+(cl:export '#.(custom-lispify "GLX_LOSE_CONTEXT_ON_RESET_ARB" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_CONTEXT_RESET_NOTIFICATION_STRATEGY_ARB" 'constant) #x08256)
+
+(cl:export '#.(custom-lispify "GLX_CONTEXT_RESET_NOTIFICATION_STRATEGY_ARB" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_NO_RESET_NOTIFICATION_ARB" 'constant) #x08261)
+
+(cl:export '#.(custom-lispify "GLX_NO_RESET_NOTIFICATION_ARB" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_SAMPLE_BUFFERS_SGIS" 'constant) 100000)
+
+(cl:export '#.(custom-lispify "GLX_SAMPLE_BUFFERS_SGIS" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_SAMPLES_SGIS" 'constant) 100001)
+
+(cl:export '#.(custom-lispify "GLX_SAMPLES_SGIS" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_X_VISUAL_TYPE_EXT" 'constant) #x022)
+
+(cl:export '#.(custom-lispify "GLX_X_VISUAL_TYPE_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_TRANSPARENT_TYPE_EXT" 'constant) #x023)
+
+(cl:export '#.(custom-lispify "GLX_TRANSPARENT_TYPE_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_TRANSPARENT_INDEX_VALUE_EXT" 'constant) #x024)
+
+(cl:export '#.(custom-lispify "GLX_TRANSPARENT_INDEX_VALUE_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_TRANSPARENT_RED_VALUE_EXT" 'constant) #x025)
+
+(cl:export '#.(custom-lispify "GLX_TRANSPARENT_RED_VALUE_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_TRANSPARENT_GREEN_VALUE_EXT" 'constant) #x026)
+
+(cl:export '#.(custom-lispify "GLX_TRANSPARENT_GREEN_VALUE_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_TRANSPARENT_BLUE_VALUE_EXT" 'constant) #x027)
+
+(cl:export '#.(custom-lispify "GLX_TRANSPARENT_BLUE_VALUE_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_TRANSPARENT_ALPHA_VALUE_EXT" 'constant) #x028)
+
+(cl:export '#.(custom-lispify "GLX_TRANSPARENT_ALPHA_VALUE_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_NONE_EXT" 'constant) #x08000)
+
+(cl:export '#.(custom-lispify "GLX_NONE_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_TRUE_COLOR_EXT" 'constant) #x08002)
+
+(cl:export '#.(custom-lispify "GLX_TRUE_COLOR_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_DIRECT_COLOR_EXT" 'constant) #x08003)
+
+(cl:export '#.(custom-lispify "GLX_DIRECT_COLOR_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_PSEUDO_COLOR_EXT" 'constant) #x08004)
+
+(cl:export '#.(custom-lispify "GLX_PSEUDO_COLOR_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_STATIC_COLOR_EXT" 'constant) #x08005)
+
+(cl:export '#.(custom-lispify "GLX_STATIC_COLOR_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_GRAY_SCALE_EXT" 'constant) #x08006)
+
+(cl:export '#.(custom-lispify "GLX_GRAY_SCALE_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_STATIC_GRAY_EXT" 'constant) #x08007)
+
+(cl:export '#.(custom-lispify "GLX_STATIC_GRAY_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_TRANSPARENT_RGB_EXT" 'constant) #x08008)
+
+(cl:export '#.(custom-lispify "GLX_TRANSPARENT_RGB_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_TRANSPARENT_INDEX_EXT" 'constant) #x08009)
+
+(cl:export '#.(custom-lispify "GLX_TRANSPARENT_INDEX_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_VISUAL_CAVEAT_EXT" 'constant) #x020)
+
+(cl:export '#.(custom-lispify "GLX_VISUAL_CAVEAT_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_SLOW_VISUAL_EXT" 'constant) #x08001)
+
+(cl:export '#.(custom-lispify "GLX_SLOW_VISUAL_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_NON_CONFORMANT_VISUAL_EXT" 'constant) #x0800D)
+
+(cl:export '#.(custom-lispify "GLX_NON_CONFORMANT_VISUAL_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_SHARE_CONTEXT_EXT" 'constant) #x0800A)
+
+(cl:export '#.(custom-lispify "GLX_SHARE_CONTEXT_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_VISUAL_ID_EXT" 'constant) #x0800B)
+
+(cl:export '#.(custom-lispify "GLX_VISUAL_ID_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_SCREEN_EXT" 'constant) #x0800C)
+
+(cl:export '#.(custom-lispify "GLX_SCREEN_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_WINDOW_BIT_SGIX" 'constant) #x000000001)
+
+(cl:export '#.(custom-lispify "GLX_WINDOW_BIT_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_PIXMAP_BIT_SGIX" 'constant) #x000000002)
+
+(cl:export '#.(custom-lispify "GLX_PIXMAP_BIT_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_RGBA_BIT_SGIX" 'constant) #x000000001)
+
+(cl:export '#.(custom-lispify "GLX_RGBA_BIT_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_COLOR_INDEX_BIT_SGIX" 'constant) #x000000002)
+
+(cl:export '#.(custom-lispify "GLX_COLOR_INDEX_BIT_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_DRAWABLE_TYPE_SGIX" 'constant) #x08010)
+
+(cl:export '#.(custom-lispify "GLX_DRAWABLE_TYPE_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_RENDER_TYPE_SGIX" 'constant) #x08011)
+
+(cl:export '#.(custom-lispify "GLX_RENDER_TYPE_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_X_RENDERABLE_SGIX" 'constant) #x08012)
+
+(cl:export '#.(custom-lispify "GLX_X_RENDERABLE_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_FBCONFIG_ID_SGIX" 'constant) #x08013)
+
+(cl:export '#.(custom-lispify "GLX_FBCONFIG_ID_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_RGBA_TYPE_SGIX" 'constant) #x08014)
+
+(cl:export '#.(custom-lispify "GLX_RGBA_TYPE_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_COLOR_INDEX_TYPE_SGIX" 'constant) #x08015)
+
+(cl:export '#.(custom-lispify "GLX_COLOR_INDEX_TYPE_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_PBUFFER_BIT_SGIX" 'constant) #x000000004)
+
+(cl:export '#.(custom-lispify "GLX_PBUFFER_BIT_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_BUFFER_CLOBBER_MASK_SGIX" 'constant) #x008000000)
+
+(cl:export '#.(custom-lispify "GLX_BUFFER_CLOBBER_MASK_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_FRONT_LEFT_BUFFER_BIT_SGIX" 'constant) #x000000001)
+
+(cl:export '#.(custom-lispify "GLX_FRONT_LEFT_BUFFER_BIT_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_FRONT_RIGHT_BUFFER_BIT_SGIX" 'constant) #x000000002)
+
+(cl:export '#.(custom-lispify "GLX_FRONT_RIGHT_BUFFER_BIT_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_BACK_LEFT_BUFFER_BIT_SGIX" 'constant) #x000000004)
+
+(cl:export '#.(custom-lispify "GLX_BACK_LEFT_BUFFER_BIT_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_BACK_RIGHT_BUFFER_BIT_SGIX" 'constant) #x000000008)
+
+(cl:export '#.(custom-lispify "GLX_BACK_RIGHT_BUFFER_BIT_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_AUX_BUFFERS_BIT_SGIX" 'constant) #x000000010)
+
+(cl:export '#.(custom-lispify "GLX_AUX_BUFFERS_BIT_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_DEPTH_BUFFER_BIT_SGIX" 'constant) #x000000020)
+
+(cl:export '#.(custom-lispify "GLX_DEPTH_BUFFER_BIT_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_STENCIL_BUFFER_BIT_SGIX" 'constant) #x000000040)
+
+(cl:export '#.(custom-lispify "GLX_STENCIL_BUFFER_BIT_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_ACCUM_BUFFER_BIT_SGIX" 'constant) #x000000080)
+
+(cl:export '#.(custom-lispify "GLX_ACCUM_BUFFER_BIT_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_SAMPLE_BUFFERS_BIT_SGIX" 'constant) #x000000100)
+
+(cl:export '#.(custom-lispify "GLX_SAMPLE_BUFFERS_BIT_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_MAX_PBUFFER_WIDTH_SGIX" 'constant) #x08016)
+
+(cl:export '#.(custom-lispify "GLX_MAX_PBUFFER_WIDTH_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_MAX_PBUFFER_HEIGHT_SGIX" 'constant) #x08017)
+
+(cl:export '#.(custom-lispify "GLX_MAX_PBUFFER_HEIGHT_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_MAX_PBUFFER_PIXELS_SGIX" 'constant) #x08018)
+
+(cl:export '#.(custom-lispify "GLX_MAX_PBUFFER_PIXELS_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_OPTIMAL_PBUFFER_WIDTH_SGIX" 'constant) #x08019)
+
+(cl:export '#.(custom-lispify "GLX_OPTIMAL_PBUFFER_WIDTH_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_OPTIMAL_PBUFFER_HEIGHT_SGIX" 'constant) #x0801A)
+
+(cl:export '#.(custom-lispify "GLX_OPTIMAL_PBUFFER_HEIGHT_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_PRESERVED_CONTENTS_SGIX" 'constant) #x0801B)
+
+(cl:export '#.(custom-lispify "GLX_PRESERVED_CONTENTS_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_LARGEST_PBUFFER_SGIX" 'constant) #x0801C)
+
+(cl:export '#.(custom-lispify "GLX_LARGEST_PBUFFER_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_WIDTH_SGIX" 'constant) #x0801D)
+
+(cl:export '#.(custom-lispify "GLX_WIDTH_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_HEIGHT_SGIX" 'constant) #x0801E)
+
+(cl:export '#.(custom-lispify "GLX_HEIGHT_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_EVENT_MASK_SGIX" 'constant) #x0801F)
+
+(cl:export '#.(custom-lispify "GLX_EVENT_MASK_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_DAMAGED_SGIX" 'constant) #x08020)
+
+(cl:export '#.(custom-lispify "GLX_DAMAGED_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_SAVED_SGIX" 'constant) #x08021)
+
+(cl:export '#.(custom-lispify "GLX_SAVED_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_WINDOW_SGIX" 'constant) #x08022)
+
+(cl:export '#.(custom-lispify "GLX_WINDOW_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_PBUFFER_SGIX" 'constant) #x08023)
+
+(cl:export '#.(custom-lispify "GLX_PBUFFER_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_SYNC_FRAME_SGIX" 'constant) #x000000000)
+
+(cl:export '#.(custom-lispify "GLX_SYNC_FRAME_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_SYNC_SWAP_SGIX" 'constant) #x000000001)
+
+(cl:export '#.(custom-lispify "GLX_SYNC_SWAP_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_DIGITAL_MEDIA_PBUFFER_SGIX" 'constant) #x08024)
+
+(cl:export '#.(custom-lispify "GLX_DIGITAL_MEDIA_PBUFFER_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_BLENDED_RGBA_SGIS" 'constant) #x08025)
+
+(cl:export '#.(custom-lispify "GLX_BLENDED_RGBA_SGIS" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_MULTISAMPLE_SUB_RECT_WIDTH_SGIS" 'constant) #x08026)
+
+(cl:export '#.(custom-lispify "GLX_MULTISAMPLE_SUB_RECT_WIDTH_SGIS" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_MULTISAMPLE_SUB_RECT_HEIGHT_SGIS" 'constant) #x08027)
+
+(cl:export '#.(custom-lispify "GLX_MULTISAMPLE_SUB_RECT_HEIGHT_SGIS" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_SAMPLE_BUFFERS_3DFX" 'constant) #x08050)
+
+(cl:export '#.(custom-lispify "GLX_SAMPLE_BUFFERS_3DFX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_SAMPLES_3DFX" 'constant) #x08051)
+
+(cl:export '#.(custom-lispify "GLX_SAMPLES_3DFX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_3DFX_WINDOW_MODE_MESA" 'constant) #x01)
+
+(cl:export '#.(custom-lispify "GLX_3DFX_WINDOW_MODE_MESA" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_3DFX_FULLSCREEN_MODE_MESA" 'constant) #x02)
+
+(cl:export '#.(custom-lispify "GLX_3DFX_FULLSCREEN_MODE_MESA" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_VISUAL_SELECT_GROUP_SGIX" 'constant) #x08028)
+
+(cl:export '#.(custom-lispify "GLX_VISUAL_SELECT_GROUP_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_SWAP_METHOD_OML" 'constant) #x08060)
+
+(cl:export '#.(custom-lispify "GLX_SWAP_METHOD_OML" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_SWAP_EXCHANGE_OML" 'constant) #x08061)
+
+(cl:export '#.(custom-lispify "GLX_SWAP_EXCHANGE_OML" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_SWAP_COPY_OML" 'constant) #x08062)
+
+(cl:export '#.(custom-lispify "GLX_SWAP_COPY_OML" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_SWAP_UNDEFINED_OML" 'constant) #x08063)
+
+(cl:export '#.(custom-lispify "GLX_SWAP_UNDEFINED_OML" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_HYPERPIPE_PIPE_NAME_LENGTH_SGIX" 'constant) 80)
+
+(cl:export '#.(custom-lispify "GLX_HYPERPIPE_PIPE_NAME_LENGTH_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_BAD_HYPERPIPE_CONFIG_SGIX" 'constant) 91)
+
+(cl:export '#.(custom-lispify "GLX_BAD_HYPERPIPE_CONFIG_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_BAD_HYPERPIPE_SGIX" 'constant) 92)
+
+(cl:export '#.(custom-lispify "GLX_BAD_HYPERPIPE_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_HYPERPIPE_DISPLAY_PIPE_SGIX" 'constant) #x000000001)
+
+(cl:export '#.(custom-lispify "GLX_HYPERPIPE_DISPLAY_PIPE_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_HYPERPIPE_RENDER_PIPE_SGIX" 'constant) #x000000002)
+
+(cl:export '#.(custom-lispify "GLX_HYPERPIPE_RENDER_PIPE_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_PIPE_RECT_SGIX" 'constant) #x000000001)
+
+(cl:export '#.(custom-lispify "GLX_PIPE_RECT_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_PIPE_RECT_LIMITS_SGIX" 'constant) #x000000002)
+
+(cl:export '#.(custom-lispify "GLX_PIPE_RECT_LIMITS_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_HYPERPIPE_STEREO_SGIX" 'constant) #x000000003)
+
+(cl:export '#.(custom-lispify "GLX_HYPERPIPE_STEREO_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_HYPERPIPE_PIXEL_AVERAGE_SGIX" 'constant) #x000000004)
+
+(cl:export '#.(custom-lispify "GLX_HYPERPIPE_PIXEL_AVERAGE_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_HYPERPIPE_ID_SGIX" 'constant) #x08030)
+
+(cl:export '#.(custom-lispify "GLX_HYPERPIPE_ID_SGIX" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_RGBA_UNSIGNED_FLOAT_TYPE_EXT" 'constant) #x020B1)
+
+(cl:export '#.(custom-lispify "GLX_RGBA_UNSIGNED_FLOAT_TYPE_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_RGBA_UNSIGNED_FLOAT_BIT_EXT" 'constant) #x000000008)
+
+(cl:export '#.(custom-lispify "GLX_RGBA_UNSIGNED_FLOAT_BIT_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_FRAMEBUFFER_SRGB_CAPABLE_EXT" 'constant) #x020B2)
+
+(cl:export '#.(custom-lispify "GLX_FRAMEBUFFER_SRGB_CAPABLE_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_NUM_VIDEO_SLOTS_NV" 'constant) #x020F0)
+
+(cl:export '#.(custom-lispify "GLX_NUM_VIDEO_SLOTS_NV" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_VIDEO_OUT_COLOR_NV" 'constant) #x020C3)
+
+(cl:export '#.(custom-lispify "GLX_VIDEO_OUT_COLOR_NV" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_VIDEO_OUT_ALPHA_NV" 'constant) #x020C4)
+
+(cl:export '#.(custom-lispify "GLX_VIDEO_OUT_ALPHA_NV" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_VIDEO_OUT_DEPTH_NV" 'constant) #x020C5)
+
+(cl:export '#.(custom-lispify "GLX_VIDEO_OUT_DEPTH_NV" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_VIDEO_OUT_COLOR_AND_ALPHA_NV" 'constant) #x020C6)
+
+(cl:export '#.(custom-lispify "GLX_VIDEO_OUT_COLOR_AND_ALPHA_NV" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_VIDEO_OUT_COLOR_AND_DEPTH_NV" 'constant) #x020C7)
+
+(cl:export '#.(custom-lispify "GLX_VIDEO_OUT_COLOR_AND_DEPTH_NV" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_VIDEO_OUT_FRAME_NV" 'constant) #x020C8)
+
+(cl:export '#.(custom-lispify "GLX_VIDEO_OUT_FRAME_NV" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_VIDEO_OUT_FIELD_1_NV" 'constant) #x020C9)
+
+(cl:export '#.(custom-lispify "GLX_VIDEO_OUT_FIELD_1_NV" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_VIDEO_OUT_FIELD_2_NV" 'constant) #x020CA)
+
+(cl:export '#.(custom-lispify "GLX_VIDEO_OUT_FIELD_2_NV" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_VIDEO_OUT_STACKED_FIELDS_1_2_NV" 'constant) #x020CB)
+
+(cl:export '#.(custom-lispify "GLX_VIDEO_OUT_STACKED_FIELDS_1_2_NV" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_VIDEO_OUT_STACKED_FIELDS_2_1_NV" 'constant) #x020CC)
+
+(cl:export '#.(custom-lispify "GLX_VIDEO_OUT_STACKED_FIELDS_2_1_NV" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_DEVICE_ID_NV" 'constant) #x020CD)
+
+(cl:export '#.(custom-lispify "GLX_DEVICE_ID_NV" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_UNIQUE_ID_NV" 'constant) #x020CE)
+
+(cl:export '#.(custom-lispify "GLX_UNIQUE_ID_NV" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_NUM_VIDEO_CAPTURE_SLOTS_NV" 'constant) #x020CF)
+
+(cl:export '#.(custom-lispify "GLX_NUM_VIDEO_CAPTURE_SLOTS_NV" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_SWAP_INTERVAL_EXT" 'constant) #x020F1)
+
+(cl:export '#.(custom-lispify "GLX_SWAP_INTERVAL_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_MAX_SWAP_INTERVAL_EXT" 'constant) #x020F2)
+
+(cl:export '#.(custom-lispify "GLX_MAX_SWAP_INTERVAL_EXT" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_BUFFER_SWAP_COMPLETE_INTEL_MASK" 'constant) #x004000000)
+
+(cl:export '#.(custom-lispify "GLX_BUFFER_SWAP_COMPLETE_INTEL_MASK" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_EXCHANGE_COMPLETE_INTEL" 'constant) #x08180)
+
+(cl:export '#.(custom-lispify "GLX_EXCHANGE_COMPLETE_INTEL" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_COPY_COMPLETE_INTEL" 'constant) #x08181)
+
+(cl:export '#.(custom-lispify "GLX_COPY_COMPLETE_INTEL" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_FLIP_COMPLETE_INTEL" 'constant) #x08182)
+
+(cl:export '#.(custom-lispify "GLX_FLIP_COMPLETE_INTEL" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_COVERAGE_SAMPLES_NV" 'constant) 100001)
+
+(cl:export '#.(custom-lispify "GLX_COVERAGE_SAMPLES_NV" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_COLOR_SAMPLES_NV" 'constant) #x020B3)
+
+(cl:export '#.(custom-lispify "GLX_COLOR_SAMPLES_NV" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_GPU_VENDOR_AMD" 'constant) #x01F00)
+
+(cl:export '#.(custom-lispify "GLX_GPU_VENDOR_AMD" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_GPU_RENDERER_STRING_AMD" 'constant) #x01F01)
+
+(cl:export '#.(custom-lispify "GLX_GPU_RENDERER_STRING_AMD" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_GPU_OPENGL_VERSION_STRING_AMD" 'constant) #x01F02)
+
+(cl:export '#.(custom-lispify "GLX_GPU_OPENGL_VERSION_STRING_AMD" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_GPU_FASTEST_TARGET_GPUS_AMD" 'constant) #x021A2)
+
+(cl:export '#.(custom-lispify "GLX_GPU_FASTEST_TARGET_GPUS_AMD" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_GPU_RAM_AMD" 'constant) #x021A3)
+
+(cl:export '#.(custom-lispify "GLX_GPU_RAM_AMD" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_GPU_CLOCK_AMD" 'constant) #x021A4)
+
+(cl:export '#.(custom-lispify "GLX_GPU_CLOCK_AMD" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_GPU_NUM_PIPES_AMD" 'constant) #x021A5)
+
+(cl:export '#.(custom-lispify "GLX_GPU_NUM_PIPES_AMD" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_GPU_NUM_SIMD_AMD" 'constant) #x021A6)
+
+(cl:export '#.(custom-lispify "GLX_GPU_NUM_SIMD_AMD" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_GPU_NUM_RB_AMD" 'constant) #x021A7)
+
+(cl:export '#.(custom-lispify "GLX_GPU_NUM_RB_AMD" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_GPU_NUM_SPI_AMD" 'constant) #x021A8)
+
+(cl:export '#.(custom-lispify "GLX_GPU_NUM_SPI_AMD" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_CONTEXT_ES2_PROFILE_BIT_EXT" 'constant) #x000000004)
+
+(cl:export '#.(custom-lispify "GLX_CONTEXT_ES2_PROFILE_BIT_EXT" 'constant))
+
+(cffi:defctype #.(custom-lispify "GLXVideoSourceSGIX" 'typename) :unsigned-long)
+
+(cl:export '#.(custom-lispify "GLXVideoSourceSGIX" 'typename))
+
+(cffi:defctype #.(custom-lispify "GLXFBConfigIDSGIX" 'typename) :unsigned-long)
+
+(cl:export '#.(custom-lispify "GLXFBConfigIDSGIX" 'typename))
+
+(cffi:defctype #.(custom-lispify "GLXFBConfigSGIX" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "GLXFBConfigSGIX" 'typename))
+
+(cffi:defctype #.(custom-lispify "GLXPbufferSGIX" 'typename) :unsigned-long)
+
+(cl:export '#.(custom-lispify "GLXPbufferSGIX" 'typename))
+
+(cffi:defcstruct #.(custom-lispify "GLXBufferClobberEventSGIX" 'classname)
+	(#.(custom-lispify "type" 'slotname) :int)
+	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
+	(#.(custom-lispify "send_event" 'slotname) :int)
+	(#.(custom-lispify "display" 'slotname) :pointer)
+	(#.(custom-lispify "drawable" 'slotname) :unsigned-long)
+	(#.(custom-lispify "event_type" 'slotname) :int)
+	(#.(custom-lispify "draw_type" 'slotname) :int)
+	(#.(custom-lispify "mask" 'slotname) :unsigned-int)
+	(#.(custom-lispify "x" 'slotname) :int)
+	(#.(custom-lispify "y" 'slotname) :int)
+	(#.(custom-lispify "width" 'slotname) :int)
+	(#.(custom-lispify "height" 'slotname) :int)
+	(#.(custom-lispify "count" 'slotname) :int))
+
+(cl:export '#.(custom-lispify "GLXBufferClobberEventSGIX" 'classname))
+
+(cl:export '#.(custom-lispify "type" 'slotname))
+
+(cl:export '#.(custom-lispify "serial" 'slotname))
+
+(cl:export '#.(custom-lispify "send_event" 'slotname))
+
+(cl:export '#.(custom-lispify "display" 'slotname))
+
+(cl:export '#.(custom-lispify "drawable" 'slotname))
+
+(cl:export '#.(custom-lispify "event_type" 'slotname))
+
+(cl:export '#.(custom-lispify "draw_type" 'slotname))
+
+(cl:export '#.(custom-lispify "mask" 'slotname))
+
+(cl:export '#.(custom-lispify "x" 'slotname))
+
+(cl:export '#.(custom-lispify "y" 'slotname))
+
+(cl:export '#.(custom-lispify "width" 'slotname))
+
+(cl:export '#.(custom-lispify "height" 'slotname))
+
+(cl:export '#.(custom-lispify "count" 'slotname))
+
+(cffi:defctype #.(custom-lispify "GLXVideoDeviceNV" 'typename) :unsigned-int)
+
+(cl:export '#.(custom-lispify "GLXVideoDeviceNV" 'typename))
+
+(cffi:defctype #.(custom-lispify "GLXVideoCaptureDeviceNV" 'typename) :unsigned-long)
+
+(cl:export '#.(custom-lispify "GLXVideoCaptureDeviceNV" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_ARB_multisample" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_ARB_multisample" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_ARB_fbconfig_float" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_ARB_fbconfig_float" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_ARB_framebuffer_sRGB" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_ARB_framebuffer_sRGB" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_ARB_create_context" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_ARB_create_context" 'constant))
+
+(cffi:defcfun ("glXCreateContextAttribsARB" #.(custom-lispify "glXCreateContextAttribsARB" 'function)) :pointer
+  (dpy :pointer)
+  (config :pointer)
+  (share_context :pointer)
+  (direct :int)
+  (attrib_list :pointer))
+
+(cl:export '#.(custom-lispify "glXCreateContextAttribsARB" 'function))
+
+(cffi:defctype #.(custom-lispify "PFNGLXCREATECONTEXTATTRIBSARBPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXCREATECONTEXTATTRIBSARBPROC" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_ARB_create_context_profile" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_ARB_create_context_profile" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_ARB_create_context_robustness" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_ARB_create_context_robustness" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_SGIS_multisample" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_SGIS_multisample" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_EXT_visual_info" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_EXT_visual_info" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_SGI_swap_control" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_SGI_swap_control" 'constant))
+
+(cffi:defcfun ("glXSwapIntervalSGI" #.(custom-lispify "glXSwapIntervalSGI" 'function)) :int
+  (interval :int))
+
+(cl:export '#.(custom-lispify "glXSwapIntervalSGI" 'function))
+
+(cffi:defctype #.(custom-lispify "PFNGLXSWAPINTERVALSGIPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXSWAPINTERVALSGIPROC" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_SGI_video_sync" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_SGI_video_sync" 'constant))
+
+(cffi:defcfun ("glXGetVideoSyncSGI" #.(custom-lispify "glXGetVideoSyncSGI" 'function)) :int
+  (count :pointer))
+
+(cl:export '#.(custom-lispify "glXGetVideoSyncSGI" 'function))
+
+(cffi:defcfun ("glXWaitVideoSyncSGI" #.(custom-lispify "glXWaitVideoSyncSGI" 'function)) :int
+  (divisor :int)
+  (remainder :int)
+  (count :pointer))
+
+(cl:export '#.(custom-lispify "glXWaitVideoSyncSGI" 'function))
+
+(cffi:defctype #.(custom-lispify "PFNGLXGETVIDEOSYNCSGIPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXGETVIDEOSYNCSGIPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXWAITVIDEOSYNCSGIPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXWAITVIDEOSYNCSGIPROC" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_SGI_make_current_read" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_SGI_make_current_read" 'constant))
+
+(cffi:defcfun ("glXMakeCurrentReadSGI" #.(custom-lispify "glXMakeCurrentReadSGI" 'function)) :int
+  (dpy :pointer)
+  (draw :unsigned-long)
+  (read :unsigned-long)
+  (ctx :pointer))
+
+(cl:export '#.(custom-lispify "glXMakeCurrentReadSGI" 'function))
+
+(cffi:defcfun ("glXGetCurrentReadDrawableSGI" #.(custom-lispify "glXGetCurrentReadDrawableSGI" 'function)) :unsigned-long)
+
+(cl:export '#.(custom-lispify "glXGetCurrentReadDrawableSGI" 'function))
+
+(cffi:defctype #.(custom-lispify "PFNGLXMAKECURRENTREADSGIPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXMAKECURRENTREADSGIPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXGETCURRENTREADDRAWABLESGIPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXGETCURRENTREADDRAWABLESGIPROC" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_SGIX_video_source" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_SGIX_video_source" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_EXT_visual_rating" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_EXT_visual_rating" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_EXT_import_context" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_EXT_import_context" 'constant))
+
+(cffi:defcfun ("glXGetCurrentDisplayEXT" #.(custom-lispify "glXGetCurrentDisplayEXT" 'function)) :pointer)
+
+(cl:export '#.(custom-lispify "glXGetCurrentDisplayEXT" 'function))
+
+(cffi:defcfun ("glXQueryContextInfoEXT" #.(custom-lispify "glXQueryContextInfoEXT" 'function)) :int
+  (dpy :pointer)
+  (context :pointer)
+  (attribute :int)
+  (value :pointer))
+
+(cl:export '#.(custom-lispify "glXQueryContextInfoEXT" 'function))
+
+(cffi:defcfun ("glXGetContextIDEXT" #.(custom-lispify "glXGetContextIDEXT" 'function)) :unsigned-long
+  (context :pointer))
+
+(cl:export '#.(custom-lispify "glXGetContextIDEXT" 'function))
+
+(cffi:defcfun ("glXImportContextEXT" #.(custom-lispify "glXImportContextEXT" 'function)) :pointer
+  (dpy :pointer)
+  (contextID :unsigned-long))
+
+(cl:export '#.(custom-lispify "glXImportContextEXT" 'function))
+
+(cffi:defcfun ("glXFreeContextEXT" #.(custom-lispify "glXFreeContextEXT" 'function)) :void
+  (dpy :pointer)
+  (context :pointer))
+
+(cl:export '#.(custom-lispify "glXFreeContextEXT" 'function))
+
+(cffi:defctype #.(custom-lispify "PFNGLXGETCURRENTDISPLAYEXTPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXGETCURRENTDISPLAYEXTPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXQUERYCONTEXTINFOEXTPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXQUERYCONTEXTINFOEXTPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXGETCONTEXTIDEXTPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXGETCONTEXTIDEXTPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXIMPORTCONTEXTEXTPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXIMPORTCONTEXTEXTPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXFREECONTEXTEXTPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXFREECONTEXTEXTPROC" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_SGIX_fbconfig" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_SGIX_fbconfig" 'constant))
+
+(cffi:defcfun ("glXGetFBConfigAttribSGIX" #.(custom-lispify "glXGetFBConfigAttribSGIX" 'function)) :int
+  (dpy :pointer)
+  (config :pointer)
+  (attribute :int)
+  (value :pointer))
+
+(cl:export '#.(custom-lispify "glXGetFBConfigAttribSGIX" 'function))
+
+(cffi:defcfun ("glXChooseFBConfigSGIX" #.(custom-lispify "glXChooseFBConfigSGIX" 'function)) :pointer
+  (dpy :pointer)
+  (screen :int)
+  (attrib_list :pointer)
+  (nelements :pointer))
+
+(cl:export '#.(custom-lispify "glXChooseFBConfigSGIX" 'function))
+
+(cffi:defcfun ("glXCreateGLXPixmapWithConfigSGIX" #.(custom-lispify "glXCreateGLXPixmapWithConfigSGIX" 'function)) :unsigned-long
+  (dpy :pointer)
+  (config :pointer)
+  (pixmap :pointer))
+
+(cl:export '#.(custom-lispify "glXCreateGLXPixmapWithConfigSGIX" 'function))
+
+(cffi:defcfun ("glXCreateContextWithConfigSGIX" #.(custom-lispify "glXCreateContextWithConfigSGIX" 'function)) :pointer
+  (dpy :pointer)
+  (config :pointer)
+  (render_type :int)
+  (share_list :pointer)
+  (direct :int))
+
+(cl:export '#.(custom-lispify "glXCreateContextWithConfigSGIX" 'function))
+
+(cffi:defcfun ("glXGetVisualFromFBConfigSGIX" #.(custom-lispify "glXGetVisualFromFBConfigSGIX" 'function)) :pointer
+  (dpy :pointer)
+  (config :pointer))
+
+(cl:export '#.(custom-lispify "glXGetVisualFromFBConfigSGIX" 'function))
+
+(cffi:defcfun ("glXGetFBConfigFromVisualSGIX" #.(custom-lispify "glXGetFBConfigFromVisualSGIX" 'function)) :pointer
+  (dpy :pointer)
+  (vis :pointer))
+
+(cl:export '#.(custom-lispify "glXGetFBConfigFromVisualSGIX" 'function))
+
+(cffi:defctype #.(custom-lispify "PFNGLXGETFBCONFIGATTRIBSGIXPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXGETFBCONFIGATTRIBSGIXPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXCHOOSEFBCONFIGSGIXPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXCHOOSEFBCONFIGSGIXPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXCREATEGLXPIXMAPWITHCONFIGSGIXPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXCREATEGLXPIXMAPWITHCONFIGSGIXPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXCREATECONTEXTWITHCONFIGSGIXPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXCREATECONTEXTWITHCONFIGSGIXPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXGETVISUALFROMFBCONFIGSGIXPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXGETVISUALFROMFBCONFIGSGIXPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXGETFBCONFIGFROMVISUALSGIXPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXGETFBCONFIGFROMVISUALSGIXPROC" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_SGIX_pbuffer" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_SGIX_pbuffer" 'constant))
+
+(cffi:defcfun ("glXCreateGLXPbufferSGIX" #.(custom-lispify "glXCreateGLXPbufferSGIX" 'function)) :unsigned-long
+  (dpy :pointer)
+  (config :pointer)
+  (width :unsigned-int)
+  (height :unsigned-int)
+  (attrib_list :pointer))
+
+(cl:export '#.(custom-lispify "glXCreateGLXPbufferSGIX" 'function))
+
+(cffi:defcfun ("glXDestroyGLXPbufferSGIX" #.(custom-lispify "glXDestroyGLXPbufferSGIX" 'function)) :void
+  (dpy :pointer)
+  (pbuf :unsigned-long))
+
+(cl:export '#.(custom-lispify "glXDestroyGLXPbufferSGIX" 'function))
+
+(cffi:defcfun ("glXQueryGLXPbufferSGIX" #.(custom-lispify "glXQueryGLXPbufferSGIX" 'function)) :int
+  (dpy :pointer)
+  (pbuf :unsigned-long)
+  (attribute :int)
+  (value :pointer))
+
+(cl:export '#.(custom-lispify "glXQueryGLXPbufferSGIX" 'function))
+
+(cffi:defcfun ("glXSelectEventSGIX" #.(custom-lispify "glXSelectEventSGIX" 'function)) :void
+  (dpy :pointer)
+  (drawable :unsigned-long)
+  (mask :unsigned-long))
+
+(cl:export '#.(custom-lispify "glXSelectEventSGIX" 'function))
+
+(cffi:defcfun ("glXGetSelectedEventSGIX" #.(custom-lispify "glXGetSelectedEventSGIX" 'function)) :void
+  (dpy :pointer)
+  (drawable :unsigned-long)
+  (mask :pointer))
+
+(cl:export '#.(custom-lispify "glXGetSelectedEventSGIX" 'function))
+
+(cffi:defctype #.(custom-lispify "PFNGLXCREATEGLXPBUFFERSGIXPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXCREATEGLXPBUFFERSGIXPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXDESTROYGLXPBUFFERSGIXPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXDESTROYGLXPBUFFERSGIXPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXQUERYGLXPBUFFERSGIXPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXQUERYGLXPBUFFERSGIXPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXSELECTEVENTSGIXPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXSELECTEVENTSGIXPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXGETSELECTEDEVENTSGIXPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXGETSELECTEDEVENTSGIXPROC" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_SGI_cushion" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_SGI_cushion" 'constant))
+
+(cffi:defcfun ("glXCushionSGI" #.(custom-lispify "glXCushionSGI" 'function)) :void
+  (dpy :pointer)
+  (window :unsigned-long)
+  (cushion :float))
+
+(cl:export '#.(custom-lispify "glXCushionSGI" 'function))
+
+(cffi:defctype #.(custom-lispify "PFNGLXCUSHIONSGIPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXCUSHIONSGIPROC" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_SGIX_video_resize" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_SGIX_video_resize" 'constant))
+
+(cffi:defcfun ("glXBindChannelToWindowSGIX" #.(custom-lispify "glXBindChannelToWindowSGIX" 'function)) :int
+  (display :pointer)
+  (screen :int)
+  (channel :int)
+  (window :unsigned-long))
+
+(cl:export '#.(custom-lispify "glXBindChannelToWindowSGIX" 'function))
+
+(cffi:defcfun ("glXChannelRectSGIX" #.(custom-lispify "glXChannelRectSGIX" 'function)) :int
+  (display :pointer)
+  (screen :int)
+  (channel :int)
+  (x :int)
+  (y :int)
+  (w :int)
+  (h :int))
+
+(cl:export '#.(custom-lispify "glXChannelRectSGIX" 'function))
+
+(cffi:defcfun ("glXQueryChannelRectSGIX" #.(custom-lispify "glXQueryChannelRectSGIX" 'function)) :int
+  (display :pointer)
+  (screen :int)
+  (channel :int)
+  (dx :pointer)
+  (dy :pointer)
+  (dw :pointer)
+  (dh :pointer))
+
+(cl:export '#.(custom-lispify "glXQueryChannelRectSGIX" 'function))
+
+(cffi:defcfun ("glXQueryChannelDeltasSGIX" #.(custom-lispify "glXQueryChannelDeltasSGIX" 'function)) :int
+  (display :pointer)
+  (screen :int)
+  (channel :int)
+  (x :pointer)
+  (y :pointer)
+  (w :pointer)
+  (h :pointer))
+
+(cl:export '#.(custom-lispify "glXQueryChannelDeltasSGIX" 'function))
+
+(cffi:defcfun ("glXChannelRectSyncSGIX" #.(custom-lispify "glXChannelRectSyncSGIX" 'function)) :int
+  (display :pointer)
+  (screen :int)
+  (channel :int)
+  (synctype :pointer))
+
+(cl:export '#.(custom-lispify "glXChannelRectSyncSGIX" 'function))
+
+(cffi:defctype #.(custom-lispify "PFNGLXBINDCHANNELTOWINDOWSGIXPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXBINDCHANNELTOWINDOWSGIXPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXCHANNELRECTSGIXPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXCHANNELRECTSGIXPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXQUERYCHANNELRECTSGIXPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXQUERYCHANNELRECTSGIXPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXQUERYCHANNELDELTASSGIXPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXQUERYCHANNELDELTASSGIXPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXCHANNELRECTSYNCSGIXPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXCHANNELRECTSYNCSGIXPROC" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_SGIX_dmbuffer" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_SGIX_dmbuffer" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_SGIX_swap_group" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_SGIX_swap_group" 'constant))
+
+(cffi:defcfun ("glXJoinSwapGroupSGIX" #.(custom-lispify "glXJoinSwapGroupSGIX" 'function)) :void
+  (dpy :pointer)
+  (drawable :unsigned-long)
+  (member :unsigned-long))
+
+(cl:export '#.(custom-lispify "glXJoinSwapGroupSGIX" 'function))
+
+(cffi:defctype #.(custom-lispify "PFNGLXJOINSWAPGROUPSGIXPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXJOINSWAPGROUPSGIXPROC" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_SGIX_swap_barrier" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_SGIX_swap_barrier" 'constant))
+
+(cffi:defcfun ("glXBindSwapBarrierSGIX" #.(custom-lispify "glXBindSwapBarrierSGIX" 'function)) :void
+  (dpy :pointer)
+  (drawable :unsigned-long)
+  (barrier :int))
+
+(cl:export '#.(custom-lispify "glXBindSwapBarrierSGIX" 'function))
+
+(cffi:defcfun ("glXQueryMaxSwapBarriersSGIX" #.(custom-lispify "glXQueryMaxSwapBarriersSGIX" 'function)) :int
+  (dpy :pointer)
+  (screen :int)
+  (max :pointer))
+
+(cl:export '#.(custom-lispify "glXQueryMaxSwapBarriersSGIX" 'function))
+
+(cffi:defctype #.(custom-lispify "PFNGLXBINDSWAPBARRIERSGIXPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXBINDSWAPBARRIERSGIXPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXQUERYMAXSWAPBARRIERSSGIXPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXQUERYMAXSWAPBARRIERSSGIXPROC" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_SUN_get_transparent_index" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_SUN_get_transparent_index" 'constant))
+
+(cffi:defcfun ("glXGetTransparentIndexSUN" #.(custom-lispify "glXGetTransparentIndexSUN" 'function)) :int
+  (dpy :pointer)
+  (overlay :unsigned-long)
+  (underlay :unsigned-long)
+  (pTransparentIndex :pointer))
+
+(cl:export '#.(custom-lispify "glXGetTransparentIndexSUN" 'function))
+
+(cffi:defctype #.(custom-lispify "PFNGLXGETTRANSPARENTINDEXSUNPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXGETTRANSPARENTINDEXSUNPROC" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_MESA_copy_sub_buffer" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_MESA_copy_sub_buffer" 'constant))
+
+(cffi:defcfun ("glXCopySubBufferMESA" #.(custom-lispify "glXCopySubBufferMESA" 'function)) :void
+  (dpy :pointer)
+  (drawable :unsigned-long)
+  (x :int)
+  (y :int)
+  (width :int)
+  (height :int))
+
+(cl:export '#.(custom-lispify "glXCopySubBufferMESA" 'function))
+
+(cffi:defctype #.(custom-lispify "PFNGLXCOPYSUBBUFFERMESAPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXCOPYSUBBUFFERMESAPROC" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_MESA_pixmap_colormap" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_MESA_pixmap_colormap" 'constant))
+
+(cffi:defcfun ("glXCreateGLXPixmapMESA" #.(custom-lispify "glXCreateGLXPixmapMESA" 'function)) :unsigned-long
+  (dpy :pointer)
+  (visual :pointer)
+  (pixmap :pointer)
+  (cmap :pointer))
+
+(cl:export '#.(custom-lispify "glXCreateGLXPixmapMESA" 'function))
+
+(cffi:defctype #.(custom-lispify "PFNGLXCREATEGLXPIXMAPMESAPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXCREATEGLXPIXMAPMESAPROC" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_MESA_release_buffers" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_MESA_release_buffers" 'constant))
+
+(cffi:defcfun ("glXReleaseBuffersMESA" #.(custom-lispify "glXReleaseBuffersMESA" 'function)) :int
+  (dpy :pointer)
+  (drawable :unsigned-long))
+
+(cl:export '#.(custom-lispify "glXReleaseBuffersMESA" 'function))
+
+(cffi:defctype #.(custom-lispify "PFNGLXRELEASEBUFFERSMESAPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXRELEASEBUFFERSMESAPROC" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_MESA_set_3dfx_mode" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_MESA_set_3dfx_mode" 'constant))
+
+(cffi:defcfun ("glXSet3DfxModeMESA" #.(custom-lispify "glXSet3DfxModeMESA" 'function)) :int
+  (mode :int))
+
+(cl:export '#.(custom-lispify "glXSet3DfxModeMESA" 'function))
+
+(cffi:defctype #.(custom-lispify "PFNGLXSET3DFXMODEMESAPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXSET3DFXMODEMESAPROC" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_SGIX_visual_select_group" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_SGIX_visual_select_group" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_OML_swap_method" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_OML_swap_method" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_OML_sync_control" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_OML_sync_control" 'constant))
+
+(cffi:defcfun ("glXGetSyncValuesOML" #.(custom-lispify "glXGetSyncValuesOML" 'function)) :int
+  (dpy :pointer)
+  (drawable :unsigned-long)
+  (ust :pointer)
+  (msc :pointer)
+  (sbc :pointer))
+
+(cl:export '#.(custom-lispify "glXGetSyncValuesOML" 'function))
+
+(cffi:defcfun ("glXGetMscRateOML" #.(custom-lispify "glXGetMscRateOML" 'function)) :int
+  (dpy :pointer)
+  (drawable :unsigned-long)
+  (numerator :pointer)
+  (denominator :pointer))
+
+(cl:export '#.(custom-lispify "glXGetMscRateOML" 'function))
+
+(cffi:defcfun ("glXSwapBuffersMscOML" #.(custom-lispify "glXSwapBuffersMscOML" 'function)) :pointer
+  (dpy :pointer)
+  (drawable :unsigned-long)
+  (target_msc :pointer)
+  (divisor :pointer)
+  (remainder :pointer))
+
+(cl:export '#.(custom-lispify "glXSwapBuffersMscOML" 'function))
+
+(cffi:defcfun ("glXWaitForMscOML" #.(custom-lispify "glXWaitForMscOML" 'function)) :int
+  (dpy :pointer)
+  (drawable :unsigned-long)
+  (target_msc :pointer)
+  (divisor :pointer)
+  (remainder :pointer)
+  (ust :pointer)
+  (msc :pointer)
+  (sbc :pointer))
+
+(cl:export '#.(custom-lispify "glXWaitForMscOML" 'function))
+
+(cffi:defcfun ("glXWaitForSbcOML" #.(custom-lispify "glXWaitForSbcOML" 'function)) :int
+  (dpy :pointer)
+  (drawable :unsigned-long)
+  (target_sbc :pointer)
+  (ust :pointer)
+  (msc :pointer)
+  (sbc :pointer))
+
+(cl:export '#.(custom-lispify "glXWaitForSbcOML" 'function))
+
+(cffi:defctype #.(custom-lispify "PFNGLXGETSYNCVALUESOMLPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXGETSYNCVALUESOMLPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXGETMSCRATEOMLPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXGETMSCRATEOMLPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXSWAPBUFFERSMSCOMLPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXSWAPBUFFERSMSCOMLPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXWAITFORMSCOMLPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXWAITFORMSCOMLPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXWAITFORSBCOMLPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXWAITFORSBCOMLPROC" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_SGIX_hyperpipe" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_SGIX_hyperpipe" 'constant))
+
+(cffi:defcstruct #.(custom-lispify "GLXHyperpipeNetworkSGIX" 'classname)
+	(#.(custom-lispify "pipeName" 'slotname) :pointer)
+	(#.(custom-lispify "networkId" 'slotname) :int))
+
+(cl:export '#.(custom-lispify "GLXHyperpipeNetworkSGIX" 'classname))
+
+(cl:export '#.(custom-lispify "pipeName" 'slotname))
+
+(cl:export '#.(custom-lispify "networkId" 'slotname))
+
+(cffi:defcstruct #.(custom-lispify "GLXHyperpipeConfigSGIX" 'classname)
+	(#.(custom-lispify "pipeName" 'slotname) :pointer)
+	(#.(custom-lispify "channel" 'slotname) :int)
+	(#.(custom-lispify "participationType" 'slotname) :unsigned-int)
+	(#.(custom-lispify "timeSlice" 'slotname) :int))
+
+(cl:export '#.(custom-lispify "GLXHyperpipeConfigSGIX" 'classname))
+
+(cl:export '#.(custom-lispify "pipeName" 'slotname))
+
+(cl:export '#.(custom-lispify "channel" 'slotname))
+
+(cl:export '#.(custom-lispify "participationType" 'slotname))
+
+(cl:export '#.(custom-lispify "timeSlice" 'slotname))
+
+(cffi:defcstruct #.(custom-lispify "GLXPipeRect" 'classname)
+	(#.(custom-lispify "pipeName" 'slotname) :pointer)
+	(#.(custom-lispify "srcXOrigin" 'slotname) :int)
+	(#.(custom-lispify "srcYOrigin" 'slotname) :int)
+	(#.(custom-lispify "srcWidth" 'slotname) :int)
+	(#.(custom-lispify "srcHeight" 'slotname) :int)
+	(#.(custom-lispify "destXOrigin" 'slotname) :int)
+	(#.(custom-lispify "destYOrigin" 'slotname) :int)
+	(#.(custom-lispify "destWidth" 'slotname) :int)
+	(#.(custom-lispify "destHeight" 'slotname) :int))
+
+(cl:export '#.(custom-lispify "GLXPipeRect" 'classname))
+
+(cl:export '#.(custom-lispify "pipeName" 'slotname))
+
+(cl:export '#.(custom-lispify "srcXOrigin" 'slotname))
+
+(cl:export '#.(custom-lispify "srcYOrigin" 'slotname))
+
+(cl:export '#.(custom-lispify "srcWidth" 'slotname))
+
+(cl:export '#.(custom-lispify "srcHeight" 'slotname))
+
+(cl:export '#.(custom-lispify "destXOrigin" 'slotname))
+
+(cl:export '#.(custom-lispify "destYOrigin" 'slotname))
+
+(cl:export '#.(custom-lispify "destWidth" 'slotname))
+
+(cl:export '#.(custom-lispify "destHeight" 'slotname))
+
+(cffi:defcstruct #.(custom-lispify "GLXPipeRectLimits" 'classname)
+	(#.(custom-lispify "pipeName" 'slotname) :pointer)
+	(#.(custom-lispify "XOrigin" 'slotname) :int)
+	(#.(custom-lispify "YOrigin" 'slotname) :int)
+	(#.(custom-lispify "maxHeight" 'slotname) :int)
+	(#.(custom-lispify "maxWidth" 'slotname) :int))
+
+(cl:export '#.(custom-lispify "GLXPipeRectLimits" 'classname))
+
+(cl:export '#.(custom-lispify "pipeName" 'slotname))
+
+(cl:export '#.(custom-lispify "XOrigin" 'slotname))
+
+(cl:export '#.(custom-lispify "YOrigin" 'slotname))
+
+(cl:export '#.(custom-lispify "maxHeight" 'slotname))
+
+(cl:export '#.(custom-lispify "maxWidth" 'slotname))
+
+(cffi:defcfun ("glXQueryHyperpipeNetworkSGIX" #.(custom-lispify "glXQueryHyperpipeNetworkSGIX" 'function)) :pointer
+  (dpy :pointer)
+  (npipes :pointer))
+
+(cl:export '#.(custom-lispify "glXQueryHyperpipeNetworkSGIX" 'function))
+
+(cffi:defcfun ("glXHyperpipeConfigSGIX" #.(custom-lispify "glXHyperpipeConfigSGIX" 'function)) :int
+  (dpy :pointer)
+  (networkId :int)
+  (npipes :int)
+  (cfg :pointer)
+  (hpId :pointer))
+
+(cl:export '#.(custom-lispify "glXHyperpipeConfigSGIX" 'function))
+
+(cffi:defcfun ("glXQueryHyperpipeConfigSGIX" #.(custom-lispify "glXQueryHyperpipeConfigSGIX" 'function)) :pointer
+  (dpy :pointer)
+  (hpId :int)
+  (npipes :pointer))
+
+(cl:export '#.(custom-lispify "glXQueryHyperpipeConfigSGIX" 'function))
+
+(cffi:defcfun ("glXDestroyHyperpipeConfigSGIX" #.(custom-lispify "glXDestroyHyperpipeConfigSGIX" 'function)) :int
+  (dpy :pointer)
+  (hpId :int))
+
+(cl:export '#.(custom-lispify "glXDestroyHyperpipeConfigSGIX" 'function))
+
+(cffi:defcfun ("glXBindHyperpipeSGIX" #.(custom-lispify "glXBindHyperpipeSGIX" 'function)) :int
+  (dpy :pointer)
+  (hpId :int))
+
+(cl:export '#.(custom-lispify "glXBindHyperpipeSGIX" 'function))
+
+(cffi:defcfun ("glXQueryHyperpipeBestAttribSGIX" #.(custom-lispify "glXQueryHyperpipeBestAttribSGIX" 'function)) :int
+  (dpy :pointer)
+  (timeSlice :int)
+  (attrib :int)
+  (size :int)
+  (attribList :pointer)
+  (returnAttribList :pointer))
+
+(cl:export '#.(custom-lispify "glXQueryHyperpipeBestAttribSGIX" 'function))
+
+(cffi:defcfun ("glXHyperpipeAttribSGIX" #.(custom-lispify "glXHyperpipeAttribSGIX" 'function)) :int
+  (dpy :pointer)
+  (timeSlice :int)
+  (attrib :int)
+  (size :int)
+  (attribList :pointer))
+
+(cl:export '#.(custom-lispify "glXHyperpipeAttribSGIX" 'function))
+
+(cffi:defcfun ("glXQueryHyperpipeAttribSGIX" #.(custom-lispify "glXQueryHyperpipeAttribSGIX" 'function)) :int
+  (dpy :pointer)
+  (timeSlice :int)
+  (attrib :int)
+  (size :int)
+  (returnAttribList :pointer))
+
+(cl:export '#.(custom-lispify "glXQueryHyperpipeAttribSGIX" 'function))
+
+(cffi:defctype #.(custom-lispify "PFNGLXQUERYHYPERPIPENETWORKSGIXPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXQUERYHYPERPIPENETWORKSGIXPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXHYPERPIPECONFIGSGIXPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXHYPERPIPECONFIGSGIXPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXQUERYHYPERPIPECONFIGSGIXPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXQUERYHYPERPIPECONFIGSGIXPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXDESTROYHYPERPIPECONFIGSGIXPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXDESTROYHYPERPIPECONFIGSGIXPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXBINDHYPERPIPESGIXPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXBINDHYPERPIPESGIXPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXQUERYHYPERPIPEBESTATTRIBSGIXPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXQUERYHYPERPIPEBESTATTRIBSGIXPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXHYPERPIPEATTRIBSGIXPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXHYPERPIPEATTRIBSGIXPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXQUERYHYPERPIPEATTRIBSGIXPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXQUERYHYPERPIPEATTRIBSGIXPROC" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_MESA_agp_offset" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_MESA_agp_offset" 'constant))
+
+(cffi:defcfun ("glXGetAGPOffsetMESA" #.(custom-lispify "glXGetAGPOffsetMESA" 'function)) :unsigned-int
+  (pointer :pointer))
+
+(cl:export '#.(custom-lispify "glXGetAGPOffsetMESA" 'function))
+
+(cffi:defctype #.(custom-lispify "PFNGLXGETAGPOFFSETMESAPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXGETAGPOFFSETMESAPROC" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_EXT_fbconfig_packed_float" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_EXT_fbconfig_packed_float" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_EXT_framebuffer_sRGB" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_EXT_framebuffer_sRGB" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_NV_present_video" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_NV_present_video" 'constant))
+
+(cffi:defcfun ("glXEnumerateVideoDevicesNV" #.(custom-lispify "glXEnumerateVideoDevicesNV" 'function)) :pointer
+  (dpy :pointer)
+  (screen :int)
+  (nelements :pointer))
+
+(cl:export '#.(custom-lispify "glXEnumerateVideoDevicesNV" 'function))
+
+(cffi:defcfun ("glXBindVideoDeviceNV" #.(custom-lispify "glXBindVideoDeviceNV" 'function)) :int
+  (dpy :pointer)
+  (video_slot :unsigned-int)
+  (video_device :unsigned-int)
+  (attrib_list :pointer))
+
+(cl:export '#.(custom-lispify "glXBindVideoDeviceNV" 'function))
+
+(cffi:defctype #.(custom-lispify "PFNGLXENUMERATEVIDEODEVICESNVPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXENUMERATEVIDEODEVICESNVPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXBINDVIDEODEVICENVPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXBINDVIDEODEVICENVPROC" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_NV_video_output" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_NV_video_output" 'constant))
+
+(cffi:defcfun ("glXGetVideoDeviceNV" #.(custom-lispify "glXGetVideoDeviceNV" 'function)) :int
+  (dpy :pointer)
+  (screen :int)
+  (numVideoDevices :int)
+  (pVideoDevice :pointer))
+
+(cl:export '#.(custom-lispify "glXGetVideoDeviceNV" 'function))
+
+(cffi:defcfun ("glXReleaseVideoDeviceNV" #.(custom-lispify "glXReleaseVideoDeviceNV" 'function)) :int
+  (dpy :pointer)
+  (screen :int)
+  (VideoDevice :unsigned-int))
+
+(cl:export '#.(custom-lispify "glXReleaseVideoDeviceNV" 'function))
+
+(cffi:defcfun ("glXBindVideoImageNV" #.(custom-lispify "glXBindVideoImageNV" 'function)) :int
+  (dpy :pointer)
+  (VideoDevice :unsigned-int)
+  (pbuf :unsigned-long)
+  (iVideoBuffer :int))
+
+(cl:export '#.(custom-lispify "glXBindVideoImageNV" 'function))
+
+(cffi:defcfun ("glXReleaseVideoImageNV" #.(custom-lispify "glXReleaseVideoImageNV" 'function)) :int
+  (dpy :pointer)
+  (pbuf :unsigned-long))
+
+(cl:export '#.(custom-lispify "glXReleaseVideoImageNV" 'function))
+
+(cffi:defcfun ("glXSendPbufferToVideoNV" #.(custom-lispify "glXSendPbufferToVideoNV" 'function)) :int
+  (dpy :pointer)
+  (pbuf :unsigned-long)
+  (iBufferType :int)
+  (pulCounterPbuffer :pointer)
+  (bBlock :pointer))
+
+(cl:export '#.(custom-lispify "glXSendPbufferToVideoNV" 'function))
+
+(cffi:defcfun ("glXGetVideoInfoNV" #.(custom-lispify "glXGetVideoInfoNV" 'function)) :int
+  (dpy :pointer)
+  (screen :int)
+  (VideoDevice :unsigned-int)
+  (pulCounterOutputPbuffer :pointer)
+  (pulCounterOutputVideo :pointer))
+
+(cl:export '#.(custom-lispify "glXGetVideoInfoNV" 'function))
+
+(cffi:defctype #.(custom-lispify "PFNGLXGETVIDEODEVICENVPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXGETVIDEODEVICENVPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXRELEASEVIDEODEVICENVPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXRELEASEVIDEODEVICENVPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXBINDVIDEOIMAGENVPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXBINDVIDEOIMAGENVPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXRELEASEVIDEOIMAGENVPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXRELEASEVIDEOIMAGENVPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXSENDPBUFFERTOVIDEONVPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXSENDPBUFFERTOVIDEONVPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXGETVIDEOINFONVPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXGETVIDEOINFONVPROC" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_NV_swap_group" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_NV_swap_group" 'constant))
+
+(cffi:defcfun ("glXJoinSwapGroupNV" #.(custom-lispify "glXJoinSwapGroupNV" 'function)) :int
+  (dpy :pointer)
+  (drawable :unsigned-long)
+  (group :pointer))
+
+(cl:export '#.(custom-lispify "glXJoinSwapGroupNV" 'function))
+
+(cffi:defcfun ("glXBindSwapBarrierNV" #.(custom-lispify "glXBindSwapBarrierNV" 'function)) :int
+  (dpy :pointer)
+  (group :pointer)
+  (barrier :pointer))
+
+(cl:export '#.(custom-lispify "glXBindSwapBarrierNV" 'function))
+
+(cffi:defcfun ("glXQuerySwapGroupNV" #.(custom-lispify "glXQuerySwapGroupNV" 'function)) :int
+  (dpy :pointer)
+  (drawable :unsigned-long)
+  (group :pointer)
+  (barrier :pointer))
+
+(cl:export '#.(custom-lispify "glXQuerySwapGroupNV" 'function))
+
+(cffi:defcfun ("glXQueryMaxSwapGroupsNV" #.(custom-lispify "glXQueryMaxSwapGroupsNV" 'function)) :int
+  (dpy :pointer)
+  (screen :int)
+  (maxGroups :pointer)
+  (maxBarriers :pointer))
+
+(cl:export '#.(custom-lispify "glXQueryMaxSwapGroupsNV" 'function))
+
+(cffi:defcfun ("glXQueryFrameCountNV" #.(custom-lispify "glXQueryFrameCountNV" 'function)) :int
+  (dpy :pointer)
+  (screen :int)
+  (count :pointer))
+
+(cl:export '#.(custom-lispify "glXQueryFrameCountNV" 'function))
+
+(cffi:defcfun ("glXResetFrameCountNV" #.(custom-lispify "glXResetFrameCountNV" 'function)) :int
+  (dpy :pointer)
+  (screen :int))
+
+(cl:export '#.(custom-lispify "glXResetFrameCountNV" 'function))
+
+(cffi:defctype #.(custom-lispify "PFNGLXJOINSWAPGROUPNVPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXJOINSWAPGROUPNVPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXBINDSWAPBARRIERNVPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXBINDSWAPBARRIERNVPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXQUERYSWAPGROUPNVPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXQUERYSWAPGROUPNVPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXQUERYMAXSWAPGROUPSNVPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXQUERYMAXSWAPGROUPSNVPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXQUERYFRAMECOUNTNVPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXQUERYFRAMECOUNTNVPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXRESETFRAMECOUNTNVPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXRESETFRAMECOUNTNVPROC" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_NV_video_capture" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_NV_video_capture" 'constant))
+
+(cffi:defcfun ("glXBindVideoCaptureDeviceNV" #.(custom-lispify "glXBindVideoCaptureDeviceNV" 'function)) :int
+  (dpy :pointer)
+  (video_capture_slot :unsigned-int)
+  (device :unsigned-long))
+
+(cl:export '#.(custom-lispify "glXBindVideoCaptureDeviceNV" 'function))
+
+(cffi:defcfun ("glXEnumerateVideoCaptureDevicesNV" #.(custom-lispify "glXEnumerateVideoCaptureDevicesNV" 'function)) :pointer
+  (dpy :pointer)
+  (screen :int)
+  (nelements :pointer))
+
+(cl:export '#.(custom-lispify "glXEnumerateVideoCaptureDevicesNV" 'function))
+
+(cffi:defcfun ("glXLockVideoCaptureDeviceNV" #.(custom-lispify "glXLockVideoCaptureDeviceNV" 'function)) :void
+  (dpy :pointer)
+  (device :unsigned-long))
+
+(cl:export '#.(custom-lispify "glXLockVideoCaptureDeviceNV" 'function))
+
+(cffi:defcfun ("glXQueryVideoCaptureDeviceNV" #.(custom-lispify "glXQueryVideoCaptureDeviceNV" 'function)) :int
+  (dpy :pointer)
+  (device :unsigned-long)
+  (attribute :int)
+  (value :pointer))
+
+(cl:export '#.(custom-lispify "glXQueryVideoCaptureDeviceNV" 'function))
+
+(cffi:defcfun ("glXReleaseVideoCaptureDeviceNV" #.(custom-lispify "glXReleaseVideoCaptureDeviceNV" 'function)) :void
+  (dpy :pointer)
+  (device :unsigned-long))
+
+(cl:export '#.(custom-lispify "glXReleaseVideoCaptureDeviceNV" 'function))
+
+(cffi:defctype #.(custom-lispify "PFNGLXBINDVIDEOCAPTUREDEVICENVPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXBINDVIDEOCAPTUREDEVICENVPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXENUMERATEVIDEOCAPTUREDEVICESNVPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXENUMERATEVIDEOCAPTUREDEVICESNVPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXLOCKVIDEOCAPTUREDEVICENVPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXLOCKVIDEOCAPTUREDEVICENVPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXQUERYVIDEOCAPTUREDEVICENVPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXQUERYVIDEOCAPTUREDEVICENVPROC" 'typename))
+
+(cffi:defctype #.(custom-lispify "PFNGLXRELEASEVIDEOCAPTUREDEVICENVPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXRELEASEVIDEOCAPTUREDEVICENVPROC" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_EXT_swap_control" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_EXT_swap_control" 'constant))
+
+(cffi:defcfun ("glXSwapIntervalEXT" #.(custom-lispify "glXSwapIntervalEXT" 'function)) :int
+  (dpy :pointer)
+  (drawable :unsigned-long)
+  (interval :int))
+
+(cl:export '#.(custom-lispify "glXSwapIntervalEXT" 'function))
+
+(cffi:defctype #.(custom-lispify "PFNGLXSWAPINTERVALEXTPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXSWAPINTERVALEXTPROC" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_NV_copy_image" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_NV_copy_image" 'constant))
+
+(cffi:defcfun ("glXCopyImageSubDataNV" #.(custom-lispify "glXCopyImageSubDataNV" 'function)) :void
+  (dpy :pointer)
+  (srcCtx :pointer)
+  (srcName :pointer)
+  (srcTarget :pointer)
+  (srcLevel :pointer)
+  (srcX :pointer)
+  (srcY :pointer)
+  (srcZ :pointer)
+  (dstCtx :pointer)
+  (dstName :pointer)
+  (dstTarget :pointer)
+  (dstLevel :pointer)
+  (dstX :pointer)
+  (dstY :pointer)
+  (dstZ :pointer)
+  (width :pointer)
+  (height :pointer)
+  (depth :pointer))
+
+(cl:export '#.(custom-lispify "glXCopyImageSubDataNV" 'function))
+
+(cffi:defctype #.(custom-lispify "PFNGLXCOPYIMAGESUBDATANVPROC" 'typename) :pointer)
+
+(cl:export '#.(custom-lispify "PFNGLXCOPYIMAGESUBDATANVPROC" 'typename))
+
+(cl:defconstant #.(custom-lispify "GLX_INTEL_swap_event" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_INTEL_swap_event" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_NV_multisample_coverage" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_NV_multisample_coverage" 'constant))
 
 

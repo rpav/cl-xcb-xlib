@@ -13,7 +13,7 @@
        (loop for ,i from 0 below ,count
              for ,x in ,points by #'cddr
              for ,y in (cdr ,points) by #'cddr
-             for ,point-ptr = (mem-aref ,ptr 'xcb-point-t ,i)
+             for ,point-ptr = (mem-pref ,ptr 'xcb-point-t ,i)
              do (setf (xcb-point-t-x ,point-ptr) ,x)
                 (setf (xcb-point-t-y ,point-ptr) ,y))
        ,@body))))

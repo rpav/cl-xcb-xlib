@@ -33,6 +33,7 @@
   (let* ((display (drawable-display parent))
          (wid (xcb-generate-id (%display-xcb-connection display)))
          (window (%make-window :display display :id wid))
+         (colormap (if colormap (%colormap-xcb-colormap colormap) nil))
          (value-mask 0)
          (attr-count 0))
     (with-foreign-object (values-ptr 'uint-32-t +max-window-attrs+)

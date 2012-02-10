@@ -18,6 +18,8 @@
      (declare (ignore args))
      (error "~A is unimplemented" ',name)))
 
+(export '(stub stub-macro))
+
  ;; Stupid simple queue, no locking
 
 (declaim (inline make-queue))
@@ -108,9 +110,10 @@
                                   (make-entry (car i) (cadr i))
                                   (make-entry i))))))))
 
-(defmacro define-const-table (name &rest entries)
+(defmacro define-const-table (name (prefix) &rest entries)
   (flet ((make-entry (name &optional xcb-name)
-           (let ((sym (intern (format nil "+XCB-~A+" (or xcb-name name)) :xcb)))
+           (let ((sym (intern (format nil "+~A-~A+" prefix
+                                      (or xcb-name name)))))
              (cons name (symbol-value sym)))))
     `(eval-when (:compile-toplevel :load-toplevel :execute)
        (defparameter ,name
@@ -119,3 +122,4 @@
                      (make-entry (car i) (cadr i))
                      (make-entry i))))))))
 
+(export '(define-enum-table define-const-table))

@@ -4,6 +4,7 @@
   (:export
 
    *unimplemented*
+   *display*
 
    ;; ATOM
    atom-name
@@ -327,3 +328,27 @@
    unmap-subwindows
    destroy-window
    destroy-subwindows))
+
+(defpackage :xcb.clx.ext.glx
+  (:use #:cl #:cffi #:xcb #:xcb.clx)
+  (:nicknames #:glx)
+  (:export
+
+   *unimplemented*
+   *context*
+   *drawable*
+
+   create-context
+   create-context-arb
+   create-glx-window
+   destroy-context
+   destroy-glx-window
+   make-current
+   make-context-current
+   choose-visual
+   choose-fbconfig
+   get-visual-from-fbconfig
+   get-visualid-from-fbconfig
+   swap-buffers
+   wait-gl
+   wait-x))

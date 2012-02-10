@@ -3,7 +3,8 @@
   :author "Ryan Pavlik"
   :license "NewBSD, LLGPL"
 
-  :depends-on (:cffi :cffi-fsbv)
+  :depends-on (:cffi :cffi-fsbv :trivial-garbage :chanl
+               :cl-opengl)
 
   :pathname "src"
   :serial t
@@ -18,13 +19,14 @@
 
    (:file "package")
    (:file "load-basic-libraries")
+   (:file "load-ext-libraries")
    (:file "swig-util")
    (:file "xcb-swig")
    (:file "xlib-swig")
    (:file "poll-swig")
-   (:file "load-ext-libraries")
    (:file "cffi-util")
    (:file "cffi-defs")
+   (:file "xlib-wrappers")
 
    (:module "xcb.clx"
     :pathname "clx"
@@ -50,4 +52,11 @@
      (:file "resources")
      (:file "control")
      (:file "ext")
-     (:file "errors")))))
+     (:file "errors")
+
+     (:module "xcb.ext"
+      :pathname "ext"
+      :serial t
+      :components
+      ((:file "glx")))))))
+
