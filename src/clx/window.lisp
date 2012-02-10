@@ -15,7 +15,7 @@
     (:input-output . :+xcb-window-class-input-output+)
     (:input . :+xcb-window-class-input-only+)))
 
-(define-enum-table *window-attr-to-xcb* (xcb-cw-t "XCB-CW")
+(define-enum-table window-attr (xcb-cw-t "XCB-CW")
   (:background :back-pixel) (:border :border-pixel)
   :bit-gravity (:gravity :win-gravity) :backing-store
   :backing-planes :backing-pixel :override-redirect
@@ -38,7 +38,7 @@
          (attr-count 0))
     (with-foreign-object (values-ptr 'uint-32-t +max-window-attrs+)
       ;; This is very much order-dependent:
-      (vl-maybe-set-many (*window-attr-to-xcb* values-ptr value-mask attr-count)
+      (vl-maybe-set-many (window-attr values-ptr value-mask attr-count)
           background border bit-gravity gravity
           backing-store backing-planes backing-pixel
           override-redirect save-under event-mask

@@ -9,7 +9,7 @@
 
  ;; 5.2 Creating Graphics Contexts
 
-(define-enum-table *gc-attr-to-xcb* (xcb-gc-t "XCB-GC")
+(define-enum-table gc-attr (xcb-gc-t "XCB-GC")
   :function :plane-mask :foreground :background :line-style
   :line-width :cap-style :join-style :fill-style :fill-rule
   :tile :stipple (:ts-x :tile-stipple-origin-x)
@@ -18,13 +18,13 @@
   (:clip-y :clip-origin-y) :clip-mask :dash-offset
   (:dashes :dash-list) :arc-mode)
 
-(defconstant +max-gc-attr-to-xcb+ (length *gc-attr-to-xcb*))
+(defconstant +max-gc-attr-to-xcb+ (length *gc-attr-map*))
 
-(define-enum-table *clip-ordering-to-xcb*
+(define-enum-table clip-ordering
     (xcb-clip-ordering-t "XCB-CLIP-ORDERING")
   :unsorted :y-sorted :yx-sorted :yx-banded)
 
-(define-enum-table *gc-func-to-xcb* (xcb-gx-t "XCB-GX")
+(define-enum-table gc-func (xcb-gx-t "XCB-GX")
   (boole-clr :clear) (boole-and :and) (boole-andc2 :and-reverse)
   (boole-1 :copy)  (boole-andc1 :and-inverted) (boole-2 :noop)
   (boole-xor :xor) (boole-ior :or) (boole-nor :nor) (boole-eqv :equiv)
@@ -42,12 +42,12 @@
   (let* ((dpy (drawable-display drawable))
          (id (xcb-generate-id (%display-xcb-connection dpy)))
          (gcon (%make-gcontext :display dpy :xcb-gcontext id))
-         (function (cdr (assoc function *gc-func-to-xcb*)))
+         (function (gc-func function))
          (value-mask 0)
          (value-count 0))
     (with-foreign-object (values-ptr 'uint-32-t +max-gc-attr-to-xcb+)
       ;; Remember, order specified is critical:
-      (vl-maybe-set-many (*gc-attr-to-xcb* values-ptr value-mask value-count)
+      (vl-maybe-set-many (gc-attr values-ptr value-mask value-count)
         function plane-mask foreground background line-style line-width
         cap-style join-style fill-style fill-rule tile stipple
         ts-x ts-y font subwindow-mode exposures clip-x clip-y

@@ -2,7 +2,7 @@
 
  ;; Event Values
 
-(define-enum-table *event-mask-map* (xcb-event-mask-t "XCB-EVENT-MASK")
+(define-enum-table event-mask (xcb-event-mask-t "XCB-EVENT-MASK")
   :no-event :key-press :key-release :button-press :button-release
   :enter-window :leave-window :pointer-motion :pointer-motion-hint
   :button-1-motion :button-2-motion :button-3-motion :button-4-motion
@@ -12,16 +12,14 @@
   :owner-grab-button)
 
 (defun make-event-mask (&rest keys)
-  (apply #'logior
-         (mapcar (lambda (type) (cdr (assoc type *event-mask-map*)))
-                 keys)))
+  (apply #'event-mask-logior keys))
 
  ;;; FIXME? efficiency
 (defun make-event-keys (mask)
   (let ((x 0) keys)
     (loop for i from 0
           if (logbitp i mask)
-            do (push (car (rassoc (ash 1 i) *event-mask-map*)) keys)
+            do (push (event-mask-key (ash 1 i)) keys)
                (incf x)
           end
           while (< x (logcount mask)))
@@ -30,7 +28,7 @@
 (defvar *event-map* (make-hash-table))
 (defvar *event-slot-map* (make-hash-table))
 
-(define-const-table *event-type-map* ("XCB")
+(define-const-table event-type ("XCB")
   :key-press :key-release :button-press :button-release :motion-notify
   :enter-notify :leave-notify :focus-in :focus-out :keymap-notify
   (:exposure :expose) :graphics-exposure :no-exposure :visibility-notify
@@ -43,8 +41,7 @@
  ;; 12.3 Processing Events
 
 (defun make-event (display ptr)
-  (let* ((type (car (rassoc (xcb-generic-event-t-response-type ptr)
-                            *event-type-map*)))
+  (let* ((type (event-type-key (xcb-generic-event-t-response-type ptr)))
          (slots (find-slots type))
          (ev (list type :event-key)))
     (let ((parsed

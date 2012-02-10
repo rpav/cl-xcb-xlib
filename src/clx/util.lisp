@@ -79,21 +79,20 @@
 
  ;; Building value_lists
 
-(defmacro vl-maybe-set (attr list values-ptr value-mask value-count)
-  `(when ,attr
-     (let ((row (assoc ,(intern (string attr) :keyword)
-                       ,list)))
-       (unless row (error "Bad VALUE-LIST attribute for ~A: ~A"
-                          ',list ',attr))
-       (setf ,value-mask
-             (logior ,value-mask (cdr row)))
-       (setf (mem-aref ,values-ptr 'uint-32-t ,value-count) ,attr)
-       (incf ,value-count))))
+(defmacro vl-maybe-set (attr type values-ptr value-mask value-count)
+  (let ((val (gensym "VAL")))
+    `(when ,attr
+       (let ((,val (,type ,(intern (string attr) :keyword))))
+         (unless ,val (error "Bad VALUE-LIST attribute for ~A: ~A"
+                             ',type ',attr))
+         (setf ,value-mask (logior ,value-mask ,val))
+         (setf (mem-aref ,values-ptr 'uint-32-t ,value-count) ,attr)
+         (incf ,value-count)))))
 
-(defmacro vl-maybe-set-many ((list ptr mask count) &rest attrs)
+(defmacro vl-maybe-set-many ((type ptr mask count) &rest attrs)
   `(progn
      ,@(loop for a in attrs collect
-             `(vl-maybe-set ,a ,list ,ptr ,mask ,count))))
+             `(vl-maybe-set ,a ,type ,ptr ,mask ,count))))
 
  ;; Generalized enum tables
 
@@ -103,23 +102,43 @@
                                      (or xcb-name name))
                              :keyword)))
              (cons name (foreign-enum-value xcb-type kw)))))
-    `(eval-when (:compile-toplevel :load-toplevel :execute)
-       (defparameter ,name
-         '(,@(loop for i in entries
+    (let ((earmuff-name (intern (format nil "*~A-MAP*" name)))
+          (key-name (intern (format nil "~A-KEY" name)))
+          (ior-name (intern (format nil "~A-LOGIOR" name))))
+      `(eval-when (:compile-toplevel :load-toplevel :execute)
+         (defparameter ,earmuff-name
+           '(,@(loop for i in entries
                    collecting (if (consp i)
                                   (make-entry (car i) (cadr i))
-                                  (make-entry i))))))))
+                                  (make-entry i)))))
+         (defun ,name (key)
+           (cdr (assoc key ,earmuff-name)))
+         (defun ,key-name (val)
+           (car (rassoc val ,earmuff-name)))
+         (defun ,ior-name (&rest keys)
+           (reduce (lambda (v1 v2) (logior v1 (,name v2)))
+                   keys :initial-value 0))))))
 
 (defmacro define-const-table (name (prefix) &rest entries)
   (flet ((make-entry (name &optional xcb-name)
            (let ((sym (intern (format nil "+~A-~A+" prefix
                                       (or xcb-name name)))))
              (cons name (symbol-value sym)))))
-    `(eval-when (:compile-toplevel :load-toplevel :execute)
-       (defparameter ,name
-         '(,@(loop for i in entries
-                   collecting (if (consp i)
-                     (make-entry (car i) (cadr i))
-                     (make-entry i))))))))
+    (let ((earmuff-name (intern (format nil "*~A-MAP*" name)))
+          (key-name (intern (format nil "~A-KEY" name)))
+          (ior-name (intern (format nil "~A-LOGIOR" name))))
+      `(eval-when (:compile-toplevel :load-toplevel :execute) 
+         (defparameter ,earmuff-name
+           '(,@(loop for i in entries
+                     collecting (if (consp i)
+                                    (make-entry (car i) (cadr i))
+                                    (make-entry i)))))
+         (defun ,name (key)
+           (cdr (assoc key ,earmuff-name)))
+         (defun ,key-name (val)
+           (car (rassoc val ,earmuff-name)))
+         (defun ,ior-name (&rest keys)
+           (reduce (lambda (v1 v2) (logior v1 (,name v2)))
+                   keys :initial-value 0))))))
 
 (export '(define-enum-table define-const-table))

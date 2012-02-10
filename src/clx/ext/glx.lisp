@@ -10,7 +10,7 @@
 
  ;; Tables
 
-(define-const-table *glx-table* ("GLX")
+(define-const-table glx-val ("GLX")
   :use-gl :buffer-size :level :rgba (:double-buffer :doublebuffer)
   :stereo :aux-buffers :red-size :green-size :blue-size :alpha-size
   :depth-size :stencil-size :accum-red-size :accum-green-size
@@ -43,7 +43,7 @@
          (dolist (,attr ,list)
            (let ((,v (etypecase ,attr
                        (boolean (if ,attr 1 0))
-                       (symbol (cdr (assoc ,attr *glx-table*)))
+                       (symbol (glx-val ,attr))
                        (number ,attr))))
                  (setf (mem-aref ,ptr :int ,i) ,v)
                  (incf ,i)))
@@ -153,7 +153,7 @@
   (with-foreign-object (ptr :int)
     (gl-xget-fbconfig-attrib (xcb.clx::%display-xlib-display display)
                              (mem-ref (xcb::%x-ptr fbconfig) :pointer)
-                             (cdr (assoc :visual-id *glx-table*))
+                             (glx-val :visual-id)
                              ptr)
     (mem-ref ptr :int)))
 
