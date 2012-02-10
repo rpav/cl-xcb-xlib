@@ -89,6 +89,9 @@
    close-display
    with-display
 
+   display-funcall
+   do-on-display
+
    ;; DRAWABLE
    drawable
    drawable-display
@@ -105,7 +108,6 @@
    ;; EVENTS
    make-event-mask
    make-event-keys
-   handler-function
    process-event
    event-case
    event-cond

@@ -15,14 +15,14 @@
         (chanl:send (display-msg-return-channel msg)
                     (funcall (display-msg-fn msg)))))))
 
-(defun send-to-display (display function)
+(defun display-funcall (display function)
   (let ((msg (make-display-msg :return-channel (make-instance 'chanl:channel)
                                :fn function)))
     (chanl:send (%display-send-channel display) msg)
     (values (chanl:recv (display-msg-return-channel msg)))))
 
 (defmacro do-on-display (display &body body)
-  `(send-to-display ,display (lambda () ,@body)))
+  `(display-funcall ,display (lambda () ,@body)))
 
  ;; DISPLAY type
 
