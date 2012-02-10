@@ -6,7 +6,7 @@
 
 (defmethod print-object ((object pixmap) stream)
   (print-unreadable-object (object stream)
-    (format stream "Pixmap (ID:~A)" (%drawable-id object))))
+    (format stream "Pixmap (ID:~A)" (xid object))))
 
  ;; 4.8 Pixmaps
 

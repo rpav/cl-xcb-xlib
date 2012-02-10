@@ -18,8 +18,6 @@
      (declare (ignore args))
      (error "~A is unimplemented" ',name)))
 
-(export '(stub stub-macro))
-
  ;; Stupid simple queue, no locking
 
 (declaim (inline make-queue))
@@ -140,5 +138,3 @@
          (defun ,ior-name (&rest keys)
            (reduce (lambda (v1 v2) (logior v1 (,name v2)))
                    keys :initial-value 0))))))
-
-(export '(define-enum-table define-const-table))

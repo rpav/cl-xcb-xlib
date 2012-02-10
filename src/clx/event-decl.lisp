@@ -38,11 +38,11 @@ translated.  `DPY` is the display in context."
 
 (define-slot-trans window
   :from ((args val dpy) (%make-window :display dpy :id val))
-  :to ((args val dpy) (%window-id val)))
+  :to ((args val dpy) (xid val)))
 
 (define-slot-trans drawable
   :from ((args val dpy) (%make-drawable :display dpy :id val))
-  :to ((args val dpy) (%drawable-id val)))
+  :to ((args val dpy) (xid val)))
 
 (define-slot-trans null
   :from ((args val dpy) (if (= val 0)

@@ -8,10 +8,10 @@
 
 (defun create-colormap (visual window &optional alloc-p)
   (declare (ignore alloc-p))
-  (let* ((con (%display-xcb-connection (%window-display window)))
+  (let* ((con (display-ptr-xcb window))
          (cid (xcb-generate-id con))
          (cm (%make-colormap :xcb-colormap cid)))
-    (xcb-create-colormap con 0 cid (%window-id window) visual)
+    (xcb-create-colormap con 0 cid (xid window) visual)
     cm))
 
 (stub copy-colormap-and-free (colormap))

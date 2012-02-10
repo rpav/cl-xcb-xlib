@@ -10,6 +10,9 @@
   (print-unreadable-object (object stream)
     (format stream "Screen ~A" (%screen-number object))))
 
+(defmethod display-for ((object screen))
+  (%screen-display object))
+
  ;; 3.2 Screen Attributes
 
 (defun screen-backing-stores (screen)

@@ -2,17 +2,18 @@
 
  ;; Basic wrapper for memory management
 
-(defstruct (x-ptr-wrapper (:constructor %make-x-ptr)
-                          (:conc-name %x-))
+(defstruct (x-ptr-wrapper (:constructor make-x-ptr)
+                          (:conc-name x-))
   (ptr (null-pointer) :type #.(type-of (null-pointer)))
   (type nil))
 
 (defmethod print-object ((object x-ptr-wrapper) stream)
   (print-unreadable-object (object stream)
     (format stream "~A [xval] {#x~8,'0X}"
-            (%x-type object)
-            (pointer-address (%x-ptr object)))))
+            (x-type object)
+            (pointer-address (x-ptr object)))))
 
+(export '(make-x-ptr x-ptr x-type))
 
  ;; Avoid fatal X errors
 

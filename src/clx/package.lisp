@@ -57,6 +57,9 @@
 
    ;; DISPLAY
    display
+   display-for
+   display-ptr-xcb
+   display-ptr-xlib
    open-display
    display-authorization-data
    display-authorization-name
@@ -94,6 +97,7 @@
 
    ;; DRAWABLE
    drawable
+   xid
    drawable-display
    drawable-equal
    drawable-plist
@@ -329,7 +333,13 @@
    unmap-window
    unmap-subwindows
    destroy-window
-   destroy-subwindows))
+   destroy-subwindows
+
+   ;; Util
+   stub
+   stub-macro
+   define-const-table
+   define-enum-table))
 
 (defpackage :xcb.clx.ext.glx
   (:use #:cl #:cffi #:xcb #:xcb.clx)

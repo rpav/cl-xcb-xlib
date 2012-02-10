@@ -59,9 +59,8 @@
 (defun create-context (screen visual &optional share-list is-direct)
   (with-glx-attr (ptr '(:context-major-version-arb 3
                         :context-minor-version-arb 0))
-    (let* ((dpy (xlib::%display-xlib-display
-                 (xlib::%screen-display screen)))
-           (vis (xcb::%x-ptr visual))
+    (let* ((dpy (display-ptr-xlib screen))
+           (vis (x-ptr visual))
            (ptr (gl-xcreate-context dpy vis (or share-list (null-pointer))
                                     (if is-direct 1 0))))
       (if (null-pointer-p ptr)
@@ -71,8 +70,8 @@
 (defun create-context-arb (display fbconfig &optional share-list is-direct)
   (with-glx-attr (attr '(:context-major-version-arb 3
                          :context-minor-version-arb 0))
-    (let* ((dpy (xlib::%display-xlib-display display))
-           (fbptr (xcb::%x-ptr fbconfig))
+    (let* ((dpy (display-ptr-xlib display))
+           (fbptr (x-ptr fbconfig))
            (ptr (gl-xcreate-context-attribs-arb
                  dpy (mem-ref fbptr :pointer)
                  (or share-list (null-pointer))
@@ -83,8 +82,8 @@
           (%make-context :xlib-glx-ctx ptr)))))
 
 (defun create-new-context (display fbconfig &optional share-list is-direct)
-    (let* ((dpy (xlib::%display-xlib-display display))
-           (fbptr (xcb::%x-ptr fbconfig))
+    (let* ((dpy (display-ptr-xlib display))
+           (fbptr (x-ptr fbconfig))
            (ptr (gl-xcreate-new-context
                  dpy (mem-ref fbptr :pointer)
                  +glx-rgba-type+
@@ -95,52 +94,47 @@
           (%make-context :xlib-glx-ctx ptr))))
 
 (defun destroy-context (ctx &optional (display *display*))
-  (gl-xdestroy-context (xcb.clx::%display-xlib-display display)
+  (gl-xdestroy-context (display-ptr-xlib display)
                        (%context-xlib-glx-ctx ctx))
   (setf (%context-xlib-glx-ctx ctx) (null-pointer))
   (values))
 
 (defun destroy-glx-window (window)
-  (gl-xdestroy-window (xcb.clx::%display-xlib-display
-                       (%glx-window-display window))
-                      (%glx-window-id window)))
+  (gl-xdestroy-window (display-ptr-xlib window)
+                      (xid window)))
 
 (defun make-current (drawable ctx)
-  (let ((dpy (xlib::%display-xlib-display
-              (xlib::%drawable-display drawable)))
-        (id (xlib::%drawable-id drawable))
+  (let ((dpy (display-ptr-xlib drawable))
+        (id (xid drawable))
         (ptr (%context-xlib-glx-ctx ctx)))
     (gl-xmake-current dpy id ptr)))
 
 (defun make-context-current (draw-drawable read-drawable ctx)
-  (let ((dpy (xlib::%display-xlib-display
-              (xlib::%drawable-display draw-drawable)))
-        (did (xlib::%drawable-id draw-drawable))
-        (rid (xlib::%drawable-id read-drawable))
+  (let ((dpy (display-ptr-xlib draw-drawable))
+        (did (xid draw-drawable))
+        (rid (xid read-drawable))
         (ptr (%context-xlib-glx-ctx ctx)))
     (gl-xmake-context-current dpy did rid ptr)))
 
 (defun choose-fbconfig (screen attrs)
   (with-glx-attr (ptr attrs)
     (with-foreign-object (nelements :int)
-      (let* ((fbptr (gl-xchoose-fbconfig (xlib::%display-xlib-display
-                                          (xlib::%screen-display screen))
+      (let* ((fbptr (gl-xchoose-fbconfig (display-ptr-xlib screen)
                                          (xlib::%screen-number screen)
                                          ptr nelements))
-             (fb (xcb::%make-x-ptr :ptr fbptr :type 'fbconfig)))
+             (fb (make-x-ptr :ptr fbptr :type 'fbconfig)))
         (when (null-pointer-p fbptr)
           (error "Failed to choose FBConfig"))
         (tg:finalize fb (lambda () (xfree fbptr)))
         fb))))
 
 (defun get-visual-from-fbconfig (display fbconfig)
-  (let ((ptr (gl-xget-visual-from-fbconfig (xlib::%display-xlib-display
-                                            display)
-                                           (mem-ref (xcb::%x-ptr fbconfig)
+  (let ((ptr (gl-xget-visual-from-fbconfig (display-ptr-xlib display)
+                                           (mem-ref (x-ptr fbconfig)
                                                     :pointer))))
     (when (null-pointer-p ptr)
       (error "Unable to get visual from fbconfig ~A" fbconfig))
-    (let ((vis (xcb::%make-x-ptr :ptr ptr :type 'x-visual-info)))
+    (let ((vis (make-x-ptr :ptr ptr :type 'x-visual-info)))
       (tg:finalize vis (lambda () (xfree ptr)))
       vis)))
 
@@ -151,16 +145,16 @@
 
 (defun get-visualid-from-fbconfig (display fbconfig)
   (with-foreign-object (ptr :int)
-    (gl-xget-fbconfig-attrib (xcb.clx::%display-xlib-display display)
-                             (mem-ref (xcb::%x-ptr fbconfig) :pointer)
+    (gl-xget-fbconfig-attrib (display-ptr-xlib display)
+                             (mem-ref (x-ptr fbconfig) :pointer)
                              (glx-val :visual-id)
                              ptr)
     (mem-ref ptr :int)))
 
 (defun create-glx-window (display fbconfig window &optional attrs)
-  (let ((dpy (xcb.clx::%display-xlib-display display))
-        (fbptr (mem-ref (xcb::%x-ptr fbconfig) :pointer))
-        (window (xcb.clx::%window-id window)))
+  (let ((dpy (display-ptr-xlib display))
+        (fbptr (mem-ref (x-ptr fbconfig) :pointer))
+        (window (xid window)))
     (let* ((wid (gl-xcreate-window dpy fbptr window
                                    (if attrs attrs (null-pointer))))
            (glxwin (%make-glx-window :display display :id wid)))
@@ -169,8 +163,8 @@
       glxwin)))
 
 (defun swap-buffers (display drawable)
-  (let ((dpy (xcb.clx::%display-xlib-display display))
-        (did (xlib::%drawable-id drawable)))
+  (let ((dpy (display-ptr-xlib display))
+        (did (xid drawable)))
     (gl-xswap-buffers dpy did)))
 
 (defun wait-gl () (gl-xwait-gl))

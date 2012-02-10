@@ -5,9 +5,16 @@
   (display nil :type display)
   (id 0 :type (integer 0 4294967295)))
 
+(declaim (inline xid))
+(defun xid (drawable)
+  (%drawable-id drawable))
+
 (defmethod print-object ((object drawable) stream)
   (print-unreadable-object (object stream)
-    (format stream "Drawable (ID:~A)" (%drawable-id object))))
+    (format stream "Drawable (ID:~A)" (xid object))))
+
+(defmethod display-for ((object drawable))
+  (%drawable-display object))
 
  ;; 4.1 Drawables
 
@@ -17,7 +24,7 @@
 
 (defun drawable-equal (d-1 d-2)
   (and (eq (%drawable-display d-1) (%drawable-display d-2))
-       (eq (%drawable-id d-1) (%drawable-id d-2)))) 
+       (eq (xid d-1) (xid d-2)))) 
 
 ;; DRAWABLE-P is implicit in DEFSTRUCT DRAWABLE
 

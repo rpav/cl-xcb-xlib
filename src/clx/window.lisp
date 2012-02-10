@@ -6,7 +6,7 @@
 
 (defmethod print-object ((object window) stream)
   (print-unreadable-object (object stream)
-    (format stream "Window (ID:~A)" (%drawable-id object))))
+    (format stream "Window (ID:~A)" (xid object))))
 
  ;; 4.2 Creating Windows
 
@@ -31,7 +31,7 @@
                         override-redirect save-under event-mask
                         do-not-propagate-mask colormap cursor)
   (let* ((display (drawable-display parent))
-         (wid (xcb-generate-id (%display-xcb-connection display)))
+         (wid (xcb-generate-id (display-ptr-xcb display)))
          (window (%make-window :display display :id wid))
          (colormap (if colormap (%colormap-xcb-colormap colormap) nil))
          (value-mask 0)
@@ -43,9 +43,9 @@
           backing-store backing-planes backing-pixel
           override-redirect save-under event-mask
           do-not-propagate-mask colormap cursor)
-      (xcb-create-window (%display-xcb-connection display)
+      (xcb-create-window (display-ptr-xcb display)
                          depth
-                         wid (%drawable-id parent)
+                         wid (xid parent)
                          x y width height
                          border-width
                          (foreign-enum-value
@@ -113,8 +113,8 @@
 (stub (setf window-save-under) (v window))
 
 (defun window-visual (window)
-  (let* ((con (%display-xcb-connection (%drawable-display window)))
-         (cookie (xcb-get-window-attributes-unchecked con (%drawable-id window))))
+  (let* ((con (display-ptr-xcb window))
+         (cookie (xcb-get-window-attributes-unchecked con (xid window))))
     (with-xcb-reply (ptr)
         (xcb-get-window-attributes-reply con cookie (null-pointer))
       (xcb-get-window-attributes-reply-t-visual ptr))))
@@ -134,8 +134,8 @@
  ;; 4.6 Mapping
 
 (defun map-window (window)
-  (xcb-map-window (%display-xcb-connection (%drawable-display window))
-                  (%drawable-id window)))
+  (xcb-map-window (display-ptr-xcb window)
+                  (xid window)))
 
 (stub map-subwindows (window))
 (stub unmap-window (window))
@@ -144,8 +144,8 @@
  ;; 4.7 Destroying Windows
 
 (defun destroy-window (window)
-  (xcb-destroy-window (%display-xcb-connection (%drawable-display window))
-                      (%drawable-id window)))
+  (xcb-destroy-window (display-ptr-xcb window)
+                      (xid window)))
 
 (stub destroy-subwindows (window))
 

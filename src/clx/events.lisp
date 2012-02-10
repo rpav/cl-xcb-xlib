@@ -57,14 +57,14 @@
 (defun %read-queue-event (display timeout)
   (let ((ev)
         (parsed-event)
-        (fd (xcb-get-file-descriptor (%display-xcb-connection display))))
+        (fd (xcb-get-file-descriptor (display-ptr-xcb display))))
     (unwind-protect
          (let ((fds (poll (list fd) :events '(:in :error :hup :invalid)
                                     :timeout (if timeout
                                                  (truncate (* 1000 timeout))
                                                  -1))))
            (when fds
-             (setf ev (xcb-poll-for-event (%display-xcb-connection display)))
+             (setf ev (xcb-poll-for-event (display-ptr-xcb display)))
              (unless (null-pointer-p ev)
                (setf parsed-event (make-event display ev))
                (queue-add (%display-event-queue display) parsed-event))))

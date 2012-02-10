@@ -39,6 +39,16 @@
   (print-unreadable-object (object stream)
     (format stream "Display ~A" (%display-number object))))
 
+(defgeneric display-for (object))
+(defmethod display-for ((object display)) object)
+
+(declaim (inline display-ptr-xlib display-ptr-xcb))
+(defun display-ptr-xlib (object)
+  (%display-xlib-display (display-for object)))
+
+(defun display-ptr-xcb (object)
+  (%display-xcb-connection (display-for object)))
+
  ;; 2.2 Opening the Display
 
 (defun open-display (host &key (display 0) protocol)
@@ -64,8 +74,10 @@
 
  ;; 2.3 Display Attributes
 
-(defun display-authorization-data (display) "")
-(defun display-authorization-name (display) "")
+(defun display-authorization-data (display)
+  (declare (ignore display)) "")
+(defun display-authorization-name (display)
+  (declare (ignore display)) "")
 
 (stub display-bitmap-format (display))
 (stub display-byte-order (display))

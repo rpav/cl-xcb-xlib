@@ -7,6 +7,9 @@
   (xcb-gcontext 0 :type (integer 0 4294967295))
   (clip-ordering 0 :type (integer 0 3)))
 
+(defmethod display-for ((object gcontext))
+  (%gcontext-display object))
+
  ;; 5.2 Creating Graphics Contexts
 
 (define-enum-table gc-attr (xcb-gc-t "XCB-GC")
@@ -40,7 +43,7 @@
   ;; FIXME, implement caching, clip-ordering
   (declare (ignore cache-p clip-ordering))
   (let* ((dpy (drawable-display drawable))
-         (id (xcb-generate-id (%display-xcb-connection dpy)))
+         (id (xcb-generate-id (display-ptr-xcb dpy)))
          (gcon (%make-gcontext :display dpy :xcb-gcontext id))
          (function (gc-func function))
          (value-mask 0)
@@ -52,8 +55,8 @@
         cap-style join-style fill-style fill-rule tile stipple
         ts-x ts-y font subwindow-mode exposures clip-x clip-y
         clip-mask dash-offset dashes arc-mode)
-      (xcb-create-gc (%display-xcb-connection dpy) id
-                     (%drawable-id drawable) value-mask values-ptr)
+      (xcb-create-gc (display-ptr-xcb dpy) id
+                     (xid drawable) value-mask values-ptr)
       gcon)))
 
  ;; 5.3 Graphics Context Attributes
@@ -151,7 +154,7 @@
  ;; 5.5 Destroying Graphics Contexts
 
 (defun free-gcontext (gcontext)
-  (xcb-free-gc (%display-xcb-connection (%gcontext-display gcontext))
+  (xcb-free-gc (display-ptr-xcb gcontext)
                (%gcontext-xcb-gcontext gcontext)))
 
  ;; 5.6 Graphics Context Cache

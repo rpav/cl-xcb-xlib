@@ -44,24 +44,24 @@
  ;; 6.4 Drawing Lines
 
 (defun draw-line (drawable gcontext x1 y1 x2 y2 &optional relative-p)
-  (let ((con (%display-xcb-connection (%drawable-display drawable)))
+  (let ((con (display-ptr-xcb drawable))
         (points (list x1 y1 x2 y2))
         (mode (coord-mode (if relative-p :previous :origin))))
     (with-points points (ptr count)
-      (xcb-poly-line con mode (%drawable-id drawable)
+      (xcb-poly-line con mode (xid drawable)
                      (%gcontext-xcb-gcontext gcontext)
                      count ptr))))
 
 (defun draw-lines (drawable gcontext points
                   &key relative-p fill-p (shape :complex))
-  (let ((con (%display-xcb-connection (%drawable-display drawable)))
+  (let ((con (display-ptr-xcb drawable))
         (mode (coord-mode (if relative-p :previous :origin))))
     (with-points points (ptr count)
       (if fill-p
-          (xcb-fill-poly con (%drawable-id drawable)
+          (xcb-fill-poly con (xid drawable)
                          (%gcontext-xcb-gcontext gcontext)
                          (poly-shape shape) mode count ptr)
-          (xcb-poly-line con mode (%drawable-id drawable)
+          (xcb-poly-line con mode (xid drawable)
                          (%gcontext-xcb-gcontext gcontext)
                          count ptr)))))
 
