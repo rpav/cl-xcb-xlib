@@ -3,8 +3,7 @@
   :author "Ryan Pavlik"
   :license "NewBSD, LLGPL"
 
-  :depends-on (:cffi :cffi-fsbv :trivial-garbage :chanl
-               :cl-opengl)
+  :depends-on (:cffi :cffi-libffi :trivial-garbage :chanl :cl-opengl)
 
   :pathname "src"
   :serial t
@@ -34,6 +33,7 @@
     :components
     ((:file "package")
      (:file "util")
+     (:file "errors")
      (:file "display")
      (:file "screen")
      (:file "drawable")
@@ -52,7 +52,6 @@
      (:file "resources")
      (:file "control")
      (:file "ext")
-     (:file "errors")
 
      (:module "xcb.ext"
       :pathname "ext"

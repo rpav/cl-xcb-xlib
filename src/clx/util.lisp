@@ -138,3 +138,4 @@
          (defun ,ior-name (&rest keys)
            (reduce (lambda (v1 v2) (logior v1 (,name v2)))
                    keys :initial-value 0))))))
+

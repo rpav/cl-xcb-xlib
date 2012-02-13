@@ -11,7 +11,7 @@
   (let* ((con (display-ptr-xcb window))
          (cid (xcb-generate-id con))
          (cm (%make-colormap :xcb-colormap cid)))
-    (xcb-create-colormap con 0 cid (xid window) visual)
+    (xerr window (xcb-create-colormap con 0 cid (xid window) visual))
     cm))
 
 (stub copy-colormap-and-free (colormap))

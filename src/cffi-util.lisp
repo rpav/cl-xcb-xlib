@@ -21,10 +21,12 @@
 (defcfun ("free" libc_free) :void
   (ptr :pointer))
 
-(defmacro with-xcb-reply ((ptr) form &body body)
+(defmacro with-xcb-reply ((ptr err) form &body body)
   `(let ((,ptr (null-pointer)))
      (unwind-protect
-          (progn (setf ,ptr ,form) ,@body)
+          (with-foreign-object (,err :pointer)
+            (setf ,ptr ,form)
+            ,@body)
        (unless (null-pointer-p ,ptr)
          (libc_free ,ptr)))))
 

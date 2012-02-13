@@ -55,8 +55,9 @@
         cap-style join-style fill-style fill-rule tile stipple
         ts-x ts-y font subwindow-mode exposures clip-x clip-y
         clip-mask dash-offset dashes arc-mode)
-      (xcb-create-gc (display-ptr-xcb dpy) id
-                     (xid drawable) value-mask values-ptr)
+      (xerr dpy
+          (xcb-create-gc-checked (display-ptr-xcb dpy) id
+                                 (xid drawable) value-mask values-ptr))
       gcon)))
 
  ;; 5.3 Graphics Context Attributes
@@ -154,8 +155,9 @@
  ;; 5.5 Destroying Graphics Contexts
 
 (defun free-gcontext (gcontext)
-  (xcb-free-gc (display-ptr-xcb gcontext)
-               (%gcontext-xcb-gcontext gcontext)))
+  (xerr gcontext
+      (xcb-free-gc-checked (display-ptr-xcb gcontext)
+                           (%gcontext-xcb-gcontext gcontext))))
 
  ;; 5.6 Graphics Context Cache
 

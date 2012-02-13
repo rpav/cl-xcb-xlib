@@ -1,6 +1,7 @@
 (in-package :xcb)
 
  ;; Basic Types
+(make-cstruct-accessors xcb-void-cookie-t)
 (make-cstruct-accessors xcb-screen-iterator-t)
 (make-cstruct-accessors xcb-screen-t)
 (make-cstruct-accessors xcb-auth-info-t)
@@ -38,6 +39,11 @@
 (make-cstruct-accessors xcb-colormap-notify-event-t)
 (make-cstruct-accessors xcb-client-message-event-t)
 (make-cstruct-accessors xcb-mapping-notify-event-t)
+
+ ;; Errors
+(make-cstruct-accessors xcb-generic-error-t)
+(make-cstruct-accessors xcb-request-error-t)
+(make-cstruct-accessors xcb-value-error-t)
 
  ;; Graphics
 (make-cstruct-accessors xcb-point-t)

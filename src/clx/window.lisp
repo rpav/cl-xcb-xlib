@@ -39,23 +39,22 @@
     (with-foreign-object (values-ptr 'uint-32-t +max-window-attrs+)
       ;; This is very much order-dependent:
       (vl-maybe-set-many (window-attr values-ptr value-mask attr-count)
-          background border bit-gravity gravity
-          backing-store backing-planes backing-pixel
-          override-redirect save-under event-mask
-          do-not-propagate-mask colormap cursor)
-      (xcb-create-window (display-ptr-xcb display)
-                         depth
-                         wid (xid parent)
-                         x y width height
-                         border-width
-                         (foreign-enum-value
-                          'xcb-window-class-t
-                          (cdr (assoc class *window-class-to-xcb*)))
-                         (if (eq visual :copy)
-                             (window-visual parent)
-                             visual)
-                         value-mask values-ptr))
-    window))
+        background border bit-gravity gravity
+        backing-store backing-planes backing-pixel
+        override-redirect save-under event-mask
+        do-not-propagate-mask colormap cursor)
+      (xerr display
+          (xcb-create-window-checked
+           (display-ptr-xcb display) depth wid (xid parent)
+           x y width height
+           border-width (foreign-enum-value
+                         'xcb-window-class-t
+                         (cdr (assoc class *window-class-to-xcb*)))
+           (if (eq visual :copy)
+               (window-visual parent)
+               visual)
+           value-mask values-ptr))
+      window)))
 
  ;; 4.3 Window Attributes
 
@@ -115,8 +114,8 @@
 (defun window-visual (window)
   (let* ((con (display-ptr-xcb window))
          (cookie (xcb-get-window-attributes-unchecked con (xid window))))
-    (with-xcb-reply (ptr)
-        (xcb-get-window-attributes-reply con cookie (null-pointer))
+    (with-xcb-clx-reply ((display-for window) cookie ptr err)
+        (xcb-get-window-attributes-reply con cookie err)
       (xcb-get-window-attributes-reply-t-visual ptr))))
 
  ;; 4.4 Stacking Order
@@ -134,8 +133,8 @@
  ;; 4.6 Mapping
 
 (defun map-window (window)
-  (xcb-map-window (display-ptr-xcb window)
-                  (xid window)))
+  (xerr window (xcb-map-window-checked (display-ptr-xcb window)
+                                       (xid window))))
 
 (stub map-subwindows (window))
 (stub unmap-window (window))
@@ -144,8 +143,8 @@
  ;; 4.7 Destroying Windows
 
 (defun destroy-window (window)
-  (xcb-destroy-window (display-ptr-xcb window)
-                      (xid window)))
+  (xerr window (xcb-destroy-window-checked (display-ptr-xcb window)
+                                           (xid window))))
 
 (stub destroy-subwindows (window))
 
