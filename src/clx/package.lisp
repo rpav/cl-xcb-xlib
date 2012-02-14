@@ -13,7 +13,7 @@
    change-property
    delete-property
    get-property
-   list-property
+   list-properties
    rotate-properties
    convert-selection
    selection-owner

@@ -2,11 +2,14 @@
 
  ;; Basic Types
 (make-cstruct-accessors xcb-void-cookie-t)
-(make-cstruct-accessors xcb-screen-iterator-t)
+(make-cstruct-accessors xcb-generic-iterator-t)
 (make-cstruct-accessors xcb-screen-t)
 (make-cstruct-accessors xcb-auth-info-t)
 (make-cstruct-accessors xcb-setup-t)
 (make-cstruct-accessors xcb-get-window-attributes-reply-t)
+(make-cstruct-accessors xcb-intern-atom-reply-t)
+(make-cstruct-accessors xcb-get-atom-name-reply-t)
+(make-cstruct-accessors xcb-get-property-reply-t)
 
  ;; Events
 (make-cstruct-accessors xcb-generic-event-t)
@@ -99,9 +102,72 @@
 (export 'poll)
 
  ;; Type Translation
-(defmethod translate-from-foreign (ptr (type xcb-screen-iterator-t-tclass))
-  (let (screens)
-    (loop while (> (xcb-screen-iterator-t-rem ptr) 0)
-          do (push (xcb-screen-iterator-t-data ptr) screens)
-             (xcb-screen-next ptr))
-    screens))
+(declaim (inline xcb-cookie-val))
+(defun xcb-cookie-val (ptr)
+  (xcb-void-cookie-t-sequence ptr))
+
+(defmacro wrap-iterators (&rest types)
+  `(progn
+     ,@(loop for type in types
+             as tclass = (intern (format nil "XCB-~A-ITERATOR-T-TCLASS" type))
+             as nextfn = (intern (format nil "XCB-~A-NEXT" type))
+             collect
+             `(defmethod translate-from-foreign (ptr (type ,tclass))
+                (let (list)
+                  (loop while (> (xcb-generic-iterator-t-rem ptr) 0)
+                        do (push (xcb-generic-iterator-t-data ptr) list)
+                           (,nextfn ptr))
+                  list)))))
+
+(wrap-iterators screen)
+
+(defmacro wrap-xcb-reply-cookies (&rest types)
+  `(progn
+     ,@(loop for i in types
+             as type = (intern (format nil "XCB-~A-COOKIE-T-TCLASS" i))
+             collect
+             `(defmethod expand-from-foreign (ptr (type ,type))
+                `(xcb-cookie-val ,ptr)))))
+
+(wrap-xcb-reply-cookies
+  alloc-color
+  alloc-color-cells
+  alloc-color-planes
+  alloc-named-color
+  get-atom-name
+  get-font-path
+  get-geometry
+  get-image
+  get-input-focus
+  get-keyboard-control
+  get-keyboard-mapping
+  get-modifier-mapping
+  get-motion-events
+  get-pointer-control
+  get-pointer-mapping
+  get-property
+  get-screen-saver
+  get-selection-owner
+  get-window-attributes
+  grab-keyboard
+  grab-pointer
+  intern-atom
+  list-extensions
+  list-fonts
+  list-fonts-with-info
+  list-hosts
+  list-installed-colormaps
+  list-properties
+  lookup-color
+  query-best-size
+  query-colors
+  query-extension
+  query-font
+  query-keymap
+  query-pointer
+  query-text-extents
+  query-tree
+  set-modifier-mapping
+  set-pointer-mapping
+  translate-coordinates
+  void)

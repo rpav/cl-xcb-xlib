@@ -56,6 +56,11 @@
 ;;;SWIG wrapper code ends here
 
 
+(cffi:defcfun ("xcb_get_atom_name_name" #.(custom-lispify "xcb_get_atom_name_name" 'function)) :pointer
+  (R :pointer))
+
+(cl:export '#.(custom-lispify "xcb_get_atom_name_name" 'function))
+
 (cl:defconstant #.(custom-lispify "_STDINT_H" 'constant) 1)
 
 (cl:export '#.(custom-lispify "_STDINT_H" 'constant))
@@ -8525,11 +8530,6 @@
   (atom :unsigned-int))
 
 (cl:export '#.(custom-lispify "xcb_get_atom_name_unchecked" 'function))
-
-(cffi:defcfun ("xcb_get_atom_name_name" #.(custom-lispify "xcb_get_atom_name_name" 'function)) :string
-  (R :pointer))
-
-(cl:export '#.(custom-lispify "xcb_get_atom_name_name" 'function))
 
 (cffi:defcfun ("xcb_get_atom_name_name_length" #.(custom-lispify "xcb_get_atom_name_name_length" 'function)) :int
   (R :pointer))

@@ -12,8 +12,12 @@
 %feature("intern_function","custom-lispify");
 %feature("export");
 
+/* This does not return NULL-terminated strings and therefore builtin
+   translation breaks */
+void* xcb_get_atom_name_name(void *R);
+%ignore xcb_get_atom_name_name;
+
 %include "stdint.h"
 %include "xcb/xcb.h"
 %include "xcb/xproto.h"
 %include "X11/Xlib-xcb.h"
-
