@@ -100,8 +100,10 @@ variant.  For calls expecting a reply, use WITH-XCB-CLX-REPLY."
            (when ,cond (error ,cond)))))))
 
 (defmacro with-xcb-clx-reply ((dpy cookie ptr err) form &body body)
-  `(with-xcb-reply (,ptr ,err) ,form
-     (unless (null-pointer-p ,err)
-       (let ((err (make-x-error (cadr ,cookie) (display-for ,dpy) ,err)))
-         (when err (error err))))
-     ,@body))
+  (let ((cond (gensym "COND")))
+    `(with-xcb-reply (,ptr ,err) ,form
+       (unless (null-pointer-p (mem-ref ,err :pointer))
+         (let ((,cond (make-x-error (cadr ,cookie) (display-for ,dpy)
+                                    (mem-ref ,err :pointer))))
+           (when ,cond (error ,cond))))
+       ,@body)))
