@@ -213,3 +213,13 @@
       (when (/= 0 (xcb-get-selection-owner-reply-t-owner reply))
         (%make-window :display display
                       :id (xcb-get-selection-owner-reply-t-owner reply))))))
+
+(defun set-selection-owner (display window selection &optional time)
+  (let* ((c (display-ptr-xcb display)))
+    (xerr window
+        (xcb-set-selection-owner-checked
+         c (xid window) (find-atom window selection) (or time 0)))))
+
+(defsetf selection-owner (display selection &optional time)
+    (window)
+  `(set-selection-owner ,display ,window ,selection ,time))
