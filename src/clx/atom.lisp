@@ -150,6 +150,7 @@
                                      (32 (mem-aref ptr :uint32 i)))))
             type)))
 
+;; FIXME return values
 (defun get-property (window property
                     &key type (start 0) end delete-p (result-type 'list)
                       (transform 'identity))
@@ -192,5 +193,23 @@
 
  ;; 11.3 Selections
 
-(stub convert-selection (selection type requestor &optional property time))
-(stub selection-owner (display selection &optional time))
+(defun convert-selection (selection type requestor &optional property time)
+  (let ((c (display-ptr-xcb requestor)))
+    (xerr requestor
+        (xcb-convert-selection-checked
+         c (xid requestor)
+         (find-atom requestor selection)
+         (find-atom requestor type)
+         (if property (find-atom requestor property) 0)
+         (or time 0)))))
+
+(defun selection-owner (display selection &optional time)
+  (declare (ignore time))
+  (let* ((c (display-ptr-xcb display))
+         (ck (xcb-get-selection-owner
+              c (find-atom display selection))))
+    (with-xcb-clx-reply (display ck reply err)
+        (xcb-get-selection-owner-reply c ck err)
+      (when (/= 0 (xcb-get-selection-owner-reply-t-owner reply))
+        (%make-window :display display
+                      :id (xcb-get-selection-owner-reply-t-owner reply))))))

@@ -10,6 +10,7 @@
 (make-cstruct-accessors xcb-intern-atom-reply-t)
 (make-cstruct-accessors xcb-get-atom-name-reply-t)
 (make-cstruct-accessors xcb-get-property-reply-t)
+(make-cstruct-accessors xcb-get-selection-owner-reply-t)
 
  ;; Events
 (make-cstruct-accessors xcb-generic-event-t)
