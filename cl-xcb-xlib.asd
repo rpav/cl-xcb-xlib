@@ -24,7 +24,7 @@
    (:file "xlib-swig")
    (:file "poll-swig")
    (:file "cffi-util")
-   (:file "cffi-defs")
+   (:file "xcb-wrappers")
    (:file "xlib-wrappers")
 
    (:module "xcb.clx"
