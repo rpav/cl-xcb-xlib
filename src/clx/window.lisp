@@ -6,7 +6,7 @@
 
 (defmethod print-object ((object window) stream)
   (print-unreadable-object (object stream)
-    (format stream "Window (ID:~A)" (xid object))))
+    (format stream "Window (ID:#x~8,'0X)" (xid object))))
 
  ;; 4.2 Creating Windows
 

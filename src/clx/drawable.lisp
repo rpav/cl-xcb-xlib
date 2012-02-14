@@ -11,7 +11,7 @@
 
 (defmethod print-object ((object drawable) stream)
   (print-unreadable-object (object stream)
-    (format stream "Drawable (ID:~A)" (xid object))))
+    (format stream "Drawable (ID:#x~8,'0X)" (xid object))))
 
 (defmethod display-for ((object drawable))
   (%drawable-display object))
