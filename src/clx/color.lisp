@@ -10,5 +10,9 @@
 
 ;; Most by DEFSTRUCT
 
-(stub color-rgb (color))
+(defun color-rgb (color)
+  (values (color-red color)
+          (color-blue color)
+          (color-green color)))
+
 
