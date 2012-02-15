@@ -20,9 +20,19 @@
   :bit-gravity (:gravity :win-gravity) :backing-store
   :backing-planes :backing-pixel :override-redirect
   :save-under :event-mask (:do-not-propagate-mask :dont-propagate)
-  :colormap :cursor)
+  :colormap :cursor) ;; *window-attr-map*
 
-(defconstant +max-window-attrs+ 16)
+(defconstant +max-window-attrs+ (length *window-attr-map*))
+
+(define-enum-table window-config (xcb-config-window-t "XCB-CONFIG-WINDOW")
+  :x :y :width :height :border-width :sibling :stack-mode)
+
+(defconstant +max-window-config+ (length *window-config-map*))
+
+(define-enum-table window-stack-mode (xcb-stack-mode-t "XCB-STACK-MODE")
+  :above :below :top-if :bottom-if :opposite)
+
+(defconstant +max-window-stack+ (length *window-stack-mode-map*))
 
 (defun create-window (&key parent x y width height (depth 0) (border-width 0)
                         (class :copy) (visual :copy) 
@@ -58,64 +68,59 @@
 
  ;; 4.3 Window Attributes
 
-(stub window-all-event-masks (window))
+(define-attr-accessor window-all-event-masks all-event-masks)
 
 (stub (setf window-background) (background window))
 
-(stub window-backing-pixel (window))
-(stub (setf window-backing-pixel) (v window))
+(define-attr-accessor window-backing-pixel backing-pixel)
+(define-attr-accessor window-backing-planes backing-planes)
+(define-attr-accessor window-backing-store backing-store)
+;; FIXME: keywords not numbers
+(define-attr-accessor window-bit-gravity bit-gravity)
 
-(stub window-backing-planes (window))
-(stub (setf window-backing-planes) (v window))
+(define-attr-accessor window-border border :getter-p nil
+                      :in (lambda (w)
+                            (etypecase w
+                              ((unsigned-byte 32) w)
+                              (pixmap (xid w))
+                              (keyword w))))
 
-(stub window-backing-store (window))
-(stub (setf window-backing-store) (v window))
- 
-(stub window-bit-gravity (window))
-(stub (setf window-bit-gravity) (v window))
+(define-attr-accessor window-class -class :setter-p nil)
+(define-attr-accessor window-colormap colormap
+    :in (lambda (cm) (%colormap-xcb-colormap cm))
+    :out (lambda (cid) (%make-colormap :xcb-colormap cid)))
+(define-attr-accessor window-colormap-installed-p map-is-installed
+    :setter-p nil)
 
-(stub (setf window-border) (border window))
-
-(stub window-class (window))
-(stub window-colormap (window))
-(stub window-colormap-installed-p (window))
-
+;; FIXME: once cursors are
 (stub (setf window-cursor) (cursor window))
 
-(stub window-display (window))
+(defun window-display (window)
+  (%window-display window))
 
-(stub window-do-not-propagate-mask (window))
-(stub (setf window-do-not-propagate-mask) (mask window))
+(define-attr-accessor window-do-not-propagate-mask do-not-propagate-mask)
 
-(stub window-equal (window-1 window-2))
+(defun window-equal (window-1 window-2)
+  (drawable-equal window-1 window-2))
 
-(stub window-event-mask (window))
-(stub (setf window-event-mask) (mask window))
+(define-attr-accessor window-event-mask your-event-mask)
+(define-attr-accessor window-gravity win-gravity)
 
-(stub window-gravity (window))
-(stub (setf window-gravity) (gravity window))
+(defun window-id (window) (%window-id window))
 
-(stub window-id (window))
-(stub window-map-state (window))
-
-(stub window-override-redirect (window))
-(stub (setf window-override-redirect) (override-redirect window))
+(define-attr-accessor window-map-state map-state :setter-p nil)
+(define-attr-accessor window-override-redirect override-redirect)
 
 ;; WINDOW-P is implicit in DEFSTRUCT WINDOW
 
 (stub window-plist (window))
 (stub (setf window-plist) (v window))
 
+;; stack-mode and sibling
 (stub set-window-priority (window-priority &optional sibling) (mode))
 
-(stub window-save-under (window))
-(stub (setf window-save-under) (v window))
-
-(defun window-visual (window)
-  (do-request-response (window con cookie reply err)
-      (xcb-get-window-attributes-unchecked con (xid window))
-      (xcb-get-window-attributes-reply con cookie err)
-    (xcb-get-window-attributes-reply-t-visual reply)))
+(define-attr-accessor window-save-under save-under)
+(define-attr-accessor window-visual visual)
 
  ;; 4.4 Stacking Order
 
