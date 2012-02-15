@@ -15,25 +15,6 @@
     (:input-output . :+xcb-window-class-input-output+)
     (:input . :+xcb-window-class-input-only+)))
 
-(define-enum-table window-attr (xcb-cw-t "XCB-CW")
-  (:background :back-pixel) (:border :border-pixel)
-  :bit-gravity (:gravity :win-gravity) :backing-store
-  :backing-planes :backing-pixel :override-redirect
-  :save-under :event-mask (:do-not-propagate-mask :dont-propagate)
-  :colormap :cursor) ;; *window-attr-map*
-
-(defconstant +max-window-attrs+ (length *window-attr-map*))
-
-(define-enum-table window-config (xcb-config-window-t "XCB-CONFIG-WINDOW")
-  :x :y :width :height :border-width :sibling :stack-mode)
-
-(defconstant +max-window-config+ (length *window-config-map*))
-
-(define-enum-table window-stack-mode (xcb-stack-mode-t "XCB-STACK-MODE")
-  :above :below :top-if :bottom-if :opposite)
-
-(defconstant +max-window-stack+ (length *window-stack-mode-map*))
-
 (defun create-window (&key parent x y width height (depth 0) (border-width 0)
                         (class :copy) (visual :copy) 
                         background border bit-gravity gravity

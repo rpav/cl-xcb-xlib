@@ -12,7 +12,6 @@
 (make-cstruct-accessors xcb-get-property-reply-t)
 (make-cstruct-accessors xcb-get-selection-owner-reply-t)
 (make-cstruct-accessors xcb-translate-coordinates-reply-t)
-(make-cstruct-accessors xcb-get-window-attributes-reply-t)
 (make-cstruct-accessors xcb-get-geometry-reply-t)
 
  ;; Events
