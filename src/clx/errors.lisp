@@ -107,3 +107,11 @@ variant.  For calls expecting a reply, use WITH-XCB-CLX-REPLY."
                                     (mem-ref ,err :pointer))))
            (when ,cond (error ,cond))))
        ,@body)))
+
+(defmacro do-request-response ((dpy c-var cookie-var reply-var err-var)
+                               request-form response-form &body body)
+  `(let* ((,c-var (display-ptr-xcb ,dpy))
+          (,cookie-var ,request-form))
+     (with-xcb-clx-reply (,dpy ,cookie-var ,reply-var ,err-var)
+         ,response-form
+       ,@body)))

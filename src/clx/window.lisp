@@ -112,23 +112,58 @@
 (stub (setf window-save-under) (v window))
 
 (defun window-visual (window)
-  (let* ((con (display-ptr-xcb window))
-         (cookie (xcb-get-window-attributes-unchecked con (xid window))))
-    (with-xcb-clx-reply ((display-for window) cookie ptr err)
-        (xcb-get-window-attributes-reply con cookie err)
-      (xcb-get-window-attributes-reply-t-visual ptr))))
+  (do-request-response (window con cookie reply err)
+      (xcb-get-window-attributes-unchecked con (xid window))
+      (xcb-get-window-attributes-reply con cookie err)
+    (xcb-get-window-attributes-reply-t-visual reply)))
 
  ;; 4.4 Stacking Order
 
-(stub circulate-window-down (window))
-(stub circulate-window-up (window))
+(define-enum-table circulate (xcb-circulate-t "XCB-CIRCULATE")
+  :raise-lowest :lower-highest)
+
+(defun circulate-window-down (window)
+  (xerr window
+      (xcb-circulate-window (display-ptr-xcb window)
+                            (circulate :lower-highest)
+                            (xid window))))
+
+(defun circulate-window-up (window)
+    (xerr window
+      (xcb-circulate-window (display-ptr-xcb window)
+                            (circulate :raise-lowest)
+                            (xid window))))
 
  ;; 4.5 Window Hierarchy
 
-(stub query-tree (window &key (result-type 'list)))
-(stub reparent-window (window parent x y))
+(defun query-tree (window &key (result-type 'list))
+  (do-request-response (window c ck reply err)
+      (xcb-query-tree c (xid window))
+      (xcb-query-tree-reply c ck err)
+    (let ((dpy (display-for window)))
+      (map result-type
+           (lambda (wid) (%make-window :display dpy :id wid))
+           (loop with ptr = (xcb-query-tree-children reply)
+                 for i from 0 below (xcb-query-tree-children-length reply)
+                 collect (mem-aref ptr 'xcb-window-t i))))))
 
-(stub translate-coordinates (source source-x source-y destination))
+(defun reparent-window (window parent x y)
+  (xerr window
+      (xcb-reparent-window-checked (display-ptr-xcb window)
+                                   (xid window) (xid parent) x y)))
+
+(defun translate-coordinates (source source-x source-y destination)
+  (do-request-response (source c ck reply err)
+      (xcb-translate-coordinates c (xid source) (xid destination)
+                                 source-x source-y)
+      (xcb-translate-coordinates-reply c ck err)
+    (let* ((wid (xcb-translate-coordinates-reply-t-child reply))
+           (child (when (/= 0 wid)
+                    (%make-window :display (display-for source)
+                                  :id wid))))
+      (values (xcb-translate-coordinates-reply-t-dst-x reply)
+              (xcb-translate-coordinates-reply-t-dst-y reply)
+              child))))
 
  ;; 4.6 Mapping
 
@@ -136,9 +171,17 @@
   (xerr window (xcb-map-window-checked (display-ptr-xcb window)
                                        (xid window))))
 
-(stub map-subwindows (window))
-(stub unmap-window (window))
-(stub unmap-subwindows (window))
+(defun map-subwindows (window)
+  (xerr window (xcb-map-subwindows-checked (display-ptr-xcb window)
+                                           (xid window))))
+
+(defun unmap-window (window)
+  (xerr window (xcb-unmap-window-checked (display-ptr-xcb window)
+                                         (xid window))))
+
+(defun unmap-subwindows (window)
+  (xerr window (xcb-unmap-subwindows-checked (display-ptr-xcb window)
+                                             (xid window))))
 
  ;; 4.7 Destroying Windows
 
@@ -146,5 +189,7 @@
   (xerr window (xcb-destroy-window-checked (display-ptr-xcb window)
                                            (xid window))))
 
-(stub destroy-subwindows (window))
+(defun destroy-subwindows (window)
+  (xerr window (xcb-destroy-subwindows-checked (display-ptr-xcb window)
+                                               (xid window))))
 
