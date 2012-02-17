@@ -23,7 +23,8 @@
                         xcb-grab-pointer-reply-t
                         xcb-get-input-focus-reply-t
                         xcb-query-pointer-reply-t
-                        xcb-timecoord-t)
+                        xcb-timecoord-t
+                        xcb-format-t)
 
  ;; Events
 (make-cstruct-accessors xcb-generic-event-t

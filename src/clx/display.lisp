@@ -23,9 +23,26 @@
                                :fn function)))
     (chanl:send (%display-send-channel display) msg)
     (let ((result (chanl:recv (display-msg-return-channel msg))))
-      (if (typep result 'error)
-          (error result)
-          result))))
+      (etypecase result
+        (request-error
+         (with-slots (error-key major minor sequence current-sequence)
+             result
+           (funcall (%display-error-handler display)
+                    display (type-of result)
+                    :current-sequence current-sequence
+                    :major major
+                    :minor minor
+                    :sequence sequence
+                    :condition result)))
+        (error (error result))
+        (t result)))))
+
+(defun default-error-handler (display error
+                              &key current-sequence major minor sequence
+                                resource-id atom-id value
+                                condition
+                              &allow-other-keys)
+  (error condition))
 
 (defmacro do-on-display (display &body body)
   `(display-funcall ,display (lambda () ,@body)))
@@ -40,7 +57,8 @@
   (xcb-setup (null-pointer) :type #.(type-of (null-pointer)))
   (event-queue (make-queue) :type queue)
   (queue-lock (bt:make-recursive-lock))
-  (send-channel (make-instance 'chanl:channel) :type chanl:channel))
+  (send-channel (make-instance 'chanl:channel) :type chanl:channel)
+  (error-handler #'default-error-handler :type function))
 
 (defmethod print-object ((object display) stream)
   (print-unreadable-object (object stream)
@@ -103,24 +121,79 @@
 
 (defun display-authorization-data (display)
   (declare (ignore display)) "")
+
 (defun display-authorization-name (display)
   (declare (ignore display)) "")
 
-(stub display-bitmap-format (display))
-(stub display-byte-order (display))
-(stub display-display (display))
-(stub display-error-handler (display))
-(stub (setf display-error-handler) (display))
-(stub display-image-lsb-first-p (display))
-(stub display-keycode-range (display))
-(stub display-max-keycode (display))
-(stub display-max-request-length (display))
-(stub display-min-keycode (display))
-(stub display-motion-buffer-size (display))
+(defstruct bitmap-format
+  unit pad lsb-first-p)
+
+(defun display-bitmap-format (display)
+  (let ((setup (%display-xcb-setup display)))
+    (make-bitmap-format :unit (xcb-setup-t-bitmap-format-scanline-unit setup)
+                        :pad (xcb-setup-t-bitmap-format-scanline-pad setup)
+                        :lsb-first-p
+                        (= 0 (xcb-setup-t-bitmap-format-bit-order setup)))))
+
+;; Does XCB otherwise provide this?  Not sure there's any need.
+(defun display-byte-order (display)
+  (let ((setup (%display-xcb-setup display)))
+    (if (= 0 (xcb-setup-t-image-byte-order setup))
+        :lsbfirst :msbfirst)))
+
+(defun display-display (display)
+  (%dispay-number display))
+
+(defun display-error-handler (display)
+  (%display-error-handler display))
+
+(defun (setf display-error-handler) (handler display)
+  (setf (%display-error-handler display) handler))
+
+(defun display-image-lsb-first-p (display)
+  (let ((setup (%display-xcb-setup display)))
+    (if (= 0 (xcb-setup-t-image-byte-order setup))
+        :lsbfirst :msbfirst)))
+
+(defun display-keycode-range (display)
+  (let ((setup (%display-xcb-setup display)))
+    (values (xcb-setup-t-min-keycode setup)
+            (xcb-setup-t-max-keycode setup))))
+
+(defun display-max-keycode (display)
+  (let ((setup (%display-xcb-setup display)))
+    (xcb-setup-t-max-keycode setup)))
+
+(defun display-max-request-length (display)
+  (let ((setup (%display-xcb-setup display)))
+    (xcb-setup-t-maximum-request-length setup)))
+
+(defun display-min-keycode (display)
+  (let ((setup (%display-xcb-setup display)))
+    (xcb-setup-t-min-keycode setup)))
+
+(defun display-motion-buffer-size (display)
+  (let ((setup (%display-xcb-setup display)))
+    (xcb-setup-t-motion-buffer-size setup)))
 
 ;; DISPLAY-P is implicit for DEFSTRUCT DISPLAY
 
-(stub display-pixmap-formats (display))
+(defstruct pixmap-format
+  depth bits-per-pixel scanline-pad)
+
+(defun display-pixmap-formats (display)
+  (let ((setup (%display-xcb-setup display)))
+    (map-result-list 'list
+                     (lambda (ptr)
+                       (make-pixmap-format :depth (xcb-format-t-depth ptr)
+                                           :bits-per-pixel
+                                           (xcb-format-t-bits-per-pixel ptr)
+                                           :scanline-pad
+                                           (xcb-format-t-scanline-pad ptr)))
+                     #'xcb-setup-pixmap-formats
+                     #'xcb-setup-pixmap-formats-length
+                     setup 'xcb-format-t)))
+
 (stub display-plist (display))
 (stub (setf display-plist) (display))
 
@@ -134,8 +207,13 @@
   (values (display-protocol-major-version display)
           (display-protocol-minor-version display)))
 
-(stub display-resource-id-base (display))
-(stub display-resource-id-mask (display))
+(defun display-resource-id-base (display)
+  (let ((setup (%display-xcb-setup display)))
+    (xcb-setup-t-resource-id-base setup)))
+
+(defun display-resource-id-mask (display)
+  (let ((setup (%display-xcb-setup display)))
+    (xcb-setup-t-resource-id-mask setup)))
 
 (defun display-roots (display)
   (let* ((list (mapcar (lambda (ptr)
@@ -178,6 +256,7 @@
 
  ;; 2.4 Managing the Output Buffer
 
+;; FIXME, or don't.
 (stub display-after-function (display))
 (stub (setf display-after-function) (display))
 

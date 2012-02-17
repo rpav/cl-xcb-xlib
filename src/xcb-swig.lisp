@@ -61,6 +61,16 @@
 
 (cl:export '#.(custom-lispify "xcb_get_atom_name_name" 'function))
 
+(cffi:defcfun ("xcb_setup_request_authorization_protocol_data" #.(custom-lispify "xcb_setup_request_authorization_protocol_data" 'function)) :pointer
+  (R :pointer))
+
+(cl:export '#.(custom-lispify "xcb_setup_request_authorization_protocol_data" 'function))
+
+(cffi:defcfun ("xcb_setup_request_authorization_protocol_name" #.(custom-lispify "xcb_setup_request_authorization_protocol_name" 'function)) :pointer
+  (R :pointer))
+
+(cl:export '#.(custom-lispify "xcb_setup_request_authorization_protocol_name" 'function))
+
 (cl:defconstant #.(custom-lispify "_STDINT_H" 'constant) 1)
 
 (cl:export '#.(custom-lispify "_STDINT_H" 'constant))
@@ -8045,11 +8055,6 @@
 
 (cl:export '#.(custom-lispify "xcb_setup_request_sizeof" 'function))
 
-(cffi:defcfun ("xcb_setup_request_authorization_protocol_name" #.(custom-lispify "xcb_setup_request_authorization_protocol_name" 'function)) :string
-  (R :pointer))
-
-(cl:export '#.(custom-lispify "xcb_setup_request_authorization_protocol_name" 'function))
-
 (cffi:defcfun ("xcb_setup_request_authorization_protocol_name_length" #.(custom-lispify "xcb_setup_request_authorization_protocol_name_length" 'function)) :int
   (R :pointer))
 
@@ -8059,11 +8064,6 @@
   (R :pointer))
 
 (cl:export '#.(custom-lispify "xcb_setup_request_authorization_protocol_name_end" 'function))
-
-(cffi:defcfun ("xcb_setup_request_authorization_protocol_data" #.(custom-lispify "xcb_setup_request_authorization_protocol_data" 'function)) :string
-  (R :pointer))
-
-(cl:export '#.(custom-lispify "xcb_setup_request_authorization_protocol_data" 'function))
 
 (cffi:defcfun ("xcb_setup_request_authorization_protocol_data_length" #.(custom-lispify "xcb_setup_request_authorization_protocol_data_length" 'function)) :int
   (R :pointer))

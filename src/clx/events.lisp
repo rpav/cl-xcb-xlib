@@ -41,6 +41,11 @@
   :client-message :mapping-notify)
 
  ;; 12.3 Processing Events
+
+(defmacro with-event-queue ((display) &body body)
+  `(bt:with-recursive-lock-held ((%display-queue-lock ,display))
+     ,@body))
+
 (defun make-event (display ptr)
   (let* ((type (event-type-key (xcb-generic-event-t-response-type ptr)))
          (slots (find-slots type))
@@ -191,10 +196,6 @@
   (%read-queue-event display timeout)
   (length (queue-head (%display-event-queue display))))
 
-(defmacro with-event-queue ((display) &body body)
-  `(bt:with-recursive-lock-held ((%display-queue-lock display))
-     ,@body))
-
  ;; 12.5 Sending Events
 
 (defun send-event (window event-key event-mask &rest event-slots
@@ -286,26 +287,26 @@
 
  ;; 12.7 Managing Input Focus
 
-(define-enum-table input-focus (xcb-input-focus-t "XCB-INPUT-FOCUS")
+(define-enum-table input-focus-type (xcb-input-focus-t "XCB-INPUT-FOCUS")
   :none :pointer-root :parent :follow-keyboard)
 
 (defun set-input-focus (display focus revert-to &optional time)
   (xerr display
       (xcb-set-input-focus-checked (display-ptr-xcb display)
-                                   (input-focus revert-to)
+                                   (input-focus-type revert-to)
                                    (if (window-p focus)
                                        (xid focus)
-                                       (input-focus focus))
+                                       (input-focus-type focus))
                                    (or time 0))))
 
 (defun input-focus (display)
   (do-request-response (display c ck reply err)
       (xcb-get-input-focus (display-ptr-xcb display))
       (xcb-get-input-focus-reply c ck err)
-    (values (or (input-focus-key (xcb-get-input-focus-reply-t-focus reply))
+    (values (or (input-focus-type-key (xcb-get-input-focus-reply-t-focus reply))
                 (%make-window :display display
                               :id (xcb-get-input-focus-reply-t-focus reply)))
-            (input-focus-key (xcb-get-input-focus-reply-t-revert-to reply)))))
+            (input-focus-type-key (xcb-get-input-focus-reply-t-revert-to reply)))))
 
  ;; 12.8 Grabbing the Pointer
 

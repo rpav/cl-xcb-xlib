@@ -15,7 +15,12 @@
 /* This does not return NULL-terminated strings and therefore builtin
    translation breaks */
 void* xcb_get_atom_name_name(void *R);
+void* xcb_setup_request_authorization_protocol_data(void *R);
+void* xcb_setup_request_authorization_protocol_name(void *R);
+
 %ignore xcb_get_atom_name_name;
+%ignore xcb_setup_request_authorization_protocol_data;
+%ignore xcb_setup_request_authorization_protocol_name;
 
 %include "stdint.h"
 %include "xcb/xcb.h"
