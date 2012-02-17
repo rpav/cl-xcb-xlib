@@ -27,6 +27,8 @@
 
 (defvar *event-map* (make-hash-table))
 (defvar *event-slot-map* (make-hash-table))
+(defvar *event-xcb-map* (make-hash-table))
+(defvar *event-xcb-type-map* (make-hash-table))
 
 (define-const-table event-type ("XCB")
   :key-press :key-release :button-press :button-release :motion-notify
@@ -39,7 +41,6 @@
   :client-message :mapping-notify)
 
  ;; 12.3 Processing Events
-
 (defun make-event (display ptr)
   (let* ((type (event-type-key (xcb-generic-event-t-response-type ptr)))
          (slots (find-slots type))
@@ -54,6 +55,26 @@
                   finally (return (nreverse ev)))))
       parsed)))
 
+(defun encode-event (display event-spec ptr)
+  (let ((type (cadr event-spec)))
+    (setf (xcb-generic-event-t-response-type ptr)
+          (event-type type))
+    (loop for slot in (cddr event-spec) by #'cddr
+          for val in (cdddr event-spec) by #'cddr do
+            (let* ((defn (find-event-slot type slot))
+                   (oldval (when defn (funcall (cdr defn) ptr)))
+                   (encoder (find-slot-encoder type slot)))
+              (when encoder
+                (funcall encoder ptr
+                         (slot-translate-to (car defn) val oldval display)))))))
+
+(defmacro with-encoded-event ((ptr display event-spec) &body body)
+  (let ((event (gensym "EVENT")))
+    `(let ((,event ,event-spec))
+       (with-foreign-object (,ptr (gethash (cadr ,event) *event-xcb-type-map*))
+         (encode-event ,display ,event ,ptr)
+         ,@body))))
+
 (defun %read-queue-event (display timeout)
   (let ((ev)
         (parsed-event)
@@ -67,14 +88,16 @@
              (setf ev (xcb-poll-for-event (display-ptr-xcb display)))
              (unless (null-pointer-p ev)
                (setf parsed-event (make-event display ev))
-               (queue-add (%display-event-queue display) parsed-event))))
+               (with-event-queue (display)
+                (queue-add (%display-event-queue display) parsed-event)))))
       (when (and ev (not (null-pointer-p ev)))
         (xcb::libc_free ev)))
     parsed-event))
 
 (defun %peek-next-event (display timeout)
-  (or (queue-peek (%display-event-queue display))
-      (%read-queue-event display timeout)))
+  (with-event-queue (display)
+   (or (queue-peek (%display-event-queue display))
+       (%read-queue-event display timeout))))
 
 ;; FIXME, doesn't handle handler-vector
 (defun process-event (display &key handler timeout peek-p discard-p
@@ -87,16 +110,17 @@
       (let ((ev (%peek-next-event display timeout)))
         (unless ev (loop-finish))
         (setf handled (apply handler ev))
-        (if handled
-            (progn
-              (if peek-p
-                  (queue-pop-to dpyq tq)
-                  (queue-pop dpyq))
-              (loop-finish))
-            (if discard-p
-                (queue-pop dpyq)
-                (queue-pop-to dpyq tq)))))
-    (queue-prepend-to tq dpyq)
+        (with-event-queue (display)
+          (if handled
+              (progn
+                (if peek-p
+                    (queue-pop-to dpyq tq)
+                    (queue-pop dpyq))
+                (loop-finish))
+              (if discard-p
+                  (queue-pop dpyq)
+                  (queue-pop-to dpyq tq))))))
+    (with-event-queue (display) (queue-prepend-to tq dpyq))
     handled))
 
 (defmacro with-event-slots ((&rest slots) event &body body)
@@ -123,16 +147,17 @@
                 (let ((,ev (%peek-next-event ,dpy ,timeout)))
                   (unless ,ev (loop-finish))
                   (setf ,handled (case (cadr ,ev) ,@body))
-                  (if ,handled
-                      (progn
-                        (if ,peek-p
-                            (queue-pop-to ,dpyq ,tq)
-                            (queue-pop ,dpyq))
-                        (loop-finish))
-                      (if ,discard-p
-                          (queue-pop ,dpyq)
-                          (queue-pop-to ,dpyq ,tq)))))
-       (queue-prepend-to ,tq ,dpyq)
+                  (with-event-queue (,dpy)
+                    (if ,handled
+                        (progn
+                          (if ,peek-p
+                              (queue-pop-to ,dpyq ,tq)
+                              (queue-pop ,dpyq))
+                          (loop-finish))
+                        (if ,discard-p
+                            (queue-pop ,dpyq)
+                            (queue-pop-to ,dpyq ,tq))))))
+       (with-event-queue (,dpy) (queue-prepend-to ,tq ,dpyq))
        ,handled)))
 
 (defmacro event-case ((display &key timeout peek-p discard-p
@@ -147,23 +172,39 @@
 
  ;; 12.4 Managing the Queue
 
-(stub queue-event (display event-key &rest event-slots
-                   &key append-p &allow-other-keys))
+(defun queue-event (display event-key &rest event-slots
+                    &key append-p &allow-other-keys)
+  ;; FIXME: event validation?
+  (let ((ev (list* :event-key event-key event-slots)))
+    (with-event-queue (display)
+      (if append-p
+          (queue-add (%display-event-queue display) ev)
+          (queue-push (%display-event-queue display) ev))))
+  (values))
 
 (defun discard-current-event (display)
-  (let ((ev (queue-pop (%display-event-queue display))))
-    (and ev t)))
+  (with-event-queue (display)
+   (let ((ev (queue-pop (%display-event-queue display))))
+     (and ev t))))
 
 (defun event-listen (display &optional (timeout 0))
   (%read-queue-event display timeout)
   (length (queue-head (%display-event-queue display))))
 
-(stub-macro with-event-queue ((display) &body body))
+(defmacro with-event-queue ((display) &body body)
+  `(bt:with-recursive-lock-held ((%display-queue-lock display))
+     ,@body))
 
  ;; 12.5 Sending Events
 
-(stub send-event (window event-key event-mask &rest event-slots
-                  &key propagete-p display &allow-other-keys))
+(defun send-event (window event-key event-mask &rest event-slots
+                   &key propagate-p display &allow-other-keys)
+  (with-encoded-event (ptr (display-for window)
+                           (list* :event-key event-key event-slots))
+    (xerr window
+        (xcb-send-event-checked (display-ptr-xcb window)
+                                (if propagate-p 1 0) (xid window)
+                                (apply #'make-event-mask event-mask) ptr))))
 
  ;; 12.6 Pointer Position
 
@@ -238,28 +279,41 @@ the `XCB-TYPE` slot.
 However, all `XCB-TYPE` slots need not be defined, nor need they necessarily
 be in order, since the appropriate accessor is used to get the value."
   (let ((slot-map (make-hash-table))
-        (xcb-type (string (eval xcb-type)))
-        (slot-list nil))
+        (xcb-string (string (eval xcb-type)))
+        (slot-list nil)
+        (slot-encoder-list))
     (flet ((slot-acc (name)
-             (intern (concatenate 'string xcb-type "-" (string name)))))
+             (intern (concatenate 'string xcb-string "-" (string name)))))
       (loop for decl in slot-declarations
             as slot-type = (car decl)
             as slots = (cdr decl) do
               (loop for slot in slots
                     as acc = (slot-acc (if (consp slot) (car slot) slot))
-                    do (if (consp slot)
-                           (map 'nil (lambda (alias)
-                                       (let ((kw (intern (string alias) :keyword)))
-                                         (push kw slot-list)
-                                         (setf (gethash kw slot-map) (cons slot-type acc))))
-                                slot)
-                           (progn
-                             (let ((kw (intern (string slot) :keyword)))
-                               (push kw slot-list)
-                               (setf (gethash kw slot-map) (cons slot-type acc))))))))
+                    do (multiple-value-bind (dummies vals new setter getter)
+                           (get-setf-expansion `(,acc ptr))
+                         (let ((encoder `(lambda (,@vals ,@new)
+                                           (let (,@(mapcar #'list dummies vals))
+                                             ,setter))))
+                           (if (consp slot)
+                               (map 'nil (lambda (alias)
+                                           (let ((kw (intern (string alias) :keyword)))
+                                             (push kw slot-list)
+                                             (setf (gethash kw slot-map) (cons slot-type acc))
+                                             (push `(setf (gethash ,kw encoders) ,encoder) slot-encoder-list)))
+                                    slot)
+                               (progn
+                                 (let ((kw (intern (string slot) :keyword)))
+                                   (push kw slot-list)
+                                   (setf (gethash kw slot-map) (cons slot-type acc))
+                                   (push `(setf (gethash ,kw encoders) ,encoder) slot-encoder-list)))))))))
     `(map 'nil (lambda (code)
                  (setf (gethash code *event-slot-map*) ',slot-list)
-                 (setf (gethash code *event-map*) ,slot-map))
+                 (setf (gethash code *event-map*) ,slot-map)
+                 (setf (gethash code *event-xcb-type-map*) ,xcb-type)
+                 (setf (gethash code *event-xcb-map*)
+                       (let ((encoders (make-hash-table)))
+                         ,@slot-encoder-list
+                         encoders)))
           ',event-codes)))
 
 (declaim (inline find-event-slot find-slots))
@@ -268,6 +322,9 @@ be in order, since the appropriate accessor is used to get the value."
 
 (defun find-slots (type)
   (gethash type *event-slot-map*))
+
+(defun find-slot-encoder (event-type slot-name)
+  (gethash slot-name (gethash event-type *event-xcb-map*)))
 
  ;; 12.13 Releasing Queued Events
 

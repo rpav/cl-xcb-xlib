@@ -39,6 +39,7 @@
   (xcb-connection (null-pointer) :type #.(type-of (null-pointer)))
   (xcb-setup (null-pointer) :type #.(type-of (null-pointer)))
   (event-queue (make-queue) :type queue)
+  (queue-lock (bt:make-recursive-lock))
   (send-channel (make-instance 'chanl:channel) :type chanl:channel))
 
 (defmethod print-object ((object display) stream)
@@ -161,9 +162,17 @@
   (values (display-protocol-major-version display)
           (display-protocol-minor-version display)))
 
-(stub display-xid (display))
+(defun generate-id (display)
+  (xcb-generate-id (display-ptr-xcb display)))
 
-(stub-macro with-display (display &body body))
+(defun display-xid (display) #'generate-id)
+
+(defmacro with-display (display &body body)
+  (let ((fn (gensym "FN")))
+    `(flet ((,fn () ,@body))
+       (if (eq ,display *display*)
+           (,fn)
+           (display-funcall ,display #',fn)))))
 
  ;; 2.4 Managing the Output Buffer
 

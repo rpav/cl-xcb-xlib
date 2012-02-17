@@ -37,6 +37,13 @@
 (defun queue-add (q item)
   (car (queue-add-cons q (cons item nil))))
 
+(defun queue-push (q item)
+  (setf (queue-head q)
+        (cons item (queue-head q)))
+  (unless (queue-tail q)
+    (setf (queue-tail q) (queue-head q)))
+  item)
+
 (defun queue-pop-cons (q)
   (let ((cons (queue-head q)))
     (when cons

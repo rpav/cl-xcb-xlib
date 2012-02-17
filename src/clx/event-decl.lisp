@@ -33,16 +33,17 @@ translated.  `DPY` is the display in context."
 
 (defun slot-translate-to (type val oldval dpy)
   (let ((type (if (consp type) (car type) type))
-        (args (if (consp type) (cdr type))))
-    (funcall (cdr (find-slot-trans type)) args val oldval dpy)))
+        (args (if (consp type) (cdr type)))
+        (trans (cdr (find-slot-trans type))))
+    (funcall trans args val oldval dpy)))
 
 (define-slot-trans window
   :from ((args val dpy) (%make-window :display dpy :id val))
-  :to ((args val dpy) (xid val)))
+  :to ((args val oldval dpy) (xid val)))
 
 (define-slot-trans drawable
   :from ((args val dpy) (%make-drawable :display dpy :id val))
-  :to ((args val dpy) (xid val)))
+  :to ((args val oldval dpy) (xid val)))
 
 (define-slot-trans null
   :from ((args val dpy) (if (= val 0)
@@ -53,7 +54,7 @@ translated.  `DPY` is the display in context."
 (define-slot-trans boolean
   :from ((args val dpy) (if (= val 0)
                             (values nil t) t))
-  :to ((args val oldval  dpy) (if val 0 1)))
+  :to ((args val oldval dpy) (if val 0 1)))
 
 (define-slot-trans or
   :from
@@ -73,23 +74,23 @@ translated.  `DPY` is the display in context."
 
 (define-slot-trans card8
   :from ((args val dpy) val)
-  :to ((args val oldval  dpy) val))
+  :to ((args val oldval dpy) val))
 
 (define-slot-trans card16
   :from ((args val dpy) val)
-  :to ((args val oldval  dpy) val))
+  :to ((args val oldval dpy) val))
 
 (define-slot-trans card32
   :from ((args val dpy) val)
-  :to ((args val oldval  dpy) val))
+  :to ((args val oldval dpy) val))
 
 (define-slot-trans int16
   :from ((args val dpy) val)
-  :to ((args val oldval  dpy) val))
+  :to ((args val oldval dpy) val))
 
 (define-slot-trans member
   :from ((args val dpy) (if (member val args) val))
-  :to ((args val oldval  dpy) (if (member val args) val)))
+  :to ((args val oldval dpy) (if (member val args) val)))
 
 (define-slot-trans member-enum
   :from
@@ -97,7 +98,7 @@ translated.  `DPY` is the display in context."
     (let ((table (car args)))
       (cdr (assoc val table))))
   :to
-  ((args val oldval  dpy)
+  ((args val oldval dpy)
     (let ((table (car args)))
       (car (rassoc val table)))))
 

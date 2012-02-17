@@ -233,49 +233,49 @@
 
 ;; and the biggest hairball of all
 (defun force-gcontext-changes (gcontext)
-  (unless (/= 0(hash-table-count (%gcontext-updates gcontext)))
-   (hash-let ((%gcontext-updates gcontext) #.*basic-gc-attrs*)
-     (let* ((c (display-ptr-xcb gcontext))
-            (dashes-detailed (if (consp dashes) dashes nil))
-            (dashes (if (consp dashes) nil dashes))
-            (clip-mask-rects (if (consp clip-mask) clip-mask nil))
-            (clip-mask (if (consp clip-mask) nil clip-mask))
-            (value-mask 0)
-            (value-count 0))
-       (with-foreign-object (values-ptr 'uint-32-t +max-gc-attr-to-xcb+)
-         (vl-maybe-set-many (gc-attr values-ptr value-mask value-count)
-           #.*basic-gc-attrs*)
-         ;; Avoid sending this if it will be duplicated below
-         (unless (or (and dashes-detailed (= value-mask (gc-attr :dash-offset)))
-                     (and clip-mask-rects
-                          (= 0 (logandc1 value-mask (gc-attr-logior :clip-x :clip-y)))))
-           (xerr gcontext
-               (xcb-change-gc-checked c (xid gcontext)
-                                      value-mask values-ptr))))
-       (when dashes-detailed
-         (let ((len (length dashes-detailed)))
-           (with-foreign-object (ptr :uint8 len)
-             (copy-to-foreign ptr len dashes-detailed :uint8)
-             (xerr gcontext
-                 (xcb-set-dashes-checked c (xid gcontext)
-                                         (gcontext-dash-offset gcontext)
-                                         len ptr)))))
+  (unless (= 0 (hash-table-count (%gcontext-updates gcontext)))
+    (hash-let ((%gcontext-updates gcontext) #.*basic-gc-attrs*)
+      (let* ((c (display-ptr-xcb gcontext))
+             (dashes-detailed (if (consp dashes) dashes nil))
+             (dashes (if (consp dashes) nil dashes))
+             (clip-mask-rects (if (consp clip-mask) clip-mask nil))
+             (clip-mask (if (consp clip-mask) nil clip-mask))
+             (value-mask 0)
+             (value-count 0))
+        (with-foreign-object (values-ptr 'uint-32-t +max-gc-attr-to-xcb+)
+          (vl-maybe-set-many (gc-attr values-ptr value-mask value-count)
+            #.*basic-gc-attrs*)
+          ;; Avoid sending this if it will be duplicated below
+          (unless (or (and dashes-detailed (= value-mask (gc-attr :dash-offset)))
+                      (and clip-mask-rects
+                           (= 0 (logandc1 value-mask (gc-attr-logior :clip-x :clip-y)))))
+            (xerr gcontext
+                (xcb-change-gc-checked c (xid gcontext)
+                                       value-mask values-ptr))))
+        (when dashes-detailed
+          (let ((len (length dashes-detailed)))
+            (with-foreign-object (ptr :uint8 len)
+              (copy-to-foreign ptr len dashes-detailed :uint8)
+              (xerr gcontext
+                  (xcb-set-dashes-checked c (xid gcontext)
+                                          (gcontext-dash-offset gcontext)
+                                          len ptr)))))
       
-       (when clip-mask-rects
-         (let ((len (length clip-mask-rects)))
-           ;; yes, i really did this, but then CLX defined rects
-           (when (/= 8 #.(foreign-type-size 'xcb-rectangle-t))
-             (warn "Size of xcb_rectangle_t has changed"))
-           (with-foreign-object (ptr :uint16 (* 4 len))
-             (copy-to-foreign ptr (* 4 len) clip-mask-rects :uint16)
-             (xerr gcontext
-                 (xcb-set-clip-rectangles-checked c (gcontext-clip-ordering gcontext)
-                                                  (xid gcontext)
-                                                  (gcontext-clip-x gcontext)
-                                                  (gcontext-clip-y gcontext) len ptr)))))
-       (merge-hash-tables (%gcontext-current gcontext)
-                          (%gcontext-updates gcontext))
-       (clrhash (%gcontext-updates gcontext))))))
+        (when clip-mask-rects
+          (let ((len (length clip-mask-rects)))
+            ;; yes, i really did this, but then CLX defined rects
+            (when (/= 8 #.(foreign-type-size 'xcb-rectangle-t))
+              (warn "Size of xcb_rectangle_t has changed"))
+            (with-foreign-object (ptr :uint16 (* 4 len))
+              (copy-to-foreign ptr (* 4 len) clip-mask-rects :uint16)
+              (xerr gcontext
+                  (xcb-set-clip-rectangles-checked c (gcontext-clip-ordering gcontext)
+                                                   (xid gcontext)
+                                                   (gcontext-clip-x gcontext)
+                                                   (gcontext-clip-y gcontext) len ptr)))))
+        (merge-hash-tables (%gcontext-current gcontext)
+                           (%gcontext-updates gcontext))
+        (clrhash (%gcontext-updates gcontext))))))
 
 (defmacro with-gcontext ((gcontext
                           &key (arc-mode :pie-slice)
