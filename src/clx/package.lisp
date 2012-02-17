@@ -109,6 +109,8 @@
    drawable-y
    drawable-root
 
+   query-best-size
+
    ;; EVENTS
    make-event-mask
    make-event-keys

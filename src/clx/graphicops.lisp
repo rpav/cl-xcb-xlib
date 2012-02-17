@@ -50,8 +50,7 @@
     (with-points points (ptr count)
       (xerr (display-for drawable)
           (xcb-poly-line-checked con mode (xid drawable)
-                                 (%gcontext-xcb-gcontext gcontext)
-                                 count ptr)))))
+                                 (xid gcontext) count ptr)))))
 
 (defun draw-lines (drawable gcontext points
                    &key relative-p fill-p (shape :complex))
@@ -61,12 +60,11 @@
       (if fill-p
           (xerr (display-for drawable)
               (xcb-fill-poly-checked con (xid drawable)
-                             (%gcontext-xcb-gcontext gcontext)
-                             (poly-shape shape) mode count ptr))
+                             (xid gcontext) (poly-shape shape)
+                             mode count ptr))
           (xerr (display-for drawable)
               (xcb-poly-line-checked con mode (xid drawable)
-                             (%gcontext-xcb-gcontext gcontext)
-                             count ptr))))))
+                             (xid gcontext) count ptr))))))
 
 (stub draw-segments (drawable gcontext segments))
 

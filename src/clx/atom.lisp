@@ -171,15 +171,14 @@
               (xcb-get-property-reply-t-bytes-after reply)))))
 
 (defun list-properties (window &key (result-type 'list))
-  (let* ((c (display-ptr-xcb window))
-         (ck (xcb-list-properties c (xid window))))
-    (with-xcb-clx-reply (window ck reply err)
-        (xcb-list-properties-reply c ck err)
-      (map result-type
-           (lambda (id) (atom-name window id))
-           (loop with ptr = (xcb-list-properties-atoms reply)
-                 for i from 0 below (xcb-list-properties-atoms-length reply)
-                 collect (mem-aref ptr 'xcb-atom-t i))))))
+  (do-request-response (window c ck reply err)
+      (xcb-list-properties c (xid window))
+      (xcb-list-properties-reply c ck err)
+    (map-result-list result-type
+                     (lambda (id) (atom-name window id))
+                     #'xcb-list-properties-atoms
+                     #'xcb-list-properties-atoms-length
+                     reply 'xcb-atom-t)))
 
 (defun rotate-properties (window properties &optional (delta 1))
   (let ((c (display-ptr-xcb window))

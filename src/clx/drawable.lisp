@@ -1,20 +1,12 @@
 (in-package :xcb.clx)
 
-(defstruct (drawable (:conc-name %drawable-)
-                     (:constructor %make-drawable))
-  (display nil :type display)
-  (id 0 :type (integer 0 4294967295)))
-
-(declaim (inline xid))
-(defun xid (drawable)
-  (%drawable-id drawable))
+(defstruct (drawable (:include display-id-pair)
+                     (:conc-name %drawable-)
+                     (:constructor %make-drawable)))
 
 (defmethod print-object ((object drawable) stream)
   (print-unreadable-object (object stream)
     (format stream "Drawable (ID:#x~8,'0X)" (xid object))))
-
-(defmethod display-for ((object drawable))
-  (%drawable-display object))
 
  ;; 4.1 Drawables
 
@@ -23,8 +15,7 @@
   (%drawable-display drawable))
 
 (defun drawable-equal (d-1 d-2)
-  (and (eq (%drawable-display d-1) (%drawable-display d-2))
-       (eq (xid d-1) (xid d-2)))) 
+  (xid-equal d-1 d-2))
 
 ;; DRAWABLE-P is implicit in DEFSTRUCT DRAWABLE
 
@@ -68,10 +59,11 @@
        (flet ((,fn ()
                 (let ((,attr-var *drawable-attributes*))
                   (declare (ignorable ,attr-var))
-                  ,@body
-                  (when (and (not *drawable-hold-send*)
-                             (> (hash-table-count *drawable-attributes-changed*) 0))
-                    (%send-changes ,drawable)))))
+                  (prog1
+                      ,@body
+                    (when (and (not *drawable-hold-send*)
+                               (> (hash-table-count *drawable-attributes-changed*) 0))
+                      (%send-changes ,drawable))))))
          (if *drawable-attributes*
              (,fn)
              (do-request-response (,drawable ,c ,ck ,reply ,err)
@@ -97,9 +89,10 @@
                (,fn)))))))
 
 (defmacro hash-let ((hash-table &rest symbols) &body body)
-  `(let (,@(loop for s in symbols collect
-                 `(,s (gethash ',s ,hash-table))))
-     ,@body))
+  (let ((symbols (if (consp (car symbols)) (car symbols) symbols)))
+    `(let (,@(loop for s in symbols collect
+                   `(,s (gethash ',s ,hash-table))))
+       ,@body)))
 
 (defun %send-changes (drawable)
   (hash-let (*drawable-attributes-changed*
@@ -173,9 +166,22 @@
   `(let ((*drawable-hold-send* t))
      (with-attributes (,drawable)
        (with-geometry (,drawable)
-         ,@body
-         (setf *drawable-hold-send* nil)))))
+         (prog1
+             ,@body
+           (setf *drawable-hold-send* nil))))))
 
  ;; 4.5 Window Hierarchy
 
 (stub drawable-root (drawable))
+
+ ;; Additional
+
+(define-enum-table query-shape (xcb-query-shape-of-t "XCB-QUERY-SHAPE-OF")
+  :largest-cursor :fastest-tile :fastest-stipple)
+
+(defun query-best-size (width height drawable shape)
+  (do-request-response (drawable c ck reply err)
+      (xcb-query-best-size c (query-shape shape) drawable width height)
+      (xcb-query-best-size-reply c ck err)
+    (values (xcb-query-best-size-reply-t-width reply)
+            (xcb-query-best-size-reply-t-height reply))))

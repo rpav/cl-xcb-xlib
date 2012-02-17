@@ -1,63 +1,68 @@
 (in-package :xcb)
 
  ;; Basic Types
-(make-cstruct-accessors xcb-void-cookie-t)
-(make-cstruct-accessors xcb-generic-iterator-t)
-(make-cstruct-accessors xcb-screen-t)
-(make-cstruct-accessors xcb-auth-info-t)
-(make-cstruct-accessors xcb-setup-t)
-(make-cstruct-accessors xcb-get-window-attributes-reply-t)
-(make-cstruct-accessors xcb-intern-atom-reply-t)
-(make-cstruct-accessors xcb-get-atom-name-reply-t)
-(make-cstruct-accessors xcb-get-property-reply-t)
-(make-cstruct-accessors xcb-get-selection-owner-reply-t)
-(make-cstruct-accessors xcb-translate-coordinates-reply-t)
-(make-cstruct-accessors xcb-get-geometry-reply-t)
+(make-cstruct-accessors xcb-void-cookie-t
+                        xcb-generic-iterator-t
+                        xcb-screen-t
+                        xcb-auth-info-t
+                        xcb-setup-t
+                        xcb-get-window-attributes-reply-t
+                        xcb-intern-atom-reply-t
+                        xcb-get-atom-name-reply-t
+                        xcb-get-property-reply-t
+                        xcb-get-selection-owner-reply-t
+                        xcb-translate-coordinates-reply-t
+                        xcb-get-geometry-reply-t
+                        xcb-alloc-color-planes-reply-t
+                        xcb-lookup-color-reply-t
+                        xcb-query-colors-reply-t
+                        xcb-rgb-t
+                        xcb-coloritem-t
+                        xcb-query-best-size-reply-t)
 
  ;; Events
-(make-cstruct-accessors xcb-generic-event-t)
-(make-cstruct-accessors xcb-ge-event-t)
-(make-cstruct-accessors xcb-key-press-event-t)
-(make-cstruct-accessors xcb-button-press-event-t)
-(make-cstruct-accessors xcb-motion-notify-event-t)
-(make-cstruct-accessors xcb-enter-notify-event-t)
-(make-cstruct-accessors xcb-focus-in-event-t)
-(make-cstruct-accessors xcb-keymap-notify-event-t)
-(make-cstruct-accessors xcb-expose-event-t)
-(make-cstruct-accessors xcb-graphics-exposure-event-t)
-(make-cstruct-accessors xcb-no-exposure-event-t)
-(make-cstruct-accessors xcb-visibility-notify-event-t)
-(make-cstruct-accessors xcb-create-notify-event-t)
-(make-cstruct-accessors xcb-destroy-notify-event-t)
-(make-cstruct-accessors xcb-unmap-notify-event-t)
-(make-cstruct-accessors xcb-map-notify-event-t)
-(make-cstruct-accessors xcb-map-request-event-t)
-(make-cstruct-accessors xcb-reparent-notify-event-t)
-(make-cstruct-accessors xcb-configure-notify-event-t)
-(make-cstruct-accessors xcb-configure-request-event-t)
-(make-cstruct-accessors xcb-gravity-notify-event-t)
-(make-cstruct-accessors xcb-resize-request-event-t)
-(make-cstruct-accessors xcb-circulate-notify-event-t)
-(make-cstruct-accessors xcb-property-notify-event-t)
-(make-cstruct-accessors xcb-selection-clear-event-t)
-(make-cstruct-accessors xcb-selection-request-event-t)
-(make-cstruct-accessors xcb-selection-notify-event-t)
-(make-cstruct-accessors xcb-colormap-notify-event-t)
-(make-cstruct-accessors xcb-client-message-event-t)
-(make-cstruct-accessors xcb-mapping-notify-event-t)
-
+(make-cstruct-accessors xcb-generic-event-t
+                        xcb-ge-event-t
+                        xcb-key-press-event-t
+                        xcb-button-press-event-t
+                        xcb-motion-notify-event-t
+                        xcb-enter-notify-event-t
+                        xcb-focus-in-event-t
+                        xcb-keymap-notify-event-t
+                        xcb-expose-event-t
+                        xcb-graphics-exposure-event-t
+                        xcb-no-exposure-event-t
+                        xcb-visibility-notify-event-t
+                        xcb-create-notify-event-t
+                        xcb-destroy-notify-event-t
+                        xcb-unmap-notify-event-t
+                        xcb-map-notify-event-t
+                        xcb-map-request-event-t
+                        xcb-reparent-notify-event-t
+                        xcb-configure-notify-event-t
+                        xcb-configure-request-event-t
+                        xcb-gravity-notify-event-t
+                        xcb-resize-request-event-t
+                        xcb-circulate-notify-event-t
+                        xcb-property-notify-event-t
+                        xcb-selection-clear-event-t
+                        xcb-selection-request-event-t
+                        xcb-selection-notify-event-t
+                        xcb-colormap-notify-event-t
+                        xcb-client-message-event-t
+                        xcb-mapping-notify-event-t)
  ;; Errors
-(make-cstruct-accessors xcb-generic-error-t)
-(make-cstruct-accessors xcb-request-error-t)
-(make-cstruct-accessors xcb-value-error-t)
+(make-cstruct-accessors xcb-generic-error-t
+                        xcb-request-error-t
+                        xcb-value-error-t)
 
  ;; Graphics
 (make-cstruct-accessors xcb-point-t)
 
  ;; Xlib
 
-(make-cstruct-accessors xvisual-info)
-(make-cstruct-accessors xerror-event)
+(make-cstruct-accessors xvisual-info
+                        xerror-event)
 
  ;; poll
 (defbitfield (poll-events-mask :short)

@@ -10,10 +10,10 @@
 
  ;; 4.2 Creating Windows
 
-(defvar *window-class-to-xcb*
-  '((:copy . :+xcb-window-class-copy-from-parent+)
-    (:input-output . :+xcb-window-class-input-output+)
-    (:input . :+xcb-window-class-input-only+)))
+(define-enum-table xcb-window-class (xcb-window-class-t "XCB-WINDOW-CLASS")
+  (:copy :copy-from-parent)
+  :input-output
+  (:input :input-only))
 
 (defun create-window (&key parent x y width height (depth 0) (border-width 0)
                         (class :copy) (visual :copy) 
@@ -24,7 +24,7 @@
   (let* ((display (drawable-display parent))
          (wid (xcb-generate-id (display-ptr-xcb display)))
          (window (%make-window :display display :id wid))
-         (colormap (if colormap (%colormap-xcb-colormap colormap) nil))
+         (colormap (if colormap (%colormap-id colormap) nil))
          (value-mask 0)
          (attr-count 0))
     (with-foreign-object (values-ptr 'uint-32-t +max-window-attrs+)
@@ -38,12 +38,10 @@
           (xcb-create-window-checked
            (display-ptr-xcb display) depth wid (xid parent)
            x y width height
-           border-width (foreign-enum-value
-                         'xcb-window-class-t
-                         (cdr (assoc class *window-class-to-xcb*)))
+           border-width (xcb-window-class class)
            (if (eq visual :copy)
                (window-visual parent)
-               visual)
+               (or visual 0))
            value-mask values-ptr))
       window)))
 
@@ -68,8 +66,9 @@
 
 (define-attr-accessor window-class -class :setter-p nil)
 (define-attr-accessor window-colormap colormap
-    :in (lambda (cm) (%colormap-xcb-colormap cm))
-    :out (lambda (cid) (%make-colormap :xcb-colormap cid)))
+    :in (lambda (cm) (%colormap-id cm))
+    :out (lambda (cid) (%make-colormap :display (display-for window)
+                                       :id cid)))
 (define-attr-accessor window-colormap-installed-p map-is-installed
     :setter-p nil)
 

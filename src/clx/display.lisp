@@ -12,14 +12,20 @@
         (channel (%display-send-channel display)))
     (loop while *display* do
       (let ((msg (chanl:recv channel)))
-        (chanl:send (display-msg-return-channel msg)
-                    (funcall (display-msg-fn msg)))))))
+        (handler-case
+            (chanl:send (display-msg-return-channel msg)
+                        (funcall (display-msg-fn msg)))
+          (error (e)
+            (chanl:send (display-msg-return-channel msg) e)))))))
 
 (defun display-funcall (display function)
   (let ((msg (make-display-msg :return-channel (make-instance 'chanl:channel)
                                :fn function)))
     (chanl:send (%display-send-channel display) msg)
-    (values (chanl:recv (display-msg-return-channel msg)))))
+    (let ((result (chanl:recv (display-msg-return-channel msg))))
+      (if (typep result 'error)
+          (error result)
+          result))))
 
 (defmacro do-on-display (display &body body)
   `(display-funcall ,display (lambda () ,@body)))
@@ -48,6 +54,24 @@
 
 (defun display-ptr-xcb (object)
   (%display-xcb-connection (display-for object)))
+
+ ;; DISPLAY-ID-PAIR type
+
+(defstruct (display-id-pair (:conc-name %xid-)
+                            (:constructor %make-xid))
+  (display nil :type display)
+  (id 0 :type (integer 0 4294967295)))
+
+(declaim (inline xid))
+(defun xid (display-id-pair)
+  (%xid-id display-id-pair))
+
+(defmethod display-for ((object display-id-pair))
+  (%xid-display object))
+
+(defun xid-equal (x-1 x-2)
+  (and (eq (%xid-display x-1) (%xid-display x-2))
+       (eq (xid x-1) (xid x-2)))) 
 
  ;; 2.2 Opening the Display
 

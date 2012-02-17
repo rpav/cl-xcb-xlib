@@ -88,9 +88,37 @@
          (incf ,value-count)))))
 
 (defmacro vl-maybe-set-many ((type ptr mask count) &rest attrs)
-  `(progn
-     ,@(loop for a in attrs collect
-             `(vl-maybe-set ,a ,type ,ptr ,mask ,count))))
+  (let ((attrs (if (consp (car attrs)) (car attrs) attrs)))
+    `(progn ,@(loop for a in attrs collect
+                    `(vl-maybe-set ,a ,type ,ptr ,mask ,count)))))
+
+ ;; Extracting result lists
+
+;;; FIXME: this calls mem-[a]ref with a non-constant type, which probably
+;;; calls PARSE-TYPE.
+(defun map-result-list (result-type function head-function length-function
+                        reply-pointer type)
+  (map result-type
+       function
+       (loop with ptr = (funcall head-function reply-pointer)
+             for i from 0 below (funcall length-function reply-pointer)
+             collect (mem-aref ptr type i))))
+
+ ;; Copy to foreign array
+
+(defun copy-to-foreign (ptr len list type &optional function)
+  (loop for i from 0 below len
+        for el in list do
+          (if function
+              (funcall function (mem-pref ptr type i) el)
+              (setf (mem-aref ptr type i) el))))
+
+ ;; Hash tables
+
+(defun merge-hash-tables (h1 &rest tables)
+  (loop for table in tables do
+    (loop for k being each hash-key in table do
+          (setf (gethash k h1) (gethash k table)))))
 
  ;; Generalized enum tables
 
@@ -114,7 +142,7 @@
          (defun ,key-name (val)
            (car (rassoc val ,earmuff-name)))
          (defun ,ior-name (&rest keys)
-           (reduce (lambda (v1 v2) (logior v1 (,name v2)))
+           (reduce (lambda (v1 v2) (if v2 (logior v1 (,name v2)) v1))
                    keys :initial-value 0))))))
 
 (defmacro define-const-table (name (prefix) &rest entries)
