@@ -65,7 +65,9 @@
 
 (declaim (inline xid))
 (defun xid (display-id-pair)
-  (%xid-id display-id-pair))
+  (if display-id-pair
+      (%xid-id display-id-pair)
+      0))
 
 (defmethod display-for ((object display-id-pair))
   (%xid-display object))

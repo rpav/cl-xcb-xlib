@@ -18,7 +18,12 @@
                         xcb-query-colors-reply-t
                         xcb-rgb-t
                         xcb-coloritem-t
-                        xcb-query-best-size-reply-t)
+                        xcb-query-best-size-reply-t
+                        xcb-grab-keyboard-reply-t
+                        xcb-grab-pointer-reply-t
+                        xcb-get-input-focus-reply-t
+                        xcb-query-pointer-reply-t
+                        xcb-timecoord-t)
 
  ;; Events
 (make-cstruct-accessors xcb-generic-event-t

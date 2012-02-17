@@ -208,56 +208,199 @@
 
  ;; 12.6 Pointer Position
 
-(stub query-pointer (window))
-(stub global-pointer-position (display))
-(stub pointer-position (window))
-(stub motion-events (window &key start stop (result-type 'list)))
-(stub warp-pointer (destination dest-x dest-y))
-(stub warp-pointer-relative (display dest-x dest-y))
-(stub warp-pointer-if-inside (destination dest-x dest-y
+(defun query-pointer (window)
+  (let ((display (display-for window)))
+   (do-request-response (window c ck reply err)
+       (xcb-query-pointer c (xid window))
+       (xcb-query-pointer-reply c ck err)
+     (values
+      (xcb-query-pointer-reply-t-win-x reply)
+      (xcb-query-pointer-reply-t-win-y reply)
+      (= 1 (xcb-query-pointer-reply-t-same-screen reply))
+      (if (/= 0 (xcb-query-pointer-reply-t-child reply))
+          (%make-window :display display
+                        :id (xcb-query-pointer-reply-t-child reply)))
+      (xcb-query-pointer-reply-t-root-x reply)
+      (xcb-query-pointer-reply-t-root-y reply)
+      (xcb-query-pointer-reply-t-mask reply)
+      (%make-window :display display
+                    :id (xcb-query-pointer-reply-t-root reply))))))
+
+(defun global-pointer-position (display)
+  (multiple-value-bind (x y same-screen-p window root-x root-y mask screen-root)
+      (query-pointer (screen-root (first (display-roots display))))
+    (values root-x root-y screen-root)))
+
+(defun pointer-position (window)
+  (multiple-value-bind (x y same-screen-p window root-x root-y mask screen-root)
+      (query-pointer window)
+    (values x y same-screen-p window)))
+
+;; FIXME: result format
+(defun motion-events (window &key start stop (result-type 'list))
+  (do-request-response (window c ck reply err)
+      (xcb-get-motion-events c (xid window)
+                             (or start 0) (or stop 0))
+      (xcb-get-motion-events-reply c ck err)
+    (map-result-list result-type
+                     (lambda (ptr)
+                       (list (xcb-timecoord-t-x ptr)
+                             (xcb-timecoord-t-y ptr)
+                             (xcb-timecoord-t-time ptr)))
+                     #'xcb-get-motion-events-events
+                     #'xcb-get-motion-events-events-length
+                     reply 'xcb-timecoord-t)))
+
+(defun warp-pointer (destination dest-x dest-y)
+  (xerr destination
+      (xcb-warp-pointer-checked (display-ptr-xcb destination)
+                                0 (xid destination) 0 0 0 0
+                                dest-x dest-y)))
+
+(defun warp-pointer-relative (display dest-x dest-y)
+  (xerr display
+      (xcb-warp-pointer-checked (display-ptr-xcb display)
+                                0 0 0 0 0 0
+                                dest-x dest-y)))
+
+(defun warp-pointer-if-inside (destination dest-x dest-y
                               source source-x source-y
-                              &optional (source-width 0) (source-height 0)))
-(stub warp-pointer-relative-if-inside
+                              &optional (source-width 0) (source-height 0))
+  (xerr destination
+      (xcb-warp-pointer-checked (display-ptr-xcb destination)
+                                (xid source) (xid destination)
+                                source-x source-y
+                                source-width source-height
+                                dest-x dest-y)))
+
+(defun warp-pointer-relative-if-inside
     (x-offset y-offset
      source source-x source-y
-     &optional (source-width 0) (source-height 0)))
+     &optional (source-width 0) (source-height 0))
+  (xerr source
+      (xcb-warp-pointer-checked (display-ptr-xcb source)
+                                (xid source) 0
+                                source-x source-y
+                                source-width source-height
+                                x-offset y-offset)))
 
  ;; 12.7 Managing Input Focus
 
-(stub set-input-focus (display focus revert-to &optional time))
-(stub input-focus (display))
+(define-enum-table input-focus (xcb-input-focus-t "XCB-INPUT-FOCUS")
+  :none :pointer-root :parent :follow-keyboard)
+
+(defun set-input-focus (display focus revert-to &optional time)
+  (xerr display
+      (xcb-set-input-focus-checked (display-ptr-xcb display)
+                                   (input-focus revert-to)
+                                   (if (window-p focus)
+                                       (xid focus)
+                                       (input-focus focus))
+                                   (or time 0))))
+
+(defun input-focus (display)
+  (do-request-response (display c ck reply err)
+      (xcb-get-input-focus (display-ptr-xcb display))
+      (xcb-get-input-focus-reply c ck err)
+    (values (or (input-focus-key (xcb-get-input-focus-reply-t-focus reply))
+                (%make-window :display display
+                              :id (xcb-get-input-focus-reply-t-focus reply)))
+            (input-focus-key (xcb-get-input-focus-reply-t-revert-to reply)))))
 
  ;; 12.8 Grabbing the Pointer
 
-(stub grab-pointer (window event-mask
-                    &key owner-p sync-pointer-p sync-keyboard-p confine-to
-                      cursor time))
+(define-enum-table grab-status (xcb-grab-status-t "XCB-GRAB-STATUS")
+  :success :already-grabbed :invalid-time :not-viewable :frozen)
 
-(stub ungrab-pointer (display &key time))
-(stub change-active-pointer-grab (display event-mask &optional cursor time))
+(defun grab-pointer (window event-mask
+                    &key owner-p sync-pointer-p sync-keyboard-p confine-to
+                      cursor time)
+  (do-request-response (window c ck reply err)
+      (xcb-grab-pointer c (if owner-p 1 0) (xid window)
+                        (apply #'make-event-mask event-mask)
+                        (if sync-pointer-p 1 0)
+                        (if sync-keyboard-p 1 0)
+                        (xid confine-to)
+                        (xid cursor)
+                        (or time 0))
+      (xcb-grab-pointer-reply c ck err)
+    (grab-status-key (xcb-grab-pointer-reply-t-status reply))))
+
+(defun ungrab-pointer (display &key time)
+  (xerr display
+      (xcb-ungrab-pointer-checked (display-ptr-xcb display) (or time 0))))
+
+(defun change-active-pointer-grab (display event-mask &optional cursor time)
+  (xerr display
+      (xcb-change-active-pointer-grab-checked (display-ptr-xcb display)
+                                              (xid cursor) (or time 0)
+                                              (make-event-mask event-mask))))
 
  ;; 12.9 Grabbing a Button
 
-(stub grab-button (window button event-mask
-                   &key (modifiers 0) owner-p sync-pointer-p sync-keyboard-p
-                     confine-to cursor))
+(define-enum-table mod-mask (xcb-mod-mask-t "XCB-MOD-MASK")
+  :shift :lock :control (:mod-1 :1) (:mod-2 :2) (:mod-3 :3) (:mod-4 :4) (:mod-5 :5) :any)
 
-(stub ungrab-button (window button &key (modifiers 0)))
+(defun encode-modifier (mod)
+  (etypecase mod
+    ((unsigned-byte 16) mod)
+    (keyword (mod-mask mod))
+    (list (apply #'mod-mask-logior mod))))
+
+(defun grab-button (window button event-mask
+                   &key (modifiers 0) owner-p sync-pointer-p sync-keyboard-p
+                     confine-to cursor)
+  (xerr window
+      (xcb-grab-button-checked (display-ptr-xcb window)
+                               (if owner-p 1 0) (xid window)
+                               (apply #'make-event-mask event-mask)
+                               (if sync-pointer-p 1 0)
+                               (if sync-keyboard-p 1 0)
+                               (xid confine-to)
+                               (xid cursor)
+                               button
+                               (encode-modifier modifiers))))
+
+(defun ungrab-button (window button &key (modifiers 0))
+  (xerr window
+      (xcb-ungrab-button-checked (display-ptr-xcb window) button
+                                 (xid window) (encode-modifier modifiers))))
 
  ;; 12.10 Grabbing the Keyboard
 
-(stub grab-keyboard (window &key owner-p sync-pointer-p sync-keyboard-p
-                              time))
+(defun grab-keyboard (window &key owner-p sync-pointer-p sync-keyboard-p
+                              time)
+  (do-request-response (window c ck reply err)
+      (xcb-grab-keyboard c (if owner-p 1 0)
+                         (xid window) (or time 0)
+                         (if sync-pointer-p 1 0)
+                         (if sync-keyboard-p 1 0))
+      (xcb-grab-keyboard-reply (c ck err))
+    (grab-status-key (xcb-grab-keyboard-reply-t-status reply))))
 
-(stub ungrab-keyboard (display &key time))
+(defun ungrab-keyboard (display &key time)
+  (xerr display
+      (xcb-ungrab-keyboard (display-ptr-xcb display)
+                           (or time 0))))
 
  ;; 12.11 Grabbing a Key
 
-(stub grab-key (window key
+(defun grab-key (window key
                 &key (modifiers 0) owner-p sync-pointer-p sync-keyboard-p
-                  time))
+                  time)
+  (xerr window
+      (xcb-grab-key-checked (display-ptr-xcb window)
+                            (if owner-p 1 0) (xid window)
+                            (encode-modifier modifiers)
+                            (if (eq :any key) 0 key)
+                            (if sync-pointer-p 1 0)
+                            (if sync-keyboard-p 1 0))))
 
-(stub ungrab-key (window &key time))
+(defun ungrab-key (window key &key (modifiers 0))
+  (xerr window
+      (xcb-ungrab-key-checked (display-ptr-xcb window)
+                              (if (eq :any key) 0 key)
+                              (xid window) (encode-modifier modifiers))))
 
  ;; 12.12.(1-7) See event-decl.lisp
 
@@ -328,4 +471,11 @@ be in order, since the appropriate accessor is used to get the value."
 
  ;; 12.13 Releasing Queued Events
 
-(stub allow-events (display mode &optional time))
+(define-enum-table allow (xcb-allow-t "XCB-ALLOW")
+  :async-pointer :sync-pointer :replay-pointer :async-keyboard
+  :sync-keyboard :replay-keyboard :async-both :sync-both)
+
+(defun allow-events (display mode &optional time)
+  (xerr display
+      (xcb-allow-events-checked (display-ptr-xcb display)
+                                (allow mode) (or time 0))))
