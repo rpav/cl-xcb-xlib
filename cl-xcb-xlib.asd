@@ -20,6 +20,7 @@
    (:file "load-basic-libraries")
    (:file "load-ext-libraries")
    (:file "swig-util")
+   (:file "swig-helpers")
    (:file "xcb-swig")
    (:file "xlib-swig")
    (:file "poll-swig")

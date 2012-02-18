@@ -24,7 +24,8 @@
                         xcb-get-input-focus-reply-t
                         xcb-query-pointer-reply-t
                         xcb-timecoord-t
-                        xcb-format-t)
+                        xcb-format-t
+                        xcb-list-fonts-with-info-reply-t)
 
  ;; Events
 (make-cstruct-accessors xcb-generic-event-t
@@ -57,6 +58,7 @@
                         xcb-colormap-notify-event-t
                         xcb-client-message-event-t
                         xcb-mapping-notify-event-t)
+
  ;; Errors
 (make-cstruct-accessors xcb-generic-error-t
                         xcb-request-error-t
@@ -133,7 +135,13 @@
                            (,nextfn ptr))
                   list)))))
 
-(wrap-iterators screen)
+(wrap-iterators screen str)
+
+(defun xcb-str-to-lisp (ptr)
+  (foreign-string-to-lisp (xcb-str-name ptr)
+                          :count (xcb-str-name-length ptr)))
+
+(export 'xcb-str-to-lisp)
 
 (defmacro wrap-xcb-reply-cookies (&rest types)
   `(progn

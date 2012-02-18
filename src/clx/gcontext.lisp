@@ -23,8 +23,8 @@
 ;; We always cache.  The docs don't actually make it clear that there
 ;; is any difference _without_ cache-p set.  Regardless, we are
 ;; apparently unable to query values, so we must cache.
-(defun gcontext-cache-p (gcontext) t)
-(defun (setf gcontext-cache-p) (v gcontext) t)
+(defun gcontext-cache-p (gcontext) (declare (ignore gcontext)) t)
+(defun (setf gcontext-cache-p) (v gcontext) (declare (ignore v gcontext)) t)
 
  ;; 5.2 Creating Graphics Contexts
 
@@ -292,11 +292,13 @@
                          &body body)
   `(let ((,gcontext
            (create-gcontext
-            :drawable drawable
-            :clip-ordering clip-ordering
-            ,@(loop for i in *basic-gc-attrs*
-                    collect (intern (string i) :keyword)
-                    collect i))))
+             :drawable ,drawable
+             :clip-ordering ,clip-ordering
+             ,@(loop for i in *basic-gc-attrs*
+                     collect (intern (string i) :keyword)
+                     collect i))))
      (unwind-protect
           (progn ,@body)
        (free-gcontext ,gcontext))))
+
+(with-gcontext (gc :arc-mode foo))

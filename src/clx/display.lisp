@@ -42,6 +42,8 @@
                                 resource-id atom-id value
                                 condition
                               &allow-other-keys)
+  (declare (ignore display error current-sequence major minor sequence
+                   resource-id atom value))
   (error condition))
 
 (defmacro do-on-display (display &body body)
@@ -245,7 +247,9 @@
 (defun generate-id (display)
   (xcb-generate-id (display-ptr-xcb display)))
 
-(defun display-xid (display) #'generate-id)
+(defun display-xid (display)
+  (declare (ignore display))
+  #'generate-id)
 
 (defmacro with-display (display &body body)
   (let ((fn (gensym "FN")))

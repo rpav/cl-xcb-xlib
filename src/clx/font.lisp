@@ -1,21 +1,58 @@
 (in-package :xcb.clx)
 
-(defstruct (font (:conc-name %font-)
-                 (:constructor %make-font)))
+(defstruct font-charinfo
+  left-side-bearing right-side-bearing
+  width ascent descent attributes)
+
+(defstruct font-properties
+  name min-bounds max-bounds
+  min-char-or-byte2 max-char-or-byte2
+  default-char draw-direction
+  min-byte1 max-byte1 all-chars-exist
+  ascent descent)
+
+(defstruct (font (:include display-id-pair)
+                 (:conc-name %font-)
+                 (:constructor %make-font))
+  (properties nil :type (or nil font-properties)))
 
  ;; 8.2 Opening Fonts
 
-(stub open-font (display name))
-(stub close-font (font))
-(stub discard-font-info (fonts))
+(defun open-font (display name)
+  (xchk (display c id (font (%make-font :display display :id id)))
+      (with-foreign-string ((ptr len) name)
+        (xcb-open-font c id (1- len) ptr))
+    font))
+
+(defun close-font (font)
+  (xchk (font c)
+      (xcb-close-font-checked c (xid font))))
+
+;; We don't keep any state, so this does nothing
+(defun discard-font-info (fonts))
 
  ;; 8.3 Listing Fonts
 
-(stub font-path (display &key (result-type 'list)))
-(stub list-font-names (display pattern
-                       &key (max-fonts 65535) (result-type 'list)))
-(stub list-fonts (display pattern
-                  &key (max-fonts 65535) (result-type 'list)))
+(defun font-path (display &key (result-type 'list))
+  (do-request-response (display c ck reply err)
+      (xcb-get-font-path c)
+      (xcb-get-font-path-reply c ck err)
+    (map result-type
+         #'xcb-str-to-lisp
+         (xcb-get-font-path-path-iterator reply))))
+
+(defun list-font-names (display pattern
+                        &key (max-fonts 65535) (result-type 'list))
+  (with-foreign-string ((ptr len) pattern)
+   (do-request-response (display c ck reply err)
+       (xcb-list-fonts c max-fonts len ptr)
+       (xcb-list-fonts-reply c ck err)
+     (map result-type
+          #'xcb-str-to-lisp
+          (xcb-list-fonts-names-iterator reply)))))
+
+(defun list-fonts (display pattern
+                   &key (max-fonts 65535) (result-type 'list)))
 
  ;; 8.4 Font Attributes
 
