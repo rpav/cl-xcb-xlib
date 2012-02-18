@@ -84,7 +84,7 @@
 
  ;; Error checking
 
-(defmacro xerr (display-or-linked form)
+(defmacro xerr (display-or-linked form &body body)
   "Check for an error from *no-reply* calls *only*; i.e., -CHECKED
 variant.  For calls expecting a reply, use WITH-XCB-CLX-REPLY."
   (let ((cookie (gensym "COOKIE"))
@@ -97,7 +97,16 @@ variant.  For calls expecting a reply, use WITH-XCB-CLX-REPLY."
        (unless (null-pointer-p ,err)
          (let ((,cond (make-x-error (cadr ,cookie) ,dpy ,err)))
            (xcb::libc_free ,err)
-           (when ,cond (error ,cond)))))))
+           (when ,cond (error ,cond))))
+       ,@body)))
+
+(defmacro xchk ((display c &optional id &rest other-initializers) &body body)
+  `(let* ((,c (display-ptr-xcb ,display))
+          ,@(when id
+              `((,id (xcb-generate-id c))))
+          ,@other-initializers)
+     (xerr ,display
+         ,@body)))
 
 (defmacro with-xcb-clx-reply ((dpy cookie ptr err) form &body body)
   (let ((cond (gensym "COND")))
