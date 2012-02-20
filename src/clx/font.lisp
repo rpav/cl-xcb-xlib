@@ -28,8 +28,7 @@
   (xchk (font c)
       (xcb-close-font-checked c (xid font))))
 
-;; We don't keep any state, so this does nothing
-(defun discard-font-info (fonts))
+(stub discard-font-info (fonts))
 
  ;; 8.3 Listing Fonts
 
@@ -51,8 +50,8 @@
           #'xcb-str-to-lisp
           (xcb-list-fonts-names-iterator reply)))))
 
-(defun list-fonts (display pattern
-                   &key (max-fonts 65535) (result-type 'list)))
+(stub list-fonts (display pattern
+                  &key (max-fonts 65535) (result-type 'list)))
 
  ;; 8.4 Font Attributes
 

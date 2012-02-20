@@ -43,7 +43,7 @@
                                 condition
                               &allow-other-keys)
   (declare (ignore display error current-sequence major minor sequence
-                   resource-id atom value))
+                   resource-id atom-id value))
   (error condition))
 
 (defmacro do-on-display (display &body body)
@@ -144,7 +144,7 @@
         :lsbfirst :msbfirst)))
 
 (defun display-display (display)
-  (%dispay-number display))
+  (%display-number display))
 
 (defun display-error-handler (display)
   (%display-error-handler display))

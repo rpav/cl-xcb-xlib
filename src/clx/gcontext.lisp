@@ -17,7 +17,7 @@
   (loop for a in attrs by #'cddr
         for v in (cdr attrs) by #'cddr do
           (if (equal (gethash a (%gcontext-current gc)) v)
-              (remhash a (%gc-updates gc))
+              (remhash a (%gcontext-updates gc))
               (setf (gethash a (%gcontext-updates gc)) v))))
 
 ;; We always cache.  The docs don't actually make it clear that there
@@ -277,28 +277,10 @@
                            (%gcontext-updates gcontext))
         (clrhash (%gcontext-updates gcontext))))))
 
-(defmacro with-gcontext ((gcontext
-                          &key (arc-mode :pie-slice)
-                            (background 1) (cache-p t) (cap-style :butt)
-                            (clip-mask :none) (clip-ordering :unsorted)
-                            (clip-x 0) (clip-y 0) (dash-offset 0) (dashes 4)
-                            drawable (exposures :on)
-                            (fill-rule :even-odd) (fill-style :solid) font
-                            (foreground 0) (function 'boole-1)
-                            (join-style :miter) (line-style :solid)
-                            (line-width 0) plane-mask
-                            stipple (subwindow-mode :clip-by-children) tile
-                            (ts-x 0) (ts-y 0))
+(defmacro with-gcontext ((gcontext &rest gcontext-initializers)
                          &body body)
-  `(let ((,gcontext
-           (create-gcontext
-             :drawable ,drawable
-             :clip-ordering ,clip-ordering
-             ,@(loop for i in *basic-gc-attrs*
-                     collect (intern (string i) :keyword)
-                     collect i))))
+  `(let ((,gcontext (create-gcontext ,@gcontext-initializers)))
      (unwind-protect
           (progn ,@body)
        (free-gcontext ,gcontext))))
 
-(with-gcontext (gc :arc-mode foo))

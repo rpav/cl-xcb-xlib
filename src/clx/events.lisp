@@ -200,7 +200,7 @@
 
 (defun send-event (window event-key event-mask &rest event-slots
                    &key propagate-p display &allow-other-keys)
-  (with-encoded-event (ptr (display-for window)
+  (with-encoded-event (ptr (or display (display-for window))
                            (list* :event-key event-key event-slots))
     (xerr window
         (xcb-send-event-checked (display-ptr-xcb window)
@@ -230,11 +230,13 @@
 (defun global-pointer-position (display)
   (multiple-value-bind (x y same-screen-p window root-x root-y mask screen-root)
       (query-pointer (screen-root (first (display-roots display))))
+    (declare (ignore x y same-screen-p window mask))
     (values root-x root-y screen-root)))
 
 (defun pointer-position (window)
   (multiple-value-bind (x y same-screen-p window root-x root-y mask screen-root)
       (query-pointer window)
+    (declare (ignore root-x root-y mask screen-root))
     (values x y same-screen-p window)))
 
 ;; FIXME: result format
@@ -376,7 +378,7 @@
                          (xid window) (or time 0)
                          (if sync-pointer-p 1 0)
                          (if sync-keyboard-p 1 0))
-      (xcb-grab-keyboard-reply (c ck err))
+      (xcb-grab-keyboard-reply c ck err)
     (grab-status-key (xcb-grab-keyboard-reply-t-status reply))))
 
 (defun ungrab-keyboard (display &key time)
@@ -389,6 +391,7 @@
 (defun grab-key (window key
                 &key (modifiers 0) owner-p sync-pointer-p sync-keyboard-p
                   time)
+  (declare (ignore time))
   (xerr window
       (xcb-grab-key-checked (display-ptr-xcb window)
                             (if owner-p 1 0) (xid window)
@@ -435,6 +438,7 @@ be in order, since the appropriate accessor is used to get the value."
                     as acc = (slot-acc (if (consp slot) (car slot) slot))
                     do (multiple-value-bind (dummies vals new setter getter)
                            (get-setf-expansion `(,acc ptr))
+                         (declare (ignore getter))
                          (let ((encoder `(lambda (,@vals ,@new)
                                            (let (,@(mapcar #'list dummies vals))
                                              ,setter))))

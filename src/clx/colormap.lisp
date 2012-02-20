@@ -98,7 +98,7 @@
       (copy-to-foreign ptr len pixels :uint32)
       (xerr colormap
           (xcb-free-colors-checked (display-ptr-xcb colormap) (xid colormap)
-                                   plane-mask ptr)))))
+                                   plane-mask len ptr)))))
 
  ;; 9.3.4 Finding Colors
 

@@ -35,6 +35,7 @@ translated.  `DPY` is the display in context."
   (let ((type (if (consp type) (car type) type))
         (args (if (consp type) (cdr type)))
         (trans (cdr (find-slot-trans type))))
+    (declare (ignore type))
     (funcall trans args val oldval dpy)))
 
 (define-slot-trans window
@@ -199,7 +200,7 @@ translated.  `DPY` is the display in context."
  ;; 12.12.3 Keyboard and Pointer State Events
 
 (declare-event (:keymap-notify)
-  'xcb_keymap_notify_event_t
+  'xcb-keymap-notify-event-t
   ((bit-vector 256) (keys keymap)))
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
@@ -228,5 +229,5 @@ translated.  `DPY` is the display in context."
 (declare-event (:no-exposure)
   'xcb-no-exposure-event-t
   (drawable (drawable event-window))
-  (card8 major)
-  (card16 minor))
+  (card8 (major-opcode major))
+  (card16 (minor-opcode minor)))
