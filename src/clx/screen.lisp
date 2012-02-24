@@ -4,7 +4,8 @@
                    (:constructor %make-screen))
   (display nil :type display)
   (number 0 :type fixnum)
-  (xcb-screen (null-pointer) :type #.(type-of (null-pointer))))
+  (xcb-screen (null-pointer) :type #.(type-of (null-pointer)))
+  (plist nil :type list))
 
 (defmethod print-object ((object screen) stream)
   (print-unreadable-object (object stream)
@@ -42,8 +43,11 @@
 
 ;; SCREEN-P is implicit in DEFSTRUCT SCREEN
 
-(stub screen-plist (screen))
-(stub (setf screen-plist) (screen))
+(defun screen-plist (screen)
+  (%screen-plist screen))
+
+(defun (setf screen-plist) (v screen)
+  (setf (%screen-plist screen) v))
 
 (defun screen-root (screen)
   (%make-window

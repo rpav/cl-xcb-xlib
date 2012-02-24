@@ -168,9 +168,7 @@
     :in #'gc-fill-rule :out #'gc-fill-rule-key)
 (define-gc-accessor fill-style)
 
-;; FIXME: when fonts exist
-(stub gcontext-font (gcontext))
-(stub set-gcontext-font (gcontext &optional metrics-p) (v))
+(define-gc-accessor font)
 
 (define-gc-accessor foreground)
 (define-gc-accessor function
@@ -191,9 +189,11 @@
 
 (define-gc-accessor plane-mask :setter-p nil)
 
-;; FIXME: plists
-(stub gcontext-plist (gcontext))
-(stub (setf gcontext-plist) (v gcontext))
+(defun gcontext-plist (gcontext)
+  (xid-plist gcontext))
+
+(defun (setf gcontext-plist) (v gcontext)
+  (setf (xid-plist gcontext) v))
 
 (define-gc-accessor stipple :setter-p nil)
 (define-gc-accessor subwindow-mode
@@ -240,6 +240,7 @@
              (dashes (if (consp dashes) nil dashes))
              (clip-mask-rects (if (consp clip-mask) clip-mask nil))
              (clip-mask (if (consp clip-mask) nil clip-mask))
+             (font (and font (xid font)))
              (value-mask 0)
              (value-count 0))
         (with-foreign-object (values-ptr 'uint-32-t +max-gc-attr-to-xcb+)

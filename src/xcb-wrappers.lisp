@@ -25,7 +25,13 @@
                         xcb-query-pointer-reply-t
                         xcb-timecoord-t
                         xcb-format-t
-                        xcb-list-fonts-with-info-reply-t)
+                        xcb-list-fonts-with-info-reply-t
+                        xcb-query-font-reply-t
+                        xcb-charinfo-t
+                        xcb-fontprop-t
+                        xcb-char-2b-t
+                        xcb-query-text-extents-reply-t
+                        xcb-query-extension-reply-t)
 
  ;; Events
 (make-cstruct-accessors xcb-generic-event-t

@@ -19,7 +19,11 @@
 
 ;; DRAWABLE-P is implicit in DEFSTRUCT DRAWABLE
 
-(stub drawable-plist (drawable))
+(defun drawable-plist (drawable)
+  (xid-plist drawable))
+
+(defun (setf drawable-plist) (v drawable)
+  (setf (xid-plist drawable) v))
 
  ;; 4.3 Window attributes
 

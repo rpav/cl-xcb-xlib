@@ -1,10 +1,10 @@
 (in-package :xcb.clx)
 
-(defstruct font-charinfo
+(defstruct (font-charinfo (:constructor %make-font-charinfo))
   left-side-bearing right-side-bearing
   width ascent descent attributes)
 
-(defstruct font-properties
+(defstruct (font-info (:constructor %make-font-info))
   name min-bounds max-bounds
   min-char-or-byte2 max-char-or-byte2
   default-char draw-direction
@@ -14,21 +14,80 @@
 (defstruct (font (:include display-id-pair)
                  (:conc-name %font-)
                  (:constructor %make-font))
-  (properties nil :type (or nil font-properties)))
+  info properties charinfo)
 
  ;; 8.2 Opening Fonts
+
+(declaim (notinline make-font-charinfo make-font-info))
+(defun make-font-charinfo (ptr)
+  (%make-font-charinfo
+   :left-side-bearing (xcb-charinfo-t-left-side-bearing ptr)
+   :right-side-bearing (xcb-charinfo-t-right-side-bearing ptr)
+   :width (xcb-charinfo-t-character-width ptr)
+   :ascent (xcb-charinfo-t-ascent ptr)
+   :descent (xcb-charinfo-t-descent ptr)
+   :attributes (xcb-charinfo-t-attributes ptr)))
+
+;; FIXME: draw direction?
+(defun make-font-info (name ptr)
+  (:say "direction = ~A" (xcb-query-font-reply-t-draw-direction ptr))
+  (%make-font-info
+   :name name
+   :min-bounds (make-font-charinfo (xcb-query-font-reply-t-min-bounds ptr))
+   :max-bounds (make-font-charinfo (xcb-query-font-reply-t-max-bounds ptr))
+   :min-char-or-byte2 (xcb-query-font-reply-t-min-char-or-byte-2 ptr)
+   :max-char-or-byte2 (xcb-query-font-reply-t-max-char-or-byte-2 ptr)
+   :default-char (xcb-query-font-reply-t-default-char ptr)
+   :draw-direction (if (= 0 (xcb-query-font-reply-t-draw-direction ptr))
+                       :left-to-right :right-to-left)
+   :min-byte1 (xcb-query-font-reply-t-min-byte-1 ptr)
+   :max-byte1 (xcb-query-font-reply-t-max-byte-1 ptr)
+   :all-chars-exist (= 1 (xcb-query-font-reply-t-all-chars-exist ptr))
+   :ascent (xcb-query-font-reply-t-font-ascent ptr)
+   :descent (xcb-query-font-reply-t-font-descent ptr)))
+
+(defun make-font-properties (ptr head-fn len-fn)
+  (declare (type function head-fn len-fn))
+  (map-result-list 'list
+                   (lambda (ptr)
+                     (cons (xcb-fontprop-t-name ptr)
+                           (xcb-fontprop-t-value ptr)))
+                   head-fn len-fn
+                   ptr 'xcb-fontprop-t))
+
+(defun query-font (font name)
+  (do-request-response (font c ck reply err)
+      (xcb-query-font c (xid font))
+      (xcb-query-font-reply c ck err)
+    (values (make-font-info name reply)
+            (make-font-properties reply
+                                  #'xcb-query-font-properties
+                                  #'xcb-query-font-properties-length)
+            (map-result-list 'vector
+                             #'make-font-charinfo
+                             #'xcb-query-font-char-infos
+                             #'xcb-query-font-char-infos-length
+                             reply 'xcb-charinfo-t))))
 
 (defun open-font (display name)
   (xchk (display c id (font (%make-font :display display :id id)))
       (with-foreign-string ((ptr len) name)
         (xcb-open-font c id (1- len) ptr))
+    (multiple-value-bind (info properties charinfo)
+        (query-font font name)
+      (setf (%font-info font) info)
+      (setf (%font-properties font) properties)
+      (setf (%font-charinfo font) charinfo))
     font))
 
 (defun close-font (font)
   (xchk (font c)
       (xcb-close-font-checked c (xid font))))
 
-(stub discard-font-info (fonts))
+(defun discard-font-info (font)
+  (setf (%font-info font) nil)
+  (setf (%font-properties font) nil)
+  (setf (%font-charinfo font) nil))
 
  ;; 8.3 Listing Fonts
 
@@ -50,59 +109,128 @@
           #'xcb-str-to-lisp
           (xcb-list-fonts-names-iterator reply)))))
 
-(stub list-fonts (display pattern
-                  &key (max-fonts 65535) (result-type 'list)))
+;; FIXME: caching? allow (open-font PSEUDO-FONT)?
+(defun list-fonts (display pattern
+                   &key (max-fonts 65535) (result-type 'list))
+  (with-foreign-string ((ptr len) pattern)
+    ;; This is "special", so we can't use do-request-response
+    (let* ((c (display-ptr-xcb display))
+           (ck (xcb-list-fonts-with-info c max-fonts len ptr))
+           fonts)
+      (loop do
+        (with-xcb-clx-reply (display ck reply err)
+            (xcb-list-fonts-with-info-reply c ck err)
+          (let ((name (foreign-string-to-lisp (xcb-list-fonts-with-info-name reply)
+                                              :count
+                                              (xcb-list-fonts-with-info-name-length reply))))
+            (when (= 0 (length name)) (loop-finish))
+            (push (%make-font :display display
+                              :info (make-font-info name reply)
+                              :properties (make-font-properties reply
+                                                                #'xcb-list-fonts-with-info-properties
+                                                                #'xcb-list-fonts-with-info-properties-length))
+                  fonts))))
+      (map result-type #'identity fonts))))
 
  ;; 8.4 Font Attributes
 
-(stub font-all-chars-exist-p (font))
-(stub font-ascent (font))
-(stub font-default-char (font))
-(stub font-descent (font))
-(stub font-direction (font))
-(stub font-display (font))
-(stub font-equal (font-1 font-2))
-(stub font-id (font))
-(stub font-max-byte1 (font))
-(stub font-max-byte2 (font))
-(stub font-max-char (font))
-(stub font-min-byte1 (font))
-(stub font-min-byte2 (font))
-(stub font-min-char (font))
-(stub font-name (font))
+(defmacro %mkfattr (name &optional field)
+  (let ((func (intern (format nil "FONT-~A" name)))
+        (prop (intern (format nil "FONT-INFO-~A" (or field name)))))
+   `(defun ,func (font)
+      (,prop (%font-info font)))))
+
+(%mkfattr all-chars-exist-p all-chars-exist)
+(%mkfattr ascent)
+(%mkfattr default-char)
+(%mkfattr descent)
+(%mkfattr direction draw-direction)
+(%mkfattr max-byte1)
+(%mkfattr max-byte2 max-char-or-byte2)
+(%mkfattr max-char max-char-or-byte2)
+(%mkfattr min-byte1)
+(%mkfattr min-byte2 min-char-or-byte2)
+(%mkfattr min-char min-char-or-byte2)
+(%mkfattr name)
+
+(defun font-display (font)
+  (%font-display font))
+
+(defun font-equal (f-1 f-2)
+  (xid-equal f-1 f-2))
+
+(defun font-id (font)
+  (xid font))
 
 ;; FONT-P per DEFSTRUCT
 
-(stub font-plist (font))
-(stub (setf font-plist) (v font))
+(defun font-plist (font)
+  (xid-plist font))
+
+(defun (setf font-plist) (v font)
+  (setf (xid-plist font) v))
 
 (stub font-properties (font))
 (stub font-property (font name))
 
-(stub max-char-ascent (font))
-(stub max-char-attributes (font))
-(stub max-char-descent (font))
-(stub max-char-left-bearing (font))
-(stub max-char-right-bearing (font))
-(stub max-char-width (font))
+(defmacro %mkfcattr (minmax name &optional field)
+  (let ((func (intern (format nil "FONT-~A-CHAR-~A" minmax name)))
+        (attr (intern (format nil "FONT-INFO-~A-BOUNDS" minmax)))
+        (prop (intern (format nil "FONT-CHARINFO-~A" (or field name)))))
+   `(defun ,func (font)
+      (,prop (,attr (%font-properties font))))))
 
-(stub min-char-ascent (font))
-(stub min-char-attributes (font))
-(stub min-char-descent (font))
-(stub min-char-left-bearing (font))
-(stub min-char-right-bearing (font))
-(stub min-char-width (font))
+(%mkfcattr max ascent)
+(%mkfcattr max attributes)
+(%mkfcattr max descent)
+(%mkfcattr max left-bearing left-side-bearing)
+(%mkfcattr max right-bearing right-side-bearing)
+(%mkfcattr max width)
+
+(%mkfcattr min ascent)
+(%mkfcattr min attributes)
+(%mkfcattr min descent)
+(%mkfcattr min left-bearing left-side-bearing)
+(%mkfcattr min right-bearing right-side-bearing)
+(%mkfcattr min width)
 
  ;; 8.5 Character Attributes
 
-(stub char-ascent (font index))
-(stub char-attributes (font index))
-(stub char-descent (font index))
-(stub char-left-bearing (font index))
-(stub char-right-bearing (font index))
-(stub char-width (font index))
+(defmacro %mkfchrattr (name &optional field)
+  (let ((func (intern (format nil "CHAR-~A" name)))
+        (prop (intern (format nil "FONT-CHARINFO-~A" (or field name)))))
+    `(defun ,func (font index)
+       (,prop (aref (%font-charinfo font) index)))))
+
+(%mkfchrattr ascent)
+(%mkfchrattr attributes)
+(%mkfchrattr descent)
+(%mkfchrattr left-bearing left-side-bearing)
+(%mkfchrattr right-bearing right-side-bearing)
+(%mkfchrattr width)
 
  ;; 8.6 Querying Text Size
 
-(stub text-extents (font sequence &key (start 0) end translate))
-(stub text-width (font sequence &key start 0 end translate))
+(defun text-extents (font sequence &key (start 0) end translate)
+  (do-translation sequence font translate
+      (start end 0)
+      (output fnd cont curwidth)
+    (with-translated-text (ptr len output 16)
+      (do-request-response (font c ck reply err)
+          (xcb-query-text-extents c (xid font) len ptr)
+          (xcb-query-text-extents-reply c ck err)
+        (values (xcb-query-text-extents-reply-t-overall-width reply)
+                (xcb-query-text-extents-reply-t-overall-ascent reply)
+                (xcb-query-text-extents-reply-t-overall-descent reply)
+                (xcb-query-text-extents-reply-t-overall-left reply)
+                (xcb-query-text-extents-reply-t-overall-right reply)
+                (xcb-query-text-extents-reply-t-font-ascent reply)
+                (if (= 0 (xcb-query-text-extents-reply-t-draw-direction reply))
+                    :left-to-right :right-to-left)
+                fnd)))))
+
+(defun text-width (font sequence &key (start 0) end translate)
+  (multiple-value-bind (width d0 d1 d2 d3 d4 fnd)
+      (text-extents font sequence :start start :end end :translate translate)
+    (declare (ignore d0 d1 d2 d3 d4))
+    (values width fnd)))

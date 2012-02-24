@@ -120,6 +120,14 @@
               (funcall function (mem-pref ptr type i) el)
               (setf (mem-aref ptr type i) el))))
 
+(defun copy-array-to-foreign (ptr len ary type &optional function)
+  (let ((size (foreign-type-size type)))
+   (loop for i from 0 below len
+         for el across ary do
+           (if function
+               (funcall function (inc-pointer ptr (* size i)) el)
+               (setf (mem-aref ptr type i) el)))))
+
  ;; Hash tables
 
 (defun merge-hash-tables (h1 &rest tables)

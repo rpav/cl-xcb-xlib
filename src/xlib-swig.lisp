@@ -675,7 +675,7 @@
 	(#.(custom-lispify "bell_duration" 'slotname) :unsigned-int)
 	(#.(custom-lispify "led_mask" 'slotname) :unsigned-long)
 	(#.(custom-lispify "global_auto_repeat" 'slotname) :int)
-	(#.(custom-lispify "auto_repeats" 'slotname) :pointer))
+	(#.(custom-lispify "auto_repeats" 'slotname) :char :count 32))
 
 (cl:export '#.(custom-lispify "XKeyboardState" 'classname))
 
@@ -989,7 +989,7 @@
 	(#.(custom-lispify "send_event" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
 	(#.(custom-lispify "window" 'slotname) :unsigned-long)
-	(#.(custom-lispify "key_vector" 'slotname) :pointer))
+	(#.(custom-lispify "key_vector" 'slotname) :char :count 32))
 
 (cl:export '#.(custom-lispify "XKeymapEvent" 'classname))
 
@@ -1661,9 +1661,9 @@
 (cl:export '#.(custom-lispify "data" 'slotname))
 
 (cffi:defcunion #.(custom-lispify "XClientMessageEvent_data" 'classname)
-	(#.(custom-lispify "b" 'slotname) :pointer)
-	(#.(custom-lispify "s" 'slotname) :pointer)
-	(#.(custom-lispify "l" 'slotname) :pointer))
+	(#.(custom-lispify "b" 'slotname) :char :count 20)
+	(#.(custom-lispify "s" 'slotname) :short :count 10)
+	(#.(custom-lispify "l" 'slotname) :long :count 5))
 
 (cl:export '#.(custom-lispify "XClientMessageEvent_data" 'classname))
 
@@ -1830,7 +1830,7 @@
 	(#.(custom-lispify "xkeymap" 'slotname) #.(custom-lispify "XKeymapEvent" 'structname))
 	(#.(custom-lispify "xgeneric" 'slotname) #.(custom-lispify "XGenericEvent" 'structname))
 	(#.(custom-lispify "xcookie" 'slotname) #.(custom-lispify "XGenericEventCookie" 'structname))
-	(#.(custom-lispify "pad" 'slotname) :pointer))
+	(#.(custom-lispify "pad" 'slotname) :long :count 24))
 
 (cl:export '#.(custom-lispify "XEvent" 'classname))
 
@@ -4667,7 +4667,7 @@
 
 (cffi:defcfun ("XQueryKeymap" #.(custom-lispify "XQueryKeymap" 'function)) :int
   (arg0 :pointer)
-  (arg1 :pointer))
+  (arg1 :char :count 32))
 
 (cl:export '#.(custom-lispify "XQueryKeymap" 'function))
 
@@ -7964,7 +7964,7 @@
 (cffi:defcunion #.(custom-lispify "GLXEvent" 'classname)
 	(#.(custom-lispify "glxpbufferclobber" 'slotname) #.(custom-lispify "GLXPbufferClobberEvent" 'structname))
 	(#.(custom-lispify "glxbufferswapcomplete" 'slotname) #.(custom-lispify "GLXBufferSwapComplete" 'structname))
-	(#.(custom-lispify "pad" 'slotname) :pointer))
+	(#.(custom-lispify "pad" 'slotname) :long :count 24))
 
 (cl:export '#.(custom-lispify "GLXEvent" 'classname))
 
@@ -9192,7 +9192,7 @@
 (cl:export '#.(custom-lispify "GLX_SGIX_hyperpipe" 'constant))
 
 (cffi:defcstruct #.(custom-lispify "GLXHyperpipeNetworkSGIX" 'classname)
-	(#.(custom-lispify "pipeName" 'slotname) :pointer)
+	(#.(custom-lispify "pipeName" 'slotname) :char :count 80)
 	(#.(custom-lispify "networkId" 'slotname) :int))
 
 (cl:export '#.(custom-lispify "GLXHyperpipeNetworkSGIX" 'classname))
@@ -9202,7 +9202,7 @@
 (cl:export '#.(custom-lispify "networkId" 'slotname))
 
 (cffi:defcstruct #.(custom-lispify "GLXHyperpipeConfigSGIX" 'classname)
-	(#.(custom-lispify "pipeName" 'slotname) :pointer)
+	(#.(custom-lispify "pipeName" 'slotname) :char :count 80)
 	(#.(custom-lispify "channel" 'slotname) :int)
 	(#.(custom-lispify "participationType" 'slotname) :unsigned-int)
 	(#.(custom-lispify "timeSlice" 'slotname) :int))
@@ -9218,7 +9218,7 @@
 (cl:export '#.(custom-lispify "timeSlice" 'slotname))
 
 (cffi:defcstruct #.(custom-lispify "GLXPipeRect" 'classname)
-	(#.(custom-lispify "pipeName" 'slotname) :pointer)
+	(#.(custom-lispify "pipeName" 'slotname) :char :count 80)
 	(#.(custom-lispify "srcXOrigin" 'slotname) :int)
 	(#.(custom-lispify "srcYOrigin" 'slotname) :int)
 	(#.(custom-lispify "srcWidth" 'slotname) :int)
@@ -9249,7 +9249,7 @@
 (cl:export '#.(custom-lispify "destHeight" 'slotname))
 
 (cffi:defcstruct #.(custom-lispify "GLXPipeRectLimits" 'classname)
-	(#.(custom-lispify "pipeName" 'slotname) :pointer)
+	(#.(custom-lispify "pipeName" 'slotname) :char :count 80)
 	(#.(custom-lispify "XOrigin" 'slotname) :int)
 	(#.(custom-lispify "YOrigin" 'slotname) :int)
 	(#.(custom-lispify "maxHeight" 'slotname) :int)

@@ -175,5 +175,8 @@
 
 ;; COLORMAP-P
 
-(stub colormap-plist (colormap))
-(stub (setf colormap-plist) (v colormap))
+(defun colormap-plist (colormap)
+  (xid-plist colormap))
+
+(defun (setf colormap-plist) (v colormap)
+  (setf (xid-plist colormap) v))

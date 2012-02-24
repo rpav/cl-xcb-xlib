@@ -60,5 +60,8 @@
 
 ;; CURSOR-P
 
-(stub cursor-plist (cursor))
-(stub (setf cursor-plist) (v cursor))
+(defun cursor-plist (cursor)
+  (xid-plist cursor))
+
+(defun (setf cursor-plist) (v cursor)
+  (setf (xid-plist cursor) v))

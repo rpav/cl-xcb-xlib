@@ -28,6 +28,11 @@
 
 (cl:export '#.(custom-lispify "xcb_str_name" 'function))
 
+(cffi:defcfun ("xcb_list_fonts_with_info_name" #.(custom-lispify "xcb_list_fonts_with_info_name" 'function)) :pointer
+  (R :pointer))
+
+(cl:export '#.(custom-lispify "xcb_list_fonts_with_info_name" 'function))
+
 (cl:defconstant #.(custom-lispify "_STDINT_H" 'constant) 1)
 
 (cl:export '#.(custom-lispify "_STDINT_H" 'constant))
@@ -405,7 +410,7 @@
 	(#.(custom-lispify "response_type" 'slotname) :unsigned-char)
 	(#.(custom-lispify "pad0" 'slotname) :unsigned-char)
 	(#.(custom-lispify "sequence" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad" 'slotname) :pointer)
+	(#.(custom-lispify "pad" 'slotname) :unsigned-int :count 7)
 	(#.(custom-lispify "full_sequence" 'slotname) :unsigned-int))
 
 (cl:export '#.(custom-lispify "xcb_generic_event_t" 'classname))
@@ -427,7 +432,7 @@
 	(#.(custom-lispify "length" 'slotname) :unsigned-int)
 	(#.(custom-lispify "event_type" 'slotname) :unsigned-short)
 	(#.(custom-lispify "pad1" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad" 'slotname) :pointer)
+	(#.(custom-lispify "pad" 'slotname) :unsigned-int :count 5)
 	(#.(custom-lispify "full_sequence" 'slotname) :unsigned-int))
 
 (cl:export '#.(custom-lispify "xcb_ge_event_t" 'classname))
@@ -456,7 +461,7 @@
 	(#.(custom-lispify "minor_code" 'slotname) :unsigned-short)
 	(#.(custom-lispify "major_code" 'slotname) :unsigned-char)
 	(#.(custom-lispify "pad0" 'slotname) :unsigned-char)
-	(#.(custom-lispify "pad" 'slotname) :pointer)
+	(#.(custom-lispify "pad" 'slotname) :unsigned-int :count 5)
 	(#.(custom-lispify "full_sequence" 'slotname) :unsigned-int))
 
 (cl:export '#.(custom-lispify "xcb_generic_error_t" 'classname))
@@ -976,7 +981,7 @@
 	(#.(custom-lispify "depth" 'slotname) :unsigned-char)
 	(#.(custom-lispify "bits_per_pixel" 'slotname) :unsigned-char)
 	(#.(custom-lispify "scanline_pad" 'slotname) :unsigned-char)
-	(#.(custom-lispify "pad0" 'slotname) :pointer))
+	(#.(custom-lispify "pad0" 'slotname) :unsigned-char :count 5))
 
 (cl:export '#.(custom-lispify "xcb_format_t" 'classname))
 
@@ -1019,7 +1024,7 @@
 	(#.(custom-lispify "red_mask" 'slotname) :unsigned-int)
 	(#.(custom-lispify "green_mask" 'slotname) :unsigned-int)
 	(#.(custom-lispify "blue_mask" 'slotname) :unsigned-int)
-	(#.(custom-lispify "pad0" 'slotname) :pointer))
+	(#.(custom-lispify "pad0" 'slotname) :unsigned-char :count 4))
 
 (cl:export '#.(custom-lispify "xcb_visualtype_t" 'classname))
 
@@ -1056,7 +1061,7 @@
 	(#.(custom-lispify "depth" 'slotname) :unsigned-char)
 	(#.(custom-lispify "pad0" 'slotname) :unsigned-char)
 	(#.(custom-lispify "visuals_len" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 4))
 
 (cl:export '#.(custom-lispify "xcb_depth_t" 'classname))
 
@@ -1190,7 +1195,7 @@
 	(#.(custom-lispify "protocol_minor_version" 'slotname) :unsigned-short)
 	(#.(custom-lispify "authorization_protocol_name_len" 'slotname) :unsigned-short)
 	(#.(custom-lispify "authorization_protocol_data_len" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 2))
 
 (cl:export '#.(custom-lispify "xcb_setup_request_t" 'classname))
 
@@ -1255,7 +1260,7 @@
 
 (cffi:defcstruct #.(custom-lispify "xcb_setup_authenticate_t" 'classname)
 	(#.(custom-lispify "status" 'slotname) :unsigned-char)
-	(#.(custom-lispify "pad0" 'slotname) :pointer)
+	(#.(custom-lispify "pad0" 'slotname) :unsigned-char :count 5)
 	(#.(custom-lispify "length" 'slotname) :unsigned-short))
 
 (cl:export '#.(custom-lispify "xcb_setup_authenticate_t" 'classname))
@@ -1305,7 +1310,7 @@
 	(#.(custom-lispify "bitmap_format_scanline_pad" 'slotname) :unsigned-char)
 	(#.(custom-lispify "min_keycode" 'slotname) :unsigned-char)
 	(#.(custom-lispify "max_keycode" 'slotname) :unsigned-char)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 4))
 
 (cl:export '#.(custom-lispify "xcb_setup_t" 'classname))
 
@@ -1667,7 +1672,7 @@
 	(#.(custom-lispify "sequence" 'slotname) :unsigned-short)
 	(#.(custom-lispify "event" 'slotname) :unsigned-int)
 	(#.(custom-lispify "mode" 'slotname) :unsigned-char)
-	(#.(custom-lispify "pad0" 'slotname) :pointer))
+	(#.(custom-lispify "pad0" 'slotname) :unsigned-char :count 3))
 
 (cl:export '#.(custom-lispify "xcb_focus_in_event_t" 'classname))
 
@@ -1697,7 +1702,7 @@
 
 (cffi:defcstruct #.(custom-lispify "xcb_keymap_notify_event_t" 'classname)
 	(#.(custom-lispify "response_type" 'slotname) :unsigned-char)
-	(#.(custom-lispify "keys" 'slotname) :pointer))
+	(#.(custom-lispify "keys" 'slotname) :unsigned-char :count 31))
 
 (cl:export '#.(custom-lispify "xcb_keymap_notify_event_t" 'classname))
 
@@ -1719,7 +1724,7 @@
 	(#.(custom-lispify "width" 'slotname) :unsigned-short)
 	(#.(custom-lispify "height" 'slotname) :unsigned-short)
 	(#.(custom-lispify "count" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 2))
 
 (cl:export '#.(custom-lispify "xcb_expose_event_t" 'classname))
 
@@ -1759,7 +1764,7 @@
 	(#.(custom-lispify "minor_opcode" 'slotname) :unsigned-short)
 	(#.(custom-lispify "count" 'slotname) :unsigned-short)
 	(#.(custom-lispify "major_opcode" 'slotname) :unsigned-char)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 3))
 
 (cl:export '#.(custom-lispify "xcb_graphics_exposure_event_t" 'classname))
 
@@ -1833,7 +1838,7 @@
 	(#.(custom-lispify "sequence" 'slotname) :unsigned-short)
 	(#.(custom-lispify "window" 'slotname) :unsigned-int)
 	(#.(custom-lispify "state" 'slotname) :unsigned-char)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 3))
 
 (cl:export '#.(custom-lispify "xcb_visibility_notify_event_t" 'classname))
 
@@ -1927,7 +1932,7 @@
 	(#.(custom-lispify "event" 'slotname) :unsigned-int)
 	(#.(custom-lispify "window" 'slotname) :unsigned-int)
 	(#.(custom-lispify "from_configure" 'slotname) :unsigned-char)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 3))
 
 (cl:export '#.(custom-lispify "xcb_unmap_notify_event_t" 'classname))
 
@@ -1956,7 +1961,7 @@
 	(#.(custom-lispify "event" 'slotname) :unsigned-int)
 	(#.(custom-lispify "window" 'slotname) :unsigned-int)
 	(#.(custom-lispify "override_redirect" 'slotname) :unsigned-char)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 3))
 
 (cl:export '#.(custom-lispify "xcb_map_notify_event_t" 'classname))
 
@@ -2011,7 +2016,7 @@
 	(#.(custom-lispify "x" 'slotname) :short)
 	(#.(custom-lispify "y" 'slotname) :short)
 	(#.(custom-lispify "override_redirect" 'slotname) :unsigned-char)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 3))
 
 (cl:export '#.(custom-lispify "xcb_reparent_notify_event_t" 'classname))
 
@@ -2197,9 +2202,9 @@
 	(#.(custom-lispify "sequence" 'slotname) :unsigned-short)
 	(#.(custom-lispify "event" 'slotname) :unsigned-int)
 	(#.(custom-lispify "window" 'slotname) :unsigned-int)
-	(#.(custom-lispify "pad1" 'slotname) :pointer)
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 4)
 	(#.(custom-lispify "place" 'slotname) :unsigned-char)
-	(#.(custom-lispify "pad2" 'slotname) :pointer))
+	(#.(custom-lispify "pad2" 'slotname) :unsigned-char :count 3))
 
 (cl:export '#.(custom-lispify "xcb_circulate_notify_event_t" 'classname))
 
@@ -2245,7 +2250,7 @@
 	(#.(custom-lispify "atom" 'slotname) :unsigned-int)
 	(#.(custom-lispify "time" 'slotname) :unsigned-int)
 	(#.(custom-lispify "state" 'slotname) :unsigned-char)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 3))
 
 (cl:export '#.(custom-lispify "xcb_property_notify_event_t" 'classname))
 
@@ -2460,7 +2465,7 @@
 	(#.(custom-lispify "colormap" 'slotname) :unsigned-int)
 	(#.(custom-lispify "_new" 'slotname) :unsigned-char)
 	(#.(custom-lispify "state" 'slotname) :unsigned-char)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 2))
 
 (cl:export '#.(custom-lispify "xcb_colormap_notify_event_t" 'classname))
 
@@ -2481,9 +2486,9 @@
 (cl:export '#.(custom-lispify "pad1" 'slotname))
 
 (cffi:defcunion #.(custom-lispify "xcb_client_message_data_t" 'classname)
-	(#.(custom-lispify "data8" 'slotname) :pointer)
-	(#.(custom-lispify "data16" 'slotname) :pointer)
-	(#.(custom-lispify "data32" 'slotname) :pointer))
+	(#.(custom-lispify "data8" 'slotname) :unsigned-char :count 20)
+	(#.(custom-lispify "data16" 'slotname) :unsigned-short :count 10)
+	(#.(custom-lispify "data32" 'slotname) :unsigned-int :count 5))
 
 (cl:export '#.(custom-lispify "xcb_client_message_data_t" 'classname))
 
@@ -2917,7 +2922,7 @@
 	(#.(custom-lispify "all_event_masks" 'slotname) :unsigned-int)
 	(#.(custom-lispify "your_event_mask" 'slotname) :unsigned-int)
 	(#.(custom-lispify "do_not_propagate_mask" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad0" 'slotname) :pointer))
+	(#.(custom-lispify "pad0" 'slotname) :unsigned-char :count 2))
 
 (cl:export '#.(custom-lispify "xcb_get_window_attributes_reply_t" 'classname))
 
@@ -3164,7 +3169,7 @@
 	(#.(custom-lispify "length" 'slotname) :unsigned-short)
 	(#.(custom-lispify "window" 'slotname) :unsigned-int)
 	(#.(custom-lispify "value_mask" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 2))
 
 (cl:export '#.(custom-lispify "xcb_configure_window_request_t" 'classname))
 
@@ -3244,7 +3249,7 @@
 	(#.(custom-lispify "width" 'slotname) :unsigned-short)
 	(#.(custom-lispify "height" 'slotname) :unsigned-short)
 	(#.(custom-lispify "border_width" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad0" 'slotname) :pointer))
+	(#.(custom-lispify "pad0" 'slotname) :unsigned-char :count 2))
 
 (cl:export '#.(custom-lispify "xcb_get_geometry_reply_t" 'classname))
 
@@ -3305,7 +3310,7 @@
 	(#.(custom-lispify "root" 'slotname) :unsigned-int)
 	(#.(custom-lispify "parent" 'slotname) :unsigned-int)
 	(#.(custom-lispify "children_len" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 14))
 
 (cl:export '#.(custom-lispify "xcb_query_tree_reply_t" 'classname))
 
@@ -3341,7 +3346,7 @@
 	(#.(custom-lispify "only_if_exists" 'slotname) :unsigned-char)
 	(#.(custom-lispify "length" 'slotname) :unsigned-short)
 	(#.(custom-lispify "name_len" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad0" 'slotname) :pointer))
+	(#.(custom-lispify "pad0" 'slotname) :unsigned-char :count 2))
 
 (cl:export '#.(custom-lispify "xcb_intern_atom_request_t" 'classname))
 
@@ -3407,7 +3412,7 @@
 	(#.(custom-lispify "sequence" 'slotname) :unsigned-short)
 	(#.(custom-lispify "length" 'slotname) :unsigned-int)
 	(#.(custom-lispify "name_len" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 22))
 
 (cl:export '#.(custom-lispify "xcb_get_atom_name_reply_t" 'classname))
 
@@ -3442,7 +3447,7 @@
 	(#.(custom-lispify "property" 'slotname) :unsigned-int)
 	(#.(custom-lispify "type" 'slotname) :unsigned-int)
 	(#.(custom-lispify "format" 'slotname) :unsigned-char)
-	(#.(custom-lispify "pad0" 'slotname) :pointer)
+	(#.(custom-lispify "pad0" 'slotname) :unsigned-char :count 3)
 	(#.(custom-lispify "data_len" 'slotname) :unsigned-int))
 
 (cl:export '#.(custom-lispify "xcb_change_property_request_t" 'classname))
@@ -3540,7 +3545,7 @@
 	(#.(custom-lispify "type" 'slotname) :unsigned-int)
 	(#.(custom-lispify "bytes_after" 'slotname) :unsigned-int)
 	(#.(custom-lispify "value_len" 'slotname) :unsigned-int)
-	(#.(custom-lispify "pad0" 'slotname) :pointer))
+	(#.(custom-lispify "pad0" 'slotname) :unsigned-char :count 12))
 
 (cl:export '#.(custom-lispify "xcb_get_property_reply_t" 'classname))
 
@@ -3593,7 +3598,7 @@
 	(#.(custom-lispify "sequence" 'slotname) :unsigned-short)
 	(#.(custom-lispify "length" 'slotname) :unsigned-int)
 	(#.(custom-lispify "atoms_len" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 22))
 
 (cl:export '#.(custom-lispify "xcb_list_properties_reply_t" 'classname))
 
@@ -3729,7 +3734,7 @@
 	(#.(custom-lispify "length" 'slotname) :unsigned-short)
 	(#.(custom-lispify "destination" 'slotname) :unsigned-int)
 	(#.(custom-lispify "event_mask" 'slotname) :unsigned-int)
-	(#.(custom-lispify "event" 'slotname) :pointer))
+	(#.(custom-lispify "event" 'slotname) :char :count 32))
 
 (cl:export '#.(custom-lispify "xcb_send_event_request_t" 'classname))
 
@@ -3910,7 +3915,7 @@
 	(#.(custom-lispify "length" 'slotname) :unsigned-short)
 	(#.(custom-lispify "grab_window" 'slotname) :unsigned-int)
 	(#.(custom-lispify "modifiers" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad0" 'slotname) :pointer))
+	(#.(custom-lispify "pad0" 'slotname) :unsigned-char :count 2))
 
 (cl:export '#.(custom-lispify "xcb_ungrab_button_request_t" 'classname))
 
@@ -3937,7 +3942,7 @@
 	(#.(custom-lispify "cursor" 'slotname) :unsigned-int)
 	(#.(custom-lispify "time" 'slotname) :unsigned-int)
 	(#.(custom-lispify "event_mask" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 2))
 
 (cl:export '#.(custom-lispify "xcb_change_active_pointer_grab_request_t" 'classname))
 
@@ -3974,7 +3979,7 @@
 	(#.(custom-lispify "time" 'slotname) :unsigned-int)
 	(#.(custom-lispify "pointer_mode" 'slotname) :unsigned-char)
 	(#.(custom-lispify "keyboard_mode" 'slotname) :unsigned-char)
-	(#.(custom-lispify "pad0" 'slotname) :pointer))
+	(#.(custom-lispify "pad0" 'slotname) :unsigned-char :count 2))
 
 (cl:export '#.(custom-lispify "xcb_grab_keyboard_request_t" 'classname))
 
@@ -4048,7 +4053,7 @@
 	(#.(custom-lispify "key" 'slotname) :unsigned-char)
 	(#.(custom-lispify "pointer_mode" 'slotname) :unsigned-char)
 	(#.(custom-lispify "keyboard_mode" 'slotname) :unsigned-char)
-	(#.(custom-lispify "pad0" 'slotname) :pointer))
+	(#.(custom-lispify "pad0" 'slotname) :unsigned-char :count 3))
 
 (cl:export '#.(custom-lispify "xcb_grab_key_request_t" 'classname))
 
@@ -4080,7 +4085,7 @@
 	(#.(custom-lispify "length" 'slotname) :unsigned-short)
 	(#.(custom-lispify "grab_window" 'slotname) :unsigned-int)
 	(#.(custom-lispify "modifiers" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad0" 'slotname) :pointer))
+	(#.(custom-lispify "pad0" 'slotname) :unsigned-char :count 2))
 
 (cl:export '#.(custom-lispify "xcb_ungrab_key_request_t" 'classname))
 
@@ -4201,7 +4206,7 @@
 	(#.(custom-lispify "win_x" 'slotname) :short)
 	(#.(custom-lispify "win_y" 'slotname) :short)
 	(#.(custom-lispify "mask" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad0" 'slotname) :pointer))
+	(#.(custom-lispify "pad0" 'slotname) :unsigned-char :count 2))
 
 (cl:export '#.(custom-lispify "xcb_query_pointer_reply_t" 'classname))
 
@@ -4294,7 +4299,7 @@
 	(#.(custom-lispify "sequence" 'slotname) :unsigned-short)
 	(#.(custom-lispify "length" 'slotname) :unsigned-int)
 	(#.(custom-lispify "events_len" 'slotname) :unsigned-int)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 20))
 
 (cl:export '#.(custom-lispify "xcb_get_motion_events_reply_t" 'classname))
 
@@ -4515,7 +4520,7 @@
 	(#.(custom-lispify "pad0" 'slotname) :unsigned-char)
 	(#.(custom-lispify "sequence" 'slotname) :unsigned-short)
 	(#.(custom-lispify "length" 'slotname) :unsigned-int)
-	(#.(custom-lispify "keys" 'slotname) :pointer))
+	(#.(custom-lispify "keys" 'slotname) :unsigned-char :count 32))
 
 (cl:export '#.(custom-lispify "xcb_query_keymap_reply_t" 'classname))
 
@@ -4539,7 +4544,7 @@
 	(#.(custom-lispify "length" 'slotname) :unsigned-short)
 	(#.(custom-lispify "fid" 'slotname) :unsigned-int)
 	(#.(custom-lispify "name_len" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 2))
 
 (cl:export '#.(custom-lispify "xcb_open_font_request_t" 'classname))
 
@@ -4672,9 +4677,9 @@
 	(#.(custom-lispify "sequence" 'slotname) :unsigned-short)
 	(#.(custom-lispify "length" 'slotname) :unsigned-int)
 	(#.(custom-lispify "min_bounds" 'slotname) #.(custom-lispify "xcb_charinfo_t" 'structname))
-	(#.(custom-lispify "pad1" 'slotname) :pointer)
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 4)
 	(#.(custom-lispify "max_bounds" 'slotname) #.(custom-lispify "xcb_charinfo_t" 'structname))
-	(#.(custom-lispify "pad2" 'slotname) :pointer)
+	(#.(custom-lispify "pad2" 'slotname) :unsigned-char :count 4)
 	(#.(custom-lispify "min_char_or_byte2" 'slotname) :unsigned-short)
 	(#.(custom-lispify "max_char_or_byte2" 'slotname) :unsigned-short)
 	(#.(custom-lispify "default_char" 'slotname) :unsigned-short)
@@ -4847,7 +4852,7 @@
 	(#.(custom-lispify "sequence" 'slotname) :unsigned-short)
 	(#.(custom-lispify "length" 'slotname) :unsigned-int)
 	(#.(custom-lispify "names_len" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 22))
 
 (cl:export '#.(custom-lispify "xcb_list_fonts_reply_t" 'classname))
 
@@ -4899,9 +4904,9 @@
 	(#.(custom-lispify "sequence" 'slotname) :unsigned-short)
 	(#.(custom-lispify "length" 'slotname) :unsigned-int)
 	(#.(custom-lispify "min_bounds" 'slotname) #.(custom-lispify "xcb_charinfo_t" 'structname))
-	(#.(custom-lispify "pad0" 'slotname) :pointer)
+	(#.(custom-lispify "pad0" 'slotname) :unsigned-char :count 4)
 	(#.(custom-lispify "max_bounds" 'slotname) #.(custom-lispify "xcb_charinfo_t" 'structname))
-	(#.(custom-lispify "pad1" 'slotname) :pointer)
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 4)
 	(#.(custom-lispify "min_char_or_byte2" 'slotname) :unsigned-short)
 	(#.(custom-lispify "max_char_or_byte2" 'slotname) :unsigned-short)
 	(#.(custom-lispify "default_char" 'slotname) :unsigned-short)
@@ -4963,7 +4968,7 @@
 	(#.(custom-lispify "pad0" 'slotname) :unsigned-char)
 	(#.(custom-lispify "length" 'slotname) :unsigned-short)
 	(#.(custom-lispify "font_qty" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 2))
 
 (cl:export '#.(custom-lispify "xcb_set_font_path_request_t" 'classname))
 
@@ -5007,7 +5012,7 @@
 	(#.(custom-lispify "sequence" 'slotname) :unsigned-short)
 	(#.(custom-lispify "length" 'slotname) :unsigned-int)
 	(#.(custom-lispify "path_len" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 22))
 
 (cl:export '#.(custom-lispify "xcb_get_font_path_reply_t" 'classname))
 
@@ -5614,7 +5619,7 @@
 	(#.(custom-lispify "gc" 'slotname) :unsigned-int)
 	(#.(custom-lispify "shape" 'slotname) :unsigned-char)
 	(#.(custom-lispify "coordinate_mode" 'slotname) :unsigned-char)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 2))
 
 (cl:export '#.(custom-lispify "xcb_fill_poly_request_t" 'classname))
 
@@ -5703,7 +5708,7 @@
 	(#.(custom-lispify "dst_y" 'slotname) :short)
 	(#.(custom-lispify "left_pad" 'slotname) :unsigned-char)
 	(#.(custom-lispify "depth" 'slotname) :unsigned-char)
-	(#.(custom-lispify "pad0" 'slotname) :pointer))
+	(#.(custom-lispify "pad0" 'slotname) :unsigned-char :count 2))
 
 (cl:export '#.(custom-lispify "xcb_put_image_request_t" 'classname))
 
@@ -5779,7 +5784,7 @@
 	(#.(custom-lispify "sequence" 'slotname) :unsigned-short)
 	(#.(custom-lispify "length" 'slotname) :unsigned-int)
 	(#.(custom-lispify "visual" 'slotname) :unsigned-int)
-	(#.(custom-lispify "pad0" 'slotname) :pointer))
+	(#.(custom-lispify "pad0" 'slotname) :unsigned-char :count 20))
 
 (cl:export '#.(custom-lispify "xcb_get_image_reply_t" 'classname))
 
@@ -6059,7 +6064,7 @@
 	(#.(custom-lispify "sequence" 'slotname) :unsigned-short)
 	(#.(custom-lispify "length" 'slotname) :unsigned-int)
 	(#.(custom-lispify "cmaps_len" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 22))
 
 (cl:export '#.(custom-lispify "xcb_list_installed_colormaps_reply_t" 'classname))
 
@@ -6094,7 +6099,7 @@
 	(#.(custom-lispify "red" 'slotname) :unsigned-short)
 	(#.(custom-lispify "green" 'slotname) :unsigned-short)
 	(#.(custom-lispify "blue" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 2))
 
 (cl:export '#.(custom-lispify "xcb_alloc_color_request_t" 'classname))
 
@@ -6122,7 +6127,7 @@
 	(#.(custom-lispify "red" 'slotname) :unsigned-short)
 	(#.(custom-lispify "green" 'slotname) :unsigned-short)
 	(#.(custom-lispify "blue" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad1" 'slotname) :pointer)
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 2)
 	(#.(custom-lispify "pixel" 'slotname) :unsigned-int))
 
 (cl:export '#.(custom-lispify "xcb_alloc_color_reply_t" 'classname))
@@ -6162,7 +6167,7 @@
 	(#.(custom-lispify "length" 'slotname) :unsigned-short)
 	(#.(custom-lispify "cmap" 'slotname) :unsigned-int)
 	(#.(custom-lispify "name_len" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 2))
 
 (cl:export '#.(custom-lispify "xcb_alloc_named_color_request_t" 'classname))
 
@@ -6255,7 +6260,7 @@
 	(#.(custom-lispify "length" 'slotname) :unsigned-int)
 	(#.(custom-lispify "pixels_len" 'slotname) :unsigned-short)
 	(#.(custom-lispify "masks_len" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 20))
 
 (cl:export '#.(custom-lispify "xcb_alloc_color_cells_reply_t" 'classname))
 
@@ -6318,11 +6323,11 @@
 	(#.(custom-lispify "sequence" 'slotname) :unsigned-short)
 	(#.(custom-lispify "length" 'slotname) :unsigned-int)
 	(#.(custom-lispify "pixels_len" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad1" 'slotname) :pointer)
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 2)
 	(#.(custom-lispify "red_mask" 'slotname) :unsigned-int)
 	(#.(custom-lispify "green_mask" 'slotname) :unsigned-int)
 	(#.(custom-lispify "blue_mask" 'slotname) :unsigned-int)
-	(#.(custom-lispify "pad2" 'slotname) :pointer))
+	(#.(custom-lispify "pad2" 'slotname) :unsigned-char :count 8))
 
 (cl:export '#.(custom-lispify "xcb_alloc_color_planes_reply_t" 'classname))
 
@@ -6442,7 +6447,7 @@
 	(#.(custom-lispify "cmap" 'slotname) :unsigned-int)
 	(#.(custom-lispify "pixel" 'slotname) :unsigned-int)
 	(#.(custom-lispify "name_len" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad0" 'slotname) :pointer))
+	(#.(custom-lispify "pad0" 'slotname) :unsigned-char :count 2))
 
 (cl:export '#.(custom-lispify "xcb_store_named_color_request_t" 'classname))
 
@@ -6464,7 +6469,7 @@
 	(#.(custom-lispify "red" 'slotname) :unsigned-short)
 	(#.(custom-lispify "green" 'slotname) :unsigned-short)
 	(#.(custom-lispify "blue" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad0" 'slotname) :pointer))
+	(#.(custom-lispify "pad0" 'slotname) :unsigned-char :count 2))
 
 (cl:export '#.(custom-lispify "xcb_rgb_t" 'classname))
 
@@ -6522,7 +6527,7 @@
 	(#.(custom-lispify "sequence" 'slotname) :unsigned-short)
 	(#.(custom-lispify "length" 'slotname) :unsigned-int)
 	(#.(custom-lispify "colors_len" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 22))
 
 (cl:export '#.(custom-lispify "xcb_query_colors_reply_t" 'classname))
 
@@ -6555,7 +6560,7 @@
 	(#.(custom-lispify "length" 'slotname) :unsigned-short)
 	(#.(custom-lispify "cmap" 'slotname) :unsigned-int)
 	(#.(custom-lispify "name_len" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 2))
 
 (cl:export '#.(custom-lispify "xcb_lookup_color_request_t" 'classname))
 
@@ -6851,7 +6856,7 @@
 	(#.(custom-lispify "pad0" 'slotname) :unsigned-char)
 	(#.(custom-lispify "length" 'slotname) :unsigned-short)
 	(#.(custom-lispify "name_len" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 2))
 
 (cl:export '#.(custom-lispify "xcb_query_extension_request_t" 'classname))
 
@@ -6922,7 +6927,7 @@
 	(#.(custom-lispify "names_len" 'slotname) :unsigned-char)
 	(#.(custom-lispify "sequence" 'slotname) :unsigned-short)
 	(#.(custom-lispify "length" 'slotname) :unsigned-int)
-	(#.(custom-lispify "pad0" 'slotname) :pointer))
+	(#.(custom-lispify "pad0" 'slotname) :unsigned-char :count 24))
 
 (cl:export '#.(custom-lispify "xcb_list_extensions_reply_t" 'classname))
 
@@ -6946,7 +6951,7 @@
 	(#.(custom-lispify "length" 'slotname) :unsigned-short)
 	(#.(custom-lispify "first_keycode" 'slotname) :unsigned-char)
 	(#.(custom-lispify "keysyms_per_keycode" 'slotname) :unsigned-char)
-	(#.(custom-lispify "pad0" 'slotname) :pointer))
+	(#.(custom-lispify "pad0" 'slotname) :unsigned-char :count 2))
 
 (cl:export '#.(custom-lispify "xcb_change_keyboard_mapping_request_t" 'classname))
 
@@ -6997,7 +7002,7 @@
 	(#.(custom-lispify "keysyms_per_keycode" 'slotname) :unsigned-char)
 	(#.(custom-lispify "sequence" 'slotname) :unsigned-short)
 	(#.(custom-lispify "length" 'slotname) :unsigned-int)
-	(#.(custom-lispify "pad0" 'slotname) :pointer))
+	(#.(custom-lispify "pad0" 'slotname) :unsigned-char :count 24))
 
 (cl:export '#.(custom-lispify "xcb_get_keyboard_mapping_reply_t" 'classname))
 
@@ -7090,8 +7095,8 @@
 	(#.(custom-lispify "bell_percent" 'slotname) :unsigned-char)
 	(#.(custom-lispify "bell_pitch" 'slotname) :unsigned-short)
 	(#.(custom-lispify "bell_duration" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad0" 'slotname) :pointer)
-	(#.(custom-lispify "auto_repeats" 'slotname) :pointer))
+	(#.(custom-lispify "pad0" 'slotname) :unsigned-char :count 2)
+	(#.(custom-lispify "auto_repeats" 'slotname) :unsigned-char :count 32))
 
 (cl:export '#.(custom-lispify "xcb_get_keyboard_control_reply_t" 'classname))
 
@@ -7198,7 +7203,7 @@
 	(#.(custom-lispify "acceleration_numerator" 'slotname) :unsigned-short)
 	(#.(custom-lispify "acceleration_denominator" 'slotname) :unsigned-short)
 	(#.(custom-lispify "threshold" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 18))
 
 (cl:export '#.(custom-lispify "xcb_get_pointer_control_reply_t" 'classname))
 
@@ -7294,7 +7299,7 @@
 	(#.(custom-lispify "interval" 'slotname) :unsigned-short)
 	(#.(custom-lispify "prefer_blanking" 'slotname) :unsigned-char)
 	(#.(custom-lispify "allow_exposures" 'slotname) :unsigned-char)
-	(#.(custom-lispify "pad1" 'slotname) :pointer))
+	(#.(custom-lispify "pad1" 'slotname) :unsigned-char :count 18))
 
 (cl:export '#.(custom-lispify "xcb_get_screen_saver_reply_t" 'classname))
 
@@ -7413,7 +7418,7 @@
 	(#.(custom-lispify "sequence" 'slotname) :unsigned-short)
 	(#.(custom-lispify "length" 'slotname) :unsigned-int)
 	(#.(custom-lispify "hosts_len" 'slotname) :unsigned-short)
-	(#.(custom-lispify "pad0" 'slotname) :pointer))
+	(#.(custom-lispify "pad0" 'slotname) :unsigned-char :count 22))
 
 (cl:export '#.(custom-lispify "xcb_list_hosts_reply_t" 'classname))
 
@@ -7626,7 +7631,7 @@
 	(#.(custom-lispify "map_len" 'slotname) :unsigned-char)
 	(#.(custom-lispify "sequence" 'slotname) :unsigned-short)
 	(#.(custom-lispify "length" 'slotname) :unsigned-int)
-	(#.(custom-lispify "pad0" 'slotname) :pointer))
+	(#.(custom-lispify "pad0" 'slotname) :unsigned-char :count 24))
 
 (cl:export '#.(custom-lispify "xcb_get_pointer_mapping_reply_t" 'classname))
 
@@ -7721,7 +7726,7 @@
 	(#.(custom-lispify "keycodes_per_modifier" 'slotname) :unsigned-char)
 	(#.(custom-lispify "sequence" 'slotname) :unsigned-short)
 	(#.(custom-lispify "length" 'slotname) :unsigned-int)
-	(#.(custom-lispify "pad0" 'slotname) :pointer))
+	(#.(custom-lispify "pad0" 'slotname) :unsigned-char :count 24))
 
 (cl:export '#.(custom-lispify "xcb_get_modifier_mapping_reply_t" 'classname))
 
@@ -9332,11 +9337,6 @@
   (R :pointer))
 
 (cl:export '#.(custom-lispify "xcb_list_fonts_with_info_properties_iterator" 'function))
-
-(cffi:defcfun ("xcb_list_fonts_with_info_name" #.(custom-lispify "xcb_list_fonts_with_info_name" 'function)) :string
-  (R :pointer))
-
-(cl:export '#.(custom-lispify "xcb_list_fonts_with_info_name" 'function))
 
 (cffi:defcfun ("xcb_list_fonts_with_info_name_length" #.(custom-lispify "xcb_list_fonts_with_info_name_length" 'function)) :int
   (R :pointer))

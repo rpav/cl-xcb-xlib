@@ -10,14 +10,28 @@
 
  ;; 4.8 Pixmaps
 
-(stub create-pixmap (&key width height depth drawable))
-(stub free-pixmap (pixmap))
-(stub pixmap-display (pixmap))
-(stub pixmap-equal (pixmap-1 pixmap-2))
-(stub pixmap-id (pixmap))
+(defun create-pixmap (&key width height depth drawable)
+  (xchk (drawable c id)
+      (xcb-create-pixmap c depth id (xid drawable) width height)))
+
+(defun free-pixmap (pixmap)
+  (xchk (pixmap c)
+      (xcb-free-pixmap c (xid pixmap))))
+
+(defun pixmap-display (pixmap)
+  (%pixmap-display pixmap))
+
+(defun pixmap-equal (pixmap-1 pixmap-2)
+  (xid-equal pixmap-1 pixmap-2))
+
+(defun pixmap-id (pixmap)
+  (xid pixmap))
 
 ;; PIXMAP-P is implicit in DEFSTRUCT PIXMAP
 
-(stub pixmap-plist (pixmap))
-(stub (setf pixmap-plist) (v pixmap))
+(defun pixmap-plist (pixmap)
+  (xid-plist pixmap))
+
+(defun (setf pixmap-plist) (v pixmap)
+  (setf (xid-plist pixmap) v))
 

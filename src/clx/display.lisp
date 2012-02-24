@@ -60,7 +60,8 @@
   (event-queue (make-queue) :type queue)
   (queue-lock (bt:make-recursive-lock))
   (send-channel (make-instance 'chanl:channel) :type chanl:channel)
-  (error-handler #'default-error-handler :type function))
+  (error-handler #'default-error-handler :type function)
+  (plist nil :type list))
 
 (defmethod print-object ((object display) stream)
   (print-unreadable-object (object stream)
@@ -81,9 +82,10 @@
 (defstruct (display-id-pair (:conc-name %xid-)
                             (:constructor %make-xid))
   (display nil :type display)
-  (id 0 :type (integer 0 4294967295)))
+  (id 0 :type (integer 0 4294967295))
+  (plist nil :type list))
 
-(declaim (inline xid))
+(declaim (inline xid xid-plist))
 (defun xid (display-id-pair)
   (if display-id-pair
       (%xid-id display-id-pair)
@@ -94,7 +96,13 @@
 
 (defun xid-equal (x-1 x-2)
   (and (eq (%xid-display x-1) (%xid-display x-2))
-       (eq (xid x-1) (xid x-2)))) 
+       (eq (xid x-1) (xid x-2))))
+
+(defun xid-plist (x)
+  (%xid-plist x))
+
+(defun (setf xid-plist) (v x)
+  (setf (%xid-plist x) v))
 
  ;; 2.2 Opening the Display
 
@@ -196,8 +204,11 @@
                      #'xcb-setup-pixmap-formats-length
                      setup 'xcb-format-t)))
 
-(stub display-plist (display))
-(stub (setf display-plist) (display))
+(defun display-plist (display)
+  (%display-plist display))
+
+(defun (setf display-plist) (v display)
+  (setf (%display-plist display) v))
 
 (defun display-protocol-major-version (display)
   (xcb-setup-t-protocol-major-version (%display-xcb-setup display)))

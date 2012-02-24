@@ -2,7 +2,8 @@
 
 (defstruct (image (:conc-name %image-)
                   (:constructor %make-image)
-                  (:copier %copy-image)))
+                  (:copier %copy-image))
+  (plist nil :type list))
 
  ;; 7.2.1 Basic Images
 
@@ -19,8 +20,11 @@
 (stub image-name (image))
 (stub (setf image-name) (v image))
 
-(stub image-plist (image))
-(stub (setf image-plist) (v image))
+(defun image-plist (image)
+  (%image-plist image))
+
+(defun (setf image-plist) (v image)
+  (setf (%image-plist image) v))
 
 (stub image-red-mask (image))
 (stub (setf image-red-mask) (v image))

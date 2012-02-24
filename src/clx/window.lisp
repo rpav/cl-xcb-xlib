@@ -93,8 +93,11 @@
 
 ;; WINDOW-P is implicit in DEFSTRUCT WINDOW
 
-(stub window-plist (window))
-(stub (setf window-plist) (v window))
+(defun window-plist (window)
+  (xid-plist window))
+
+(defun (setf window-plist) (v window)
+  (setf (xid-plist window) v))
 
 ;; stack-mode and sibling
 (stub set-window-priority (window-priority &optional sibling) (mode))
