@@ -1,0 +1,15 @@
+Incompatibilities
+=================
+
+This is a list of things which may need changing when coming from
+a native CLX.
+
+* define-event: this is not directly compatible.  See examples in
+  `src/clx/event-decl.lisp`.  You shouldn't need to use this unless
+  you're implementing an extension.
+
+* GLX, OpenGL: The calls here are similar, and may be compatible, but
+  your code may not.  This is due to libraries using a newer GL
+  standard than GL server calls.  Any code which uses direct GL would
+  have to do this.
+

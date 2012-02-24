@@ -1,0 +1,52 @@
+Additions
+=========
+
+There are a few additions to CLX to support extended functionality:
+
+* display-funcall DISPLAY FUNCTION
+
+  (This is used by WITH-DISPLAY, there shouldn't be a common need to
+  call this directly.)
+
+  Call FUNCTION in the dedicated thread for DISPLAY.  Each DISPLAY is
+  automatically created with a dedicated thread, and ideally all
+  operations should be done on this thread.  GLX/GL calls _must_ be
+  done on this thread.
+
+  FUNCTION is called synchronously and its result is returned from
+  DISPLAY-FUNCALL.
+
+  OPEN-DISPLAY should not be called this way since, obviously, one
+  does not have an existing DISPLAY.  OPEN-DISPLAY creates the
+  dedicated thread and does the actual opening on that thread
+  internally.
+
+* *DISPLAY*
+
+  The default display.  This is only valid and should only be bound in
+  a dedicated display thread.  It is bound by default when the thread
+  is created, and unbound when CLOSE-DISPLAY is called.
+
+* display-for OBJECT
+
+  Generic function which may be specialized to return a DISPLAY for
+  OBJECT.  CLX defines functions such as DRAWABLE-DISPLAY and
+  WINDOW-DISPLAY which do this for specific types.  These functions
+  are implemented and work normally.
+
+  DISPLAY-FOR a DISPLAY is the same DISPLAY.
+
+* display-ptr-xcb OBJECT
+
+  Return a pointer which is the xcb_connection_t for OBJECT.  Utilizes
+  DISPLAY-FOR to obtain the DISPLAY.
+
+* display-ptr-xlib OBJECT
+
+  Return a pointer which is the libX11 Display for OBJECT.  Utilizes
+  DISPLAY-FOR to obtain the DISPLAY.
+
+* xid DRAWABLE
+
+  Return the XID for DRAWABLE (and any derived types, such as WINDOW
+  or PIXMAP).  Both XCB and libX11 calls often use this value.

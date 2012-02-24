@@ -1,0 +1,15 @@
+TODO
+====
+
+General:
+
+- WITH-DISPLAY call wrapping
+- FIXME cleanups
+- Replace older code with xchk/do-rr
+
+Chapters:
+
+- Image (7)
+- Control (14)
+- Undocumented (17)
+
