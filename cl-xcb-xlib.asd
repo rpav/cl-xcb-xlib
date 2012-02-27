@@ -34,6 +34,7 @@
     :components
     ((:file "package")
      (:file "util")
+     (:file "types")
      (:file "errors")
      (:file "display")
      (:file "screen")
@@ -52,6 +53,8 @@
      (:file "event-decl")
      (:file "resources")
      (:file "control")
+     (:file "keysymdefs")
+     (:file "undocumented")
      (:file "ext")
 
      (:module "xcb.ext"
@@ -59,4 +62,3 @@
       :serial t
       :components
       ((:file "glx")))))))
-

@@ -54,6 +54,7 @@
 (defstruct (display (:conc-name %display-)
                     (:constructor %make-display))
   (number 0 :type fixnum)
+  (host nil)
   (xlib-display (null-pointer) :type #.(type-of (null-pointer)))
   (xcb-connection (null-pointer) :type #.(type-of (null-pointer)))
   (xcb-setup (null-pointer) :type #.(type-of (null-pointer)))
@@ -61,6 +62,7 @@
   (queue-lock (bt:make-recursive-lock))
   (send-channel (make-instance 'chanl:channel) :type chanl:channel)
   (error-handler #'default-error-handler :type function)
+  (key-symbols (null-pointer) :type #.(type-of (null-pointer)))
   (plist nil :type list))
 
 (defmethod print-object ((object display) stream)
@@ -120,9 +122,11 @@
         (let* ((c (xget-xcbconnection dpy))
                (s (xcb-get-setup c)))
           (setf (%display-number d) display)
+          (setf (%display-host d) host)
           (setf (%display-xlib-display d) dpy)
           (setf (%display-xcb-connection d) c)
-          (setf (%display-xcb-setup d) s))
+          (setf (%display-xcb-setup d) s)
+          (setf (%display-key-symbols d) (xcb-key-symbols-alloc c)))
         (xset-error-handler (callback xcb::xlib-error-handler))
         (xset-ioerror-handler (callback xcb::xlib-io-error-handler))
         d))))
@@ -250,6 +254,10 @@
   (values (display-vendor-name display)
           (display-release-number display)))
 
+;; McCLIM apparently uses this
+(defun display-host (display)
+  (%display-host display))
+
 ;; FIXME?
 (defun display-version-number (display)
   (values (display-protocol-major-version display)
@@ -285,8 +293,9 @@
  ;; 2.5 Closing the Display
 
 (defun close-display (display)
-  (do-on-display display
+  (with-display display
     (setf *display* nil)
+    (xcb-key-symbols-free (%display-key-symbols display))
     (xcb-disconnect (%display-xcb-connection display))
     (setf (%display-xcb-connection display) (null-pointer))
     (setf (%display-xcb-setup display) (null-pointer))

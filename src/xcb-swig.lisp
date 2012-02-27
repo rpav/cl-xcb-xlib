@@ -11141,6 +11141,84 @@
 
 (cl:export '#.(custom-lispify "xcb_no_operation" 'function))
 
+(cffi:defcfun ("xcb_key_symbols_alloc" #.(custom-lispify "xcb_key_symbols_alloc" 'function)) :pointer
+  (c :pointer))
+
+(cl:export '#.(custom-lispify "xcb_key_symbols_alloc" 'function))
+
+(cffi:defcfun ("xcb_key_symbols_free" #.(custom-lispify "xcb_key_symbols_free" 'function)) :void
+  (syms :pointer))
+
+(cl:export '#.(custom-lispify "xcb_key_symbols_free" 'function))
+
+(cffi:defcfun ("xcb_key_symbols_get_keysym" #.(custom-lispify "xcb_key_symbols_get_keysym" 'function)) :unsigned-int
+  (syms :pointer)
+  (keycode :unsigned-char)
+  (col :int))
+
+(cl:export '#.(custom-lispify "xcb_key_symbols_get_keysym" 'function))
+
+(cffi:defcfun ("xcb_key_symbols_get_keycode" #.(custom-lispify "xcb_key_symbols_get_keycode" 'function)) :pointer
+  (syms :pointer)
+  (keysym :unsigned-int))
+
+(cl:export '#.(custom-lispify "xcb_key_symbols_get_keycode" 'function))
+
+(cffi:defcfun ("xcb_key_press_lookup_keysym" #.(custom-lispify "xcb_key_press_lookup_keysym" 'function)) :unsigned-int
+  (syms :pointer)
+  (event :pointer)
+  (col :int))
+
+(cl:export '#.(custom-lispify "xcb_key_press_lookup_keysym" 'function))
+
+(cffi:defcfun ("xcb_key_release_lookup_keysym" #.(custom-lispify "xcb_key_release_lookup_keysym" 'function)) :unsigned-int
+  (syms :pointer)
+  (event :pointer)
+  (col :int))
+
+(cl:export '#.(custom-lispify "xcb_key_release_lookup_keysym" 'function))
+
+(cffi:defcfun ("xcb_refresh_keyboard_mapping" #.(custom-lispify "xcb_refresh_keyboard_mapping" 'function)) :int
+  (syms :pointer)
+  (event :pointer))
+
+(cl:export '#.(custom-lispify "xcb_refresh_keyboard_mapping" 'function))
+
+(cffi:defcfun ("xcb_is_keypad_key" #.(custom-lispify "xcb_is_keypad_key" 'function)) :int
+  (keysym :unsigned-int))
+
+(cl:export '#.(custom-lispify "xcb_is_keypad_key" 'function))
+
+(cffi:defcfun ("xcb_is_private_keypad_key" #.(custom-lispify "xcb_is_private_keypad_key" 'function)) :int
+  (keysym :unsigned-int))
+
+(cl:export '#.(custom-lispify "xcb_is_private_keypad_key" 'function))
+
+(cffi:defcfun ("xcb_is_cursor_key" #.(custom-lispify "xcb_is_cursor_key" 'function)) :int
+  (keysym :unsigned-int))
+
+(cl:export '#.(custom-lispify "xcb_is_cursor_key" 'function))
+
+(cffi:defcfun ("xcb_is_pf_key" #.(custom-lispify "xcb_is_pf_key" 'function)) :int
+  (keysym :unsigned-int))
+
+(cl:export '#.(custom-lispify "xcb_is_pf_key" 'function))
+
+(cffi:defcfun ("xcb_is_function_key" #.(custom-lispify "xcb_is_function_key" 'function)) :int
+  (keysym :unsigned-int))
+
+(cl:export '#.(custom-lispify "xcb_is_function_key" 'function))
+
+(cffi:defcfun ("xcb_is_misc_function_key" #.(custom-lispify "xcb_is_misc_function_key" 'function)) :int
+  (keysym :unsigned-int))
+
+(cl:export '#.(custom-lispify "xcb_is_misc_function_key" 'function))
+
+(cffi:defcfun ("xcb_is_modifier_key" #.(custom-lispify "xcb_is_modifier_key" 'function)) :int
+  (keysym :unsigned-int))
+
+(cl:export '#.(custom-lispify "xcb_is_modifier_key" 'function))
+
 (cffi:defcfun ("XGetXCBConnection" #.(custom-lispify "XGetXCBConnection" 'function)) :pointer
   (dpy :pointer))
 

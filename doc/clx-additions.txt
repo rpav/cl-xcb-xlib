@@ -50,3 +50,19 @@ There are a few additions to CLX to support extended functionality:
 
   Return the XID for DRAWABLE (and any derived types, such as WINDOW
   or PIXMAP).  Both XCB and libX11 calls often use this value.
+
+* keysym->value KEYSYM
+
+  KEYSYM->CHARACTER returns a character or NIL.  However, there are
+  many values that are not also characters.  This returns a character,
+  if available, or a keyword, if known, or NIL, if not.
+
+* canonical-keysym VALUE
+
+  Keysym values are represented by keywords or characters; however,
+  some have multiple definitions.  For instance, keysym #xFFC8 is both
+  :F11 and :L1, but KEYSYM->VALUE returns :F11.  CANONICAL-KEYSYM
+  converts a valid keysym VALUE into the exact return given by
+  KEYSYM->VALUE.
+
+  (canonical-keysym :L1)  ;; => :F11

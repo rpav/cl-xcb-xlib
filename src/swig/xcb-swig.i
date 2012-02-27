@@ -29,4 +29,5 @@ void* xcb_list_fonts_with_info_name(void *R);
 %include "stdint.h"
 %include "xcb/xcb.h"
 %include "xcb/xproto.h"
+%include "xcb/xcb_keysyms.h"
 %include "X11/Xlib-xcb.h"

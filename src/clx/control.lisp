@@ -33,8 +33,40 @@
 
  ;; 14.4.3 Using Keycodes and Keysyms
 
-(stub keycode->keysym (display keycode keysym-index))
-(stub keysym->character (display keysym &optional (state 0)))
+(defparameter *keysym-map* (make-hash-table))
+(defparameter *keysym-reverse-map* (make-hash-table))
+(defparameter *keysym-alias-map* (make-hash-table))
+
+;; This is not really meant to be compatible with CLX
+(defun define-keysym (object value &key &allow-other-keys)
+  (if (gethash value *keysym-map*)
+      (setf (gethash object *keysym-alias-map*)
+            (gethash value *keysym-map*))
+      (setf (gethash value *keysym-map*) object))
+  (setf (gethash object *keysym-reverse-map*) value))
+
+(defun keycode->keysym (display keycode keysym-index)
+  (xcb-key-symbols-get-keysym (%display-key-symbols display)
+                              keycode keysym-index))
+
+;; FIXME: probably not entirely CLX-compatible
+(defun keysym->character (display keysym &optional (state 0))
+  (declare (ignore display state))
+  (let ((value (keysym->value keysym)))
+    (if (characterp value) value nil)))
+
+(defun keysym->value (keysym)
+  (cond
+    ((or (<= #x20 keysym #x7E)
+         (<= #xA0 keysym #xFF))
+     (code-char keysym))
+    ((<= #x01000100 keysym #x0110FFFF)
+     (code-char (- keysym #x01000000)))
+    (t (gethash keysym *keysym-map*))))
+
+(defun canonical-keysym (object)
+  (gethash (gethash object *keysym-reverse-map*)
+           *keysym-map*))
 
  ;; 14.5 Client Termination
 

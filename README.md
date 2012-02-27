@@ -42,14 +42,14 @@ CLX support is not 100%, but tries to be as close as possible.
 Work is still underway to complete the API, and it is getting very
 close.  Generally not implemented, but coming soon:
 
-    - Images (chapter 7)
-    - Control (chapter 14)
-    - Extensions beyond GLX (though list-extensions and
-      query-extensions are implemented)
+* Images (chapter 7)
+* Control (chapter 14)
+* Extensions beyond GLX (though list-extensions and query-extensions
+  are implemented)
 
 Unlikely to be implemented:
 
-    - Resources (chapter 13)
+* Resources (chapter 13)
 
 Unimplemented functions are listed in `xlib:*unimplemented*`.  There
 are probably a few stragglers not listed above, but the rest of the
@@ -65,3 +65,19 @@ some cases.  Incompatibilities should be noted in
 `doc/incompatibilities.txt`.  Perhaps of greatest note is GL/GLX
 support, which requires `cl-opengl`, and due to newer OpenGL APIs,
 probably requires reworking GLX calls when coming from `portable-clx`.
+
+## Who?
+
+So far I've tested this on SBCL with Xorg 7.4, xcb 1.8, and nvidia
+binary drivers (if you care about GL).  Obviously, you need XCB and
+XCB/Xlib, but your X server may not need anything special.
+
+You may notice style-warnings for some undefined aliens; I get a list
+of some SGIX/MESA GL extensions.  Nothing critically necessary should
+be on this list.
+
+**Build this in a very fast console, or turn down SBCL verbosity.** It
+normally builds reasonably fast, but if you try and run this in SLIME
+or a slow terminal with the compiler noting every top-level form, it
+will take forever.  This imports the majority of Xlib and XCB, and the
+wrappers are nearly 21k lines and growing.

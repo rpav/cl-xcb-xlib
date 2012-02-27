@@ -19,8 +19,13 @@
    selection-owner
 
    ;; COLOR
+   make-color
    color
    color-rgb
+   color-red
+   color-green
+   color-blue
+   color-p
 
    ;; COLORMAP
    colormap
@@ -42,6 +47,40 @@
    colormap-equal
    colormap-id
    colormap-plist
+   colormap-p
+
+   ;; CONTROL
+   grab-server
+   ungrab-server
+   with-server-grabbed
+   change-pointer-control
+   pointer-control
+   pointer-mapping
+   bell
+   change-keyboard-control
+   keyboard-control
+   modifier-mapping
+   query-keymap
+   set-modifier-mapping
+   change-keyboard-mapping
+   keyboard-mapping
+   keycode->keysym
+   keysym->character
+   keysym->value
+   canonical-keysym
+   add-to-save-set
+   close-down-mode
+   kill-client
+   kill-temporary-clients
+   remove-from-save-set
+   access-control
+   access-hosts
+   add-access-host
+   remove-access-host
+   activate-screen-saver
+   reset-screen-saver
+   screen-saver
+   set-screen-saver
 
    ;; CURSOR
    cursor
@@ -54,8 +93,10 @@
    cursor-equal
    cursor-id
    cursor-plist
+   cursor-p
 
    ;; DISPLAY
+   default-error-handler
    display
    display-for
    display-ptr-xcb
@@ -75,6 +116,7 @@
    display-motion-buffer-size
    display-pixmap-formats
    display-plist
+   display-p
    display-protocol-major-version
    display-protocol-minor-version
    display-protocol-version
@@ -84,6 +126,7 @@
    display-vendor-name
    display-release-number
    display-vendor
+   display-host
    display-version-number
    display-xid
    display-after-function
@@ -101,6 +144,7 @@
    drawable-display
    drawable-equal
    drawable-plist
+   drawable-p
    drawable-border-width
    drawable-depth
    drawable-height
@@ -144,6 +188,38 @@
    declare-event
    allow-events
 
+   ;; ERRORS
+   x-error
+   request-error
+   resource-error
+   access-error
+   alloc-error
+   atom-error
+   closed-display
+   colormap-error
+   connection-failure
+   cursor-error
+   device-busy
+   drawable-error
+   font-error
+   gcontext-error
+   id-choice-error
+   implementation-error
+   length-error
+   lookup-error
+   match-error
+   missing-parameter
+   name-error
+   pixmap-error
+   reply-length-error
+   reply-timeout
+   sequence-error
+   server-disconnect
+   unexpected-reply
+   unknown-error
+   value-error
+   window-error
+
    ;; FONT
    font
    open-font
@@ -168,6 +244,7 @@
    font-min-char
    font-name
    font-plist
+   font-p
    font-properties
    font-property
    max-char-ascent
@@ -219,6 +296,7 @@
    gcontext-line-width
    gcontext-plane-mask
    gcontext-plist
+   gcontext-p
    gcontext-stipple
    gcontext-subwindow-mode
    gcontext-tile
@@ -245,7 +323,7 @@
    draw-rectangles
    draw-arc
    draw-arcs
-   translate-function
+   translate-default
    draw-glyph
    draw-glyphs
    draw-image-glyph
@@ -259,6 +337,7 @@
    image-height
    image-name
    image-plist
+   image-p
    image-red-mask
    image-x-hot
    image-y-hot
@@ -282,6 +361,7 @@
    pixmap-equal
    pixmap-id
    pixmap-plist
+   pixmap-p
 
    ;; SCREEN
    screen
@@ -295,12 +375,26 @@
    screen-max-installed-maps
    screen-min-installed-maps
    screen-plist
+   screen-p
    screen-root
    screen-root-depth
    screen-root-save-unders-p
    screen-white-pixel
    screen-width
    screen-width-in-millimeters
+
+   ;; TYPES
+   angle
+   card8
+   card16
+   card29
+   card32
+   int8
+   int16
+   int32
+   mask16
+   mask32
+   resource-id
 
    ;; WINDOW
    window
@@ -322,6 +416,7 @@
    window-map-state
    window-override-redirect
    window-plist
+   window-p
    set-window-priority
    window-save-under
    window-visual
@@ -336,6 +431,61 @@
    unmap-subwindows
    destroy-window
    destroy-subwindows
+
+   ;; UNDOCUMENTED
+   bitmap-image
+   character->keysyms
+   character-in-map-p
+   decode-core-error
+   default-keysym-index
+   default-keysym-translate
+   define-keysym-set
+   display-invoke-after-function
+   display-nscreens
+   event-handler
+   get-external-event-code
+   get-standard-colormap
+   get-wm-class
+   icon-sizes
+   iconify-window
+   keysym->keycodes
+   keysym-in-map-p
+   keysym-set
+   mapping-notify
+   no-operation
+   parse-color
+   resource-database-timestamp
+   resource-key
+   rgb-colormaps
+   root-resources
+   rotate-cut-buffers
+   set-access-control
+   set-close-down-mode
+   set-pointer-mapping
+   set-standard-colormap
+   set-standard-properties
+   set-wm-class
+   set-wm-properties
+   set-wm-resources
+   transient-for
+   undefine-keysym
+   visual-info-blue-mask
+   visual-info-green-mask
+   visual-info-red-mask
+   window-cursor
+   window-visual-info
+   withdraw-window
+   wm-client-machine
+   wm-colormap-windows
+   wm-command
+   wm-hints
+   wm-hints-flags
+   wm-icon-name
+   wm-name
+   wm-normal-hints
+   wm-protocols
+   wm-resources
+   wm-zoom-hints
 
    ;; Util
    stub

@@ -13,3 +13,9 @@ a native CLX.
   standard than GL server calls.  Any code which uses direct GL would
   have to do this.
 
+* display-authorization-{data,name}: It is apparently not possible to
+  get this data from XCB.  In theory one could manually manage
+  authorization and store the info passed to to
+  xcb_connect_to_display_with_auth_info, but it doesn't seem worth the
+  effort.  These functions therefore return empty strings.
+
