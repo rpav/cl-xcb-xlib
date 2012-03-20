@@ -309,10 +309,9 @@
     static))
 
 (defun %get-image (drawable format x y width height plane-mask &optional element-type)
-  (do-request-response (drawable c ck reply err)
+  (do-request-response (drawable c reply err)
       (xcb-get-image c (image-format format) (xid drawable) x y
                      width height plane-mask)
-      (xcb-get-image-reply c ck err)
     (let* ((display (display-for drawable))
            (visual (x-find-visual-info display (xcb-get-image-reply-t-visual reply)))
            (pixmap-format (find-pixmap-format display :depth (xcb-get-image-reply-t-depth reply)))

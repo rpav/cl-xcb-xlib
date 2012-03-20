@@ -171,9 +171,8 @@
               (xcb-get-property-reply-t-bytes-after reply)))))
 
 (defun list-properties (window &key (result-type 'list))
-  (do-request-response (window c ck reply err)
+  (do-request-response (window c reply err)
       (xcb-list-properties c (xid window))
-      (xcb-list-properties-reply c ck err)
     (map-result-list result-type
                      (lambda (id) (atom-name window id))
                      #'xcb-list-properties-atoms

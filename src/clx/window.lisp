@@ -125,9 +125,8 @@
  ;; 4.5 Window Hierarchy
 
 (defun query-tree (window &key (result-type 'list))
-  (do-request-response (window c ck reply err)
+  (do-request-response (window c reply err)
       (xcb-query-tree c (xid window))
-      (xcb-query-tree-reply c ck err)
     (let ((dpy (display-for window)))
       (map result-type
            (lambda (wid) (%make-window :display dpy :id wid))
@@ -141,10 +140,9 @@
                                    (xid window) (xid parent) x y)))
 
 (defun translate-coordinates (source source-x source-y destination)
-  (do-request-response (source c ck reply err)
+  (do-request-response (source c reply err)
       (xcb-translate-coordinates c (xid source) (xid destination)
                                  source-x source-y)
-      (xcb-translate-coordinates-reply c ck err)
     (let* ((wid (xcb-translate-coordinates-reply-t-child reply))
            (child (when (/= 0 wid)
                     (%make-window :display (display-for source)

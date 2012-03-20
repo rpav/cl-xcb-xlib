@@ -38,9 +38,8 @@
                                     (xid colormap))))
 
 (defun installed-colormaps (window &key (result-type 'list))
-  (do-request-response (window c ck reply err)
+  (do-request-response (window c reply err)
       (xcb-list-installed-colormaps c (xid window))
-      (xcb-list-installed-colormaps-reply c ck err)
     (map-result-list result-type
                      (lambda (id)
                        (%make-colormap :display (display-for window)
@@ -57,19 +56,17 @@
  ;; 9.3.3 Allocating Colors
 
 (defun alloc-color (colormap color)
-  (do-request-response (colormap c ck reply err)
+  (do-request-response (colormap c reply err)
       (xcb-alloc-color c (xid colormap)
                        (color-red color)
                        (color-green color)
-                       (color-blue color))
-      (xcb-alloc-color-reply c ck err)))
+                       (color-blue color))))
 
 (defun alloc-color-cells (colormap colors
                           &key (planes 0) contiguous-p (result-type 'list))
-  (do-request-response (colormap c ck reply err)
+  (do-request-response (colormap c reply err)
       (xcb-alloc-color-cells c (if contiguous-p 1 0) (xid colormap)
                              colors planes)
-      (xcb-alloc-color-cells-reply c ck err)
     (map-result-list result-type
                      #'identity
                      #'xcb-alloc-color-cells-pixels
@@ -78,10 +75,9 @@
  
 (defun alloc-color-planes (colormap colors &key (reds 0) (greens 0) (blues 0)
                              contiguous-p (result-type 'list))
-  (do-request-response (colormap c ck reply err)
+  (do-request-response (colormap c reply err)
       (xcb-alloc-color-planes c (if contiguous-p 1 0) (xid colormap)
                               colors reds greens blues)
-      (xcb-alloc-color-cells-reply c ck err)
     (values
      (map-result-list result-type
                       #'identity
@@ -104,9 +100,8 @@
 
 (defun lookup-color (colormap name)
   (with-foreign-string ((str len) name)
-    (do-request-response (colormap c ck reply err)
+    (do-request-response (colormap c reply err)
         (xcb-lookup-color c (xid colormap) (1- len) str)
-        (xcb-lookup-color-reply c ck err)
       (values
        (make-color-from-ints
         :red (xcb-lookup-color-reply-t-visual-red reply)
@@ -121,9 +116,8 @@
   (let ((len (length pixels)))
     (with-foreign-object (ptr :uint32 len)
       (copy-to-foreign ptr len pixels :uint32)
-      (do-request-response (colormap c ck reply err)
+      (do-request-response (colormap c reply err)
           (xcb-query-colors c (xid colormap) len ptr)
-          (xcb-query-colors-reply c ck err)
         (map-result-list result-type
                          (lambda (ptr)
                            (make-color-from-ints

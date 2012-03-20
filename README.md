@@ -42,7 +42,6 @@ CLX support is not 100%, but tries to be as close as possible.
 Work is still underway to complete the API, and it is getting very
 close.  Generally not implemented, but coming soon:
 
-* Images (chapter 7)
 * Control (chapter 14)
 * Extensions beyond GLX (though list-extensions and query-extensions
   are implemented)

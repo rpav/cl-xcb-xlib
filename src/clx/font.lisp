@@ -56,9 +56,8 @@
                    ptr 'xcb-fontprop-t))
 
 (defun query-font (font name)
-  (do-request-response (font c ck reply err)
+  (do-request-response (font c reply err)
       (xcb-query-font c (xid font))
-      (xcb-query-font-reply c ck err)
     (values (make-font-info name reply)
             (make-font-properties reply
                                   #'xcb-query-font-properties
@@ -92,9 +91,8 @@
  ;; 8.3 Listing Fonts
 
 (defun font-path (display &key (result-type 'list))
-  (do-request-response (display c ck reply err)
+  (do-request-response (display c reply err)
       (xcb-get-font-path c)
-      (xcb-get-font-path-reply c ck err)
     (map result-type
          #'xcb-str-to-lisp
          (xcb-get-font-path-path-iterator reply))))
@@ -102,9 +100,8 @@
 (defun list-font-names (display pattern
                         &key (max-fonts 65535) (result-type 'list))
   (with-foreign-string ((ptr len) pattern)
-   (do-request-response (display c ck reply err)
+   (do-request-response (display c reply err)
        (xcb-list-fonts c max-fonts len ptr)
-       (xcb-list-fonts-reply c ck err)
      (map result-type
           #'xcb-str-to-lisp
           (xcb-list-fonts-names-iterator reply)))))
@@ -216,9 +213,8 @@
       (start end 0)
       (output fnd cont curwidth)
     (with-translated-text (ptr len output 16)
-      (do-request-response (font c ck reply err)
+      (do-request-response (font c reply err)
           (xcb-query-text-extents c (xid font) len ptr)
-          (xcb-query-text-extents-reply c ck err)
         (values (xcb-query-text-extents-reply-t-overall-width reply)
                 (xcb-query-text-extents-reply-t-overall-ascent reply)
                 (xcb-query-text-extents-reply-t-overall-descent reply)

@@ -211,21 +211,20 @@
 
 (defun query-pointer (window)
   (let ((display (display-for window)))
-   (do-request-response (window c ck reply err)
-       (xcb-query-pointer c (xid window))
-       (xcb-query-pointer-reply c ck err)
-     (values
-      (xcb-query-pointer-reply-t-win-x reply)
-      (xcb-query-pointer-reply-t-win-y reply)
-      (= 1 (xcb-query-pointer-reply-t-same-screen reply))
-      (if (/= 0 (xcb-query-pointer-reply-t-child reply))
-          (%make-window :display display
-                        :id (xcb-query-pointer-reply-t-child reply)))
-      (xcb-query-pointer-reply-t-root-x reply)
-      (xcb-query-pointer-reply-t-root-y reply)
-      (xcb-query-pointer-reply-t-mask reply)
-      (%make-window :display display
-                    :id (xcb-query-pointer-reply-t-root reply))))))
+    (do-request-response (window c reply err)
+        (xcb-query-pointer c (xid window))
+      (values
+       (xcb-query-pointer-reply-t-win-x reply)
+       (xcb-query-pointer-reply-t-win-y reply)
+       (= 1 (xcb-query-pointer-reply-t-same-screen reply))
+       (if (/= 0 (xcb-query-pointer-reply-t-child reply))
+           (%make-window :display display
+                         :id (xcb-query-pointer-reply-t-child reply)))
+       (xcb-query-pointer-reply-t-root-x reply)
+       (xcb-query-pointer-reply-t-root-y reply)
+       (xcb-query-pointer-reply-t-mask reply)
+       (%make-window :display display
+                     :id (xcb-query-pointer-reply-t-root reply))))))
 
 (defun global-pointer-position (display)
   (multiple-value-bind (x y same-screen-p window root-x root-y mask screen-root)
@@ -241,10 +240,9 @@
 
 ;; FIXME: result format
 (defun motion-events (window &key start stop (result-type 'list))
-  (do-request-response (window c ck reply err)
+  (do-request-response (window c reply err)
       (xcb-get-motion-events c (xid window)
                              (or start 0) (or stop 0))
-      (xcb-get-motion-events-reply c ck err)
     (map-result-list result-type
                      (lambda (ptr)
                        (list (xcb-timecoord-t-x ptr)
@@ -302,9 +300,8 @@
                                    (or time 0))))
 
 (defun input-focus (display)
-  (do-request-response (display c ck reply err)
+  (do-request-response (display c reply err)
       (xcb-get-input-focus (display-ptr-xcb display))
-      (xcb-get-input-focus-reply c ck err)
     (values (or (input-focus-type-key (xcb-get-input-focus-reply-t-focus reply))
                 (%make-window :display display
                               :id (xcb-get-input-focus-reply-t-focus reply)))
@@ -318,7 +315,7 @@
 (defun grab-pointer (window event-mask
                     &key owner-p sync-pointer-p sync-keyboard-p confine-to
                       cursor time)
-  (do-request-response (window c ck reply err)
+  (do-request-response (window c reply err)
       (xcb-grab-pointer c (if owner-p 1 0) (xid window)
                         (apply #'make-event-mask event-mask)
                         (if sync-pointer-p 1 0)
@@ -326,7 +323,6 @@
                         (xid confine-to)
                         (xid cursor)
                         (or time 0))
-      (xcb-grab-pointer-reply c ck err)
     (grab-status-key (xcb-grab-pointer-reply-t-status reply))))
 
 (defun ungrab-pointer (display &key time)
@@ -373,12 +369,11 @@
 
 (defun grab-keyboard (window &key owner-p sync-pointer-p sync-keyboard-p
                               time)
-  (do-request-response (window c ck reply err)
+  (do-request-response (window c reply err)
       (xcb-grab-keyboard c (if owner-p 1 0)
                          (xid window) (or time 0)
                          (if sync-pointer-p 1 0)
                          (if sync-keyboard-p 1 0))
-      (xcb-grab-keyboard-reply c ck err)
     (grab-status-key (xcb-grab-keyboard-reply-t-status reply))))
 
 (defun ungrab-keyboard (display &key time)
