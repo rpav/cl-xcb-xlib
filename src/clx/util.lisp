@@ -181,3 +181,10 @@
          (defun ,ior-name (&rest keys)
            (reduce (lambda (v1 v2) (logior v1 (,name v2)))
                    keys :initial-value 0))))))
+
+ ;; etc
+
+;; Brevity
+(declaim (inline i/))
+(defun i/ (number &optional (divisor 1))
+  (truncate number divisor))

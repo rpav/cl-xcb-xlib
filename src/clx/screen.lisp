@@ -5,6 +5,7 @@
   (display nil :type display)
   (number 0 :type fixnum)
   (xcb-screen (null-pointer) :type #.(type-of (null-pointer)))
+  (depths nil :type list)
   (plist nil :type list))
 
 (defmethod print-object ((object screen) stream)
@@ -13,6 +14,21 @@
 
 (defmethod display-for ((object screen))
   (%screen-display object))
+
+ ;; Visual
+
+(define-enum-table visual-class (xcb-visual-class-t "XCB-VISUAL-CLASS")
+  :static-gray :gray-scale :static-color :pseudo-color :true-color :direct-color)
+
+(defstruct visual-info
+  (id 0 :type card29)
+  (class nil :type (member :direct-color :gray-scale :pseudo-color :static-color
+                           :static-gray :true-color))
+  (red-mask 0 :type pixel)
+  (blue-mask 0 :type pixel)
+  (green-mask 0 :type pixel)
+  (bits-per-rgb 0 :type card8)
+  (colormap-entries 0 :type card16))
 
  ;; 3.2 Screen Attributes
 
@@ -26,8 +42,40 @@
   (%make-colormap :xcb-colormap
                   (xcb-screen-t-default-colormap (%screen-xcb-screen screen))))
 
-(stub screen-depths (screen))
-(stub screen-event-mask-at-open (screen))
+(defun screen-depths (screen)
+  (or (%screen-depths screen)
+      (setf (%screen-depths screen)
+            (mapcar
+             (lambda (ptr0)
+               (cons (xcb-depth-t-depth ptr0)
+                     (mapcar (lambda (ptr)
+                               (make-visual-info :id (xcb-visualtype-t-visual-id ptr)
+                                                 :class (visual-class-key (xcb-visualtype-t--class ptr))
+                                                 :bits-per-rgb (xcb-visualtype-t-bits-per-rgb-value ptr)
+                                                 :red-mask (xcb-visualtype-t-red-mask ptr)
+                                                 :green-mask (xcb-visualtype-t-green-mask ptr)
+                                                 :blue-mask (xcb-visualtype-t-blue-mask ptr)
+                                                 :colormap-entries (xcb-visualtype-t-colormap-entries ptr)))
+                             (xcb-depth-visuals-iterator ptr0))))
+             (xcb-screen-allowed-depths-iterator (%screen-xcb-screen screen))))))
+
+;; fixme: efficiency? hash on id might be nice
+(defun find-visual-info (screen visual-id)
+  (let ((depths (screen-depths screen)))
+    (loop for depth in depths do
+      (loop for visual in (cdr depth) do
+            (when (= visual-id (visual-info-id visual))
+              (return-from find-visual-info visual))))))
+
+(defun x-find-visual-info (xid visual-id)
+  (let ((display (display-for xid)))
+   (loop for screen in (display-roots display) do
+     (let ((visual (find-visual-info screen visual-id)))
+       (when (and visual (= visual-id (visual-info-id visual)))
+         (return-from x-find-visual-info visual))))))
+
+(defun screen-event-mask-at-open (screen)
+  (xcb-screen-t-current-input-masks (%screen-xcb-screen screen)))
 
 (defun screen-height (screen)
   (xcb-screen-t-height-in-pixels (%screen-xcb-screen screen)))

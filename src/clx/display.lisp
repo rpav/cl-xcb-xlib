@@ -63,6 +63,7 @@
   (send-channel (make-instance 'chanl:channel) :type chanl:channel)
   (error-handler #'default-error-handler :type function)
   (key-symbols (null-pointer) :type #.(type-of (null-pointer)))
+  (pixmap-formats nil :type list)
   (plist nil :type list))
 
 (defmethod print-object ((object display) stream)
@@ -196,17 +197,25 @@
   depth bits-per-pixel scanline-pad)
 
 (defun display-pixmap-formats (display)
-  (let ((setup (%display-xcb-setup display)))
-    (map-result-list 'list
-                     (lambda (ptr)
-                       (make-pixmap-format :depth (xcb-format-t-depth ptr)
-                                           :bits-per-pixel
-                                           (xcb-format-t-bits-per-pixel ptr)
-                                           :scanline-pad
-                                           (xcb-format-t-scanline-pad ptr)))
-                     #'xcb-setup-pixmap-formats
-                     #'xcb-setup-pixmap-formats-length
-                     setup 'xcb-format-t)))
+  (or (%display-pixmap-formats display)
+      (let* ((setup (%display-xcb-setup display))
+             (formats (map-result-list 'list
+                                       (lambda (ptr)
+                                         (make-pixmap-format :depth (xcb-format-t-depth ptr)
+                                                             :bits-per-pixel
+                                                             (xcb-format-t-bits-per-pixel ptr)
+                                                             :scanline-pad
+                                                             (xcb-format-t-scanline-pad ptr)))
+                                       #'xcb-setup-pixmap-formats
+                                       #'xcb-setup-pixmap-formats-length
+                                       setup 'xcb-format-t)))
+        (setf (%display-pixmap-formats display) formats))))
+
+(defun find-pixmap-format (display &key depth bpp)
+  (find-if (lambda (fmt)
+             (and (if depth (= depth (pixmap-format-depth fmt)) t)
+                  (if bpp   (= bpp (pixmap-format-bits-per-pixel fmt)) t)))
+           (display-pixmap-formats display)))
 
 (defun display-plist (display)
   (%display-plist display))

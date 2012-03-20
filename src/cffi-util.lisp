@@ -5,15 +5,6 @@
 (defun mem-pref (ptr type &optional (index 0))
   (inc-pointer ptr (* index (foreign-type-size type))))
 
-#+-
-(define-compiler-macro mem-pref (&whole whole ptr type &optional (index 0))
-  (if (constantp type)
-      (if (constantp index)
-          `(mem-ref ,ptr ,type
-                    ,(* (eval index) (foreign-type-size (eval type))))
-          `(mem-ref ,ptr ,type (* ,index ,(foreign-type-size (eval type)))))
-      whole))
-
 (define-compiler-macro mem-pref (&whole whole ptr type &optional (index 0))
   (if (constantp type)
       (if (constantp index)
@@ -25,8 +16,15 @@
 
  ;; memory
 
+(defcfun ("memcpy" libc_memcpy) :pointer
+  (dest :pointer)
+  (src :pointer)
+  (n :sizet))
+
 (defcfun ("free" libc_free) :void
   (ptr :pointer))
+
+(export '(libc_free libc_memcpy))
 
 (defmacro with-xcb-reply ((ptr err) form &body body)
   `(let ((,ptr (null-pointer)))

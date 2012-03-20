@@ -31,7 +31,10 @@
                         xcb-fontprop-t
                         xcb-char-2b-t
                         xcb-query-text-extents-reply-t
-                        xcb-query-extension-reply-t)
+                        xcb-query-extension-reply-t
+                        xcb-get-image-reply-t
+                        xcb-depth-t
+                        xcb-visualtype-t)
 
  ;; Events
 (make-cstruct-accessors xcb-generic-event-t
@@ -141,7 +144,7 @@
                            (,nextfn ptr))
                   list)))))
 
-(wrap-iterators screen str)
+(wrap-iterators screen str format depth visualtype)
 
 (defun xcb-str-to-lisp (ptr)
   (foreign-string-to-lisp (xcb-str-name ptr)

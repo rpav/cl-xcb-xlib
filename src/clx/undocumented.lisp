@@ -53,9 +53,6 @@
 (stub transient-for (window))
 ;; translate-default -> graphicops.lisp
 (stub undefine-keysym (object keysym &key display modifiers &allow-other-keys))
-(stub visual-info-blue-mask (object))
-(stub visual-info-green-mask (object))
-(stub visual-info-red-mask (object))
 (stub window-cursor (window))
 (stub window-visual-info (window))
 (stub withdraw-window (window screen))
