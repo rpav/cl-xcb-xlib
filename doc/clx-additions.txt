@@ -66,3 +66,10 @@ There are a few additions to CLX to support extended functionality:
   KEYSYM->VALUE.
 
   (canonical-keysym :L1)  ;; => :F11
+
+* {add,remove}-access-host DISPLAY HOST &OPTIONAL (FAMILY :INTERNET)
+
+  This is part of the spec but the FAMILY argument is not.  See the
+  HOST-FAMILY table to see all options.  The format of HOST is
+  dependent on this argument.  See incompatibilities.txt for further
+  details.

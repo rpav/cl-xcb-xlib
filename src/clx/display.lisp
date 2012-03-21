@@ -64,6 +64,7 @@
   (error-handler #'default-error-handler :type function)
   (key-symbols (null-pointer) :type #.(type-of (null-pointer)))
   (pixmap-formats nil :type list)
+  (close-down-mode :destroy :type keyword)
   (plist nil :type list))
 
 (defmethod print-object ((object display) stream)

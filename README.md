@@ -42,7 +42,7 @@ CLX support is not 100%, but tries to be as close as possible.
 Work is still underway to complete the API, and it is getting very
 close.  Generally not implemented, but coming soon:
 
-* Control (chapter 14)
+* ICCCM / NET_WM
 * Extensions beyond GLX (though list-extensions and query-extensions
   are implemented)
 

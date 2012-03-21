@@ -28,9 +28,9 @@
 (stub rgb-colormaps (window property))
 (stub root-resources (screen &key database key test test-not))
 (stub rotate-cut-buffers (display &optional (delta 1) (careful-p t)))
-(stub set-access-control (display enabled-p))
-(stub set-close-down-mode (display mode))
-(stub set-pointer-mapping (display map))
+;; set-access-control -> control
+;; set-close-down-mode -> control as (setf close-down-mode)
+;; set-pointer-mapping -> control
 ;; set-selection-owner -> atoms?
 (stub set-standard-colormap (window property colormap base-pixel max-color mult-color))
 (stub set-standard-properties (window &rest options))

@@ -117,9 +117,10 @@ variant.  For calls expecting a reply, use WITH-XCB-CLX-REPLY."
            (when ,cond (error ,cond))))
        ,@body)))
 
-(defmacro do-request-response ((dpy c-var reply-var err-var)
+(defmacro do-request-response ((dpy c-var reply-var &optional err-var)
                                request-form &body body)
   (let ((reply-symbol (intern (format nil "~A-REPLY" (car request-form)) :xcb))
+        (err-var (or err-var (gensym "ERR")))
         (cookie (gensym "COOKIE")))
    `(let* ((,c-var (display-ptr-xcb ,dpy))
            (,cookie ,request-form))

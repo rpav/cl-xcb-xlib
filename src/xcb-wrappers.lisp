@@ -34,7 +34,14 @@
                         xcb-query-extension-reply-t
                         xcb-get-image-reply-t
                         xcb-depth-t
-                        xcb-visualtype-t)
+                        xcb-visualtype-t
+                        xcb-get-pointer-control-reply-t
+                        xcb-get-keyboard-control-reply-t
+                        xcb-get-modifier-mapping-reply-t
+                        xcb-query-keymap-reply-t
+                        xcb-set-modifier-mapping-reply-t
+                        xcb-get-keyboard-mapping-reply-t
+                        xcb-list-hosts-reply-t)
 
  ;; Events
 (make-cstruct-accessors xcb-generic-event-t
@@ -66,7 +73,8 @@
                         xcb-selection-notify-event-t
                         xcb-colormap-notify-event-t
                         xcb-client-message-event-t
-                        xcb-mapping-notify-event-t)
+                        xcb-mapping-notify-event-t
+                        xcb-get-screen-saver-reply-t)
 
  ;; Errors
 (make-cstruct-accessors xcb-generic-error-t
@@ -144,7 +152,7 @@
                            (,nextfn ptr))
                   list)))))
 
-(wrap-iterators screen str format depth visualtype)
+(wrap-iterators screen str format depth visualtype host)
 
 (defun xcb-str-to-lisp (ptr)
   (foreign-string-to-lisp (xcb-str-name ptr)

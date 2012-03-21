@@ -21,10 +21,15 @@
   (src :pointer)
   (n :sizet))
 
+(defcfun ("memset" libc_memset) :void
+  (s :pointer)
+  (c :int)
+  (n :sizet))
+
 (defcfun ("free" libc_free) :void
   (ptr :pointer))
 
-(export '(libc_free libc_memcpy))
+(export '(libc_free libc_memcpy libc_memset))
 
 (defmacro with-xcb-reply ((ptr err) form &body body)
   `(let ((,ptr (null-pointer)))
@@ -50,13 +55,18 @@
                  collecting
                  (let ((offset (foreign-slot-offset `(:struct ,name) k))
                        (slot-type (cffi::slot-type v))
+                       (slot-count (if (typep v 'cffi::aggregate-struct-slot)
+                                       (cffi::slot-count v)))
                        (slot-name (intern (slot-name k))))
                    `(progn
                       (declaim (inline ,slot-name (setf ,slot-name)))
-                      (defun ,slot-name (ptr)
+                      (defun ,slot-name ,(if slot-count '(ptr &optional (n 0)) '(ptr))
                         ,(if (and (consp slot-type) (eq (car slot-type) :struct))
-                             `(inc-pointer ptr ,offset)
-                             `(mem-ref (inc-pointer ptr ,offset) ',slot-type)))
+                             `(inc-pointer ptr ,(if slot-count
+                                                    `(+ ,offset n)
+                                                    offset))
+                             `(mem-ref (inc-pointer ptr ,offset) ',slot-type
+                                       ,(if slot-count 'n 0))))
                       (defun (setf ,slot-name) (v ptr)
                         (setf (mem-ref (inc-pointer ptr ,offset) ',slot-type) v))
                       (export ',slot-name))))))))

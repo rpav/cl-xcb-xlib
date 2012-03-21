@@ -19,3 +19,13 @@ a native CLX.
   xcb_connect_to_display_with_auth_info, but it doesn't seem worth the
   effort.  These functions therefore return empty strings.
 
+* access-hosts, {add,remove}-access-host: This isn't technically
+  incompatible as the documentation says "or some other type of
+  object", but it should be noted that this uses vectors of
+  (unsigned-byte 8).  For instance:
+
+      (add-access-host *display* #(127 0 0 1))
+
+  Likewise, access-hosts returns a list of vectors in this form.  For
+  the optional FAMILY argument to {add,remove}-access-host, the format
+  may be different, of course.
