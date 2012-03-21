@@ -2,7 +2,7 @@
 
  ;; Threading
 
-(defvar *display*)
+(defvar *display* nil)
 
 (defstruct display-msg
   return-channel fn)
@@ -14,7 +14,8 @@
       (let ((msg (chanl:recv channel)))
         (handler-case
             (chanl:send (display-msg-return-channel msg)
-                        (funcall (display-msg-fn msg)))
+                        (multiple-value-list
+                         (funcall (display-msg-fn msg))))
           (error (e)
             (chanl:send (display-msg-return-channel msg) e)))))))
 
@@ -35,7 +36,7 @@
                     :sequence sequence
                     :condition result)))
         (error (error result))
-        (t result)))))
+        (t (values-list result))))))
 
 (defun default-error-handler (display error
                               &key current-sequence major minor sequence
