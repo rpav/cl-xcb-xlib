@@ -1,9 +1,5 @@
 (in-package :xcb)
 
- ;; Needs done ASAP
-
-(defvar *x-init-threads* (xinit-threads))
-
  ;; Basic wrapper for memory management
 
 (defstruct (x-ptr-wrapper (:constructor make-x-ptr)

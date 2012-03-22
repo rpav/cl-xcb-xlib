@@ -119,6 +119,7 @@
     (do-on-display d
       (let ((dpy (xopen-display (concatenate 'string host ":"
                                              (princ-to-string display)))))
+        (xlock-display dpy)
         (if (null-pointer-p dpy)
             (error "Error opening display ~A" display))
         (xset-event-queue-owner dpy :+xcbowns-event-queue+)
@@ -307,7 +308,8 @@
   (with-display display
     (setf *display* nil)
     (xcb-key-symbols-free (%display-key-symbols display))
-    (xcb-disconnect (%display-xcb-connection display))
+    (xclose-display (%display-xlib-display display))
+    (xunlock-display (%display-xlib-display display))
     (setf (%display-xcb-connection display) (null-pointer))
     (setf (%display-xcb-setup display) (null-pointer))
     (setf (%display-xlib-display display) (null-pointer))

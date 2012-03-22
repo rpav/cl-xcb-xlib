@@ -39,7 +39,7 @@
   (xcb-screen-t-black-pixel (%screen-xcb-screen screen)))
 
 (defun screen-default-colormap (screen)
-  (%make-colormap :xcb-colormap
+  (%make-colormap :id
                   (xcb-screen-t-default-colormap (%screen-xcb-screen screen))))
 
 (defun screen-depths (screen)

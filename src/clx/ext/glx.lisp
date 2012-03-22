@@ -82,16 +82,16 @@
           (%make-context :xlib-glx-ctx ptr)))))
 
 (defun create-new-context (display fbconfig &optional share-list is-direct)
-    (let* ((dpy (display-ptr-xlib display))
-           (fbptr (x-ptr fbconfig))
-           (ptr (gl-xcreate-new-context
-                 dpy (mem-ref fbptr :pointer)
-                 +glx-rgba-type+
-                 (or share-list (null-pointer))
-                 (if is-direct 1 0))))
-      (if (null-pointer-p ptr)
-          (error "Unable to create GLX context")
-          (%make-context :xlib-glx-ctx ptr))))
+  (let* ((dpy (display-ptr-xlib display))
+         (fbptr (x-ptr fbconfig))
+         (ptr (gl-xcreate-new-context
+               dpy (mem-ref fbptr :pointer)
+               +glx-rgba-type+
+               (or share-list (null-pointer))
+               (if is-direct 1 0))))
+    (if (null-pointer-p ptr)
+        (error "Unable to create GLX context")
+        (%make-context :xlib-glx-ctx ptr))))
 
 (defun destroy-context (ctx &optional (display *display*))
   (gl-xdestroy-context (display-ptr-xlib display)
