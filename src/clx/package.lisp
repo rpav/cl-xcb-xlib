@@ -364,11 +364,21 @@
    pixmap-p
 
    ;; SCREEN
+   visual-info
    screen
    screen-backing-stores
    screen-black-pixel
    screen-default-colormap
    screen-depths
+   visual-info-id
+   visual-info-blue-mask
+   visual-info-green-mask
+   visual-info-red-mask
+   visual-info-bits-per-rgb
+   visual-info-colormap-entries
+   visual-info-ptr
+   find-visual-info
+   x-find-visual-info
    screen-event-mask-at-open
    screen-height
    screen-height-in-millimeters
@@ -469,9 +479,6 @@
    set-wm-resources
    transient-for
    undefine-keysym
-   visual-info-blue-mask
-   visual-info-green-mask
-   visual-info-red-mask
    window-cursor
    window-visual-info
    withdraw-window

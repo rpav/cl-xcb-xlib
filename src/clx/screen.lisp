@@ -28,7 +28,8 @@
   (blue-mask 0 :type pixel)
   (green-mask 0 :type pixel)
   (bits-per-rgb 0 :type card8)
-  (colormap-entries 0 :type card16))
+  (colormap-entries 0 :type card16)
+  (ptr (null-pointer) :type #.(type-of (null-pointer))))
 
  ;; 3.2 Screen Attributes
 
@@ -55,7 +56,8 @@
                                                  :red-mask (xcb-visualtype-t-red-mask ptr)
                                                  :green-mask (xcb-visualtype-t-green-mask ptr)
                                                  :blue-mask (xcb-visualtype-t-blue-mask ptr)
-                                                 :colormap-entries (xcb-visualtype-t-colormap-entries ptr)))
+                                                 :colormap-entries (xcb-visualtype-t-colormap-entries ptr)
+                                                 :ptr ptr))
                              (xcb-depth-visuals-iterator ptr0))))
              (xcb-screen-allowed-depths-iterator (%screen-xcb-screen screen))))))
 
