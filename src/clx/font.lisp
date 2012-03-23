@@ -30,7 +30,6 @@
 
 ;; FIXME: draw direction?
 (defun make-font-info (name ptr)
-  (:say "direction = ~A" (xcb-query-font-reply-t-draw-direction ptr))
   (%make-font-info
    :name name
    :min-bounds (make-font-charinfo (xcb-query-font-reply-t-min-bounds ptr))
