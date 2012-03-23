@@ -16,6 +16,15 @@
             (chanl:send (display-msg-return-channel msg)
                         (multiple-value-list
                          (funcall (display-msg-fn msg))))
+          (xlib-io-error (e)
+            ;; special case of CLOSE-DISPLAY
+            (setf *display* nil)
+            (setf (%display-xcb-connection display) (null-pointer))
+            (setf (%display-xcb-setup display) (null-pointer))
+            (setf (%display-xlib-display display) (null-pointer))
+            (setf (%display-send-channel display) nil)
+            (chanl:send (display-msg-return-channel msg) e)
+            (return-from display-thread-loop))
           (error (e)
             (chanl:send (display-msg-return-channel msg) e)))))))
 
@@ -61,7 +70,7 @@
   (xcb-setup (null-pointer) :type #.(type-of (null-pointer)))
   (event-queue (make-queue) :type queue)
   (queue-lock (bt:make-recursive-lock))
-  (send-channel (make-instance 'chanl:channel) :type chanl:channel)
+  (send-channel (make-instance 'chanl:channel) :type (or null chanl:channel))
   (error-handler #'default-error-handler :type function)
   (key-symbols (null-pointer) :type #.(type-of (null-pointer)))
   (pixmap-formats nil :type list)

@@ -113,7 +113,8 @@
   :replace :prepend :append)
 
 (defun change-property (window property data type format
-                       &key (mode :replace) (start 0) end transform)
+                        &key (mode :replace) (start 0) end
+                        (transform #'identity))
   (let* ((c (display-ptr-xcb window))
          (len (- (or end (length data)) (or start 0))))
     (with-foreign-object (ptr (ecase format

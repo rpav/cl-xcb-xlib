@@ -24,6 +24,10 @@
                        ptr errlen)
       (error "X Error: ~A" (foreign-string-to-lisp ptr)))))
 
+(define-condition xlib-io-error (error) ())
+
 (defcallback xlib-io-error-handler :int ((dpy :pointer))
   (declare (ignore dpy))
-  (error "X IO Error"))
+  (error (make-condition 'xlib-io-error)))
+
+(export '(xlib-io-error))

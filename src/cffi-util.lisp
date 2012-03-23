@@ -61,7 +61,9 @@
                    `(progn
                       (declaim (inline ,slot-name (setf ,slot-name)))
                       (defun ,slot-name ,(if slot-count '(ptr &optional (n 0)) '(ptr))
-                        ,(if (and (consp slot-type) (eq (car slot-type) :struct))
+                        ,(if (and (consp slot-type)
+                                  (or (eq (car slot-type) :struct)
+                                      (eq (car slot-type) :union)))
                              `(inc-pointer ptr ,(if slot-count
                                                     `(+ ,offset n)
                                                     offset))

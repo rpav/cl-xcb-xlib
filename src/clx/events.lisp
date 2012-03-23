@@ -47,14 +47,14 @@
      ,@body))
 
 (defun make-event (display ptr)
-  (let* ((type (event-type-key (xcb-generic-event-t-response-type ptr)))
+  (let* ((type (event-type-key (logandc1 #x80 (xcb-generic-event-t-response-type ptr))))
          (slots (find-slots type))
          (ev (list type :event-key)))
     (let ((parsed
             (loop for slot in slots
                   as defn = (find-event-slot type slot)
                   as cval = (funcall (cdr defn) ptr)
-                  as val = (slot-translate-from (car defn) cval display)
+                  as val = (slot-translate-from (car defn) ptr cval display)
                   do (push slot ev)
                      (push val ev)
                   finally (return (nreverse ev)))))
@@ -71,7 +71,8 @@
                    (encoder (find-slot-encoder type slot)))
               (when encoder
                 (funcall encoder ptr
-                         (slot-translate-to (car defn) val oldval display)))))))
+                         (slot-translate-to (car defn) event-spec
+                                            val oldval display)))))))
 
 (defmacro with-encoded-event ((ptr display event-spec) &body body)
   (let ((event (gensym "EVENT")))
