@@ -3,8 +3,7 @@
   :author "Ryan Pavlik"
   :license "NewBSD, LLGPL"
 
-  :depends-on (:cffi :cffi-libffi :static-vectors :trivial-garbage :chanl
-               :cl-opengl)
+  :depends-on (:cffi :cffi-libffi :static-vectors :trivial-garbage :chanl)
 
   :pathname "src"
   :serial t
