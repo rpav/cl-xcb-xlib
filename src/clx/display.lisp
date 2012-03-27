@@ -27,8 +27,7 @@
             (chanl:send (display-msg-return-channel msg) e)
             (return-from display-thread-loop))
           (error (e)
-            (chanl:send (display-msg-return-channel msg) e)))))
-    (format t "Display exiting...~&")))
+            (chanl:send (display-msg-return-channel msg) e)))))))
 
 (defun display-funcall (display function)
   (let ((msg (make-display-msg :return-channel (make-instance 'chanl:channel)
