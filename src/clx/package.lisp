@@ -134,6 +134,7 @@
    display-finish-output
    close-display
    with-display
+   close-display-hook
 
    display-funcall
    do-on-display
@@ -498,7 +499,9 @@
    stub
    stub-macro
    define-const-table
-   define-enum-table))
+   define-enum-table
+   add-hook
+   run-hooks))
 
 (defpackage :xcb.clx.ext.glx
   (:use #:cl #:cffi #:xcb #:xcb.clx)

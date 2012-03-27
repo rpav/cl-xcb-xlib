@@ -73,3 +73,30 @@ There are a few additions to CLX to support extended functionality:
   HOST-FAMILY table to see all options.  The format of HOST is
   dependent on this argument.  See incompatibilities.txt for further
   details.
+
+* FUNCTION: close-display-hook DISPLAY
+  HOOK-FUNCTION: close-display-hook DISPLAY VALID-P
+
+  The CLOSE-DISPLAY-HOOK can be used to run code before the display is
+  closed.  Hook functions should take two parameters, DISPLAY and
+  VALID-P.  If VALID-P is T, the function can assume the display is
+  not yet closed, and any normal operations will succeed.  If VALID-P
+  is NIL, an error has occurred, and any normal operations are likely
+  to fail.
+
+  However, no cleanup is done, regardless of VALID-P.  This means that
+  *DISPLAY* is set, and attached display pointers are still set,
+  though possibly dangling.  Some libraries may require cleanup based
+  on these values.  Any use of the pointed-to value is likely to
+  result in a segfault, though.
+
+* add-hook PLACE HOOK
+  run-hooks PLACE
+
+  Trivial hooks via macros.
+
+     (xlib:add-hook (close-display-hook display)
+                    (lambda (display valid-p) ...))
+
+*
+

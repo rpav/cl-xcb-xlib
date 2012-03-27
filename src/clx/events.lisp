@@ -81,21 +81,31 @@
          (encode-event ,display ,event ,ptr)
          ,@body))))
 
+(defun %poll-next-event (display timeout)
+  (let ((fd (xcb-get-file-descriptor (display-ptr-xcb display)))
+        (ptr))
+    (setf ptr (xcb-poll-for-event (display-ptr-xcb display)))
+    (when (null-pointer-p ptr)
+      (let ((fds (poll (list fd) :events '(:in :error :hup :invalid)
+                                 :timeout (if timeout
+                                              (truncate (* 1000 timeout))
+                                              -1))))
+        (when fds
+          (setf ptr (xcb-poll-for-event (display-ptr-xcb display))))))
+    ptr))
+
 (defun %read-queue-event (display timeout)
-  (let ((ev)
-        (parsed-event)
-        (fd (xcb-get-file-descriptor (display-ptr-xcb display))))
+  (let (ev parsed-event)
     (unwind-protect
-         (let ((fds (poll (list fd) :events '(:in :error :hup :invalid)
-                                    :timeout (if timeout
-                                                 (truncate (* 1000 timeout))
-                                                 -1))))
-           (when fds
-             (setf ev (xcb-poll-for-event (display-ptr-xcb display)))
-             (unless (null-pointer-p ev)
-               (setf parsed-event (make-event display ev))
-               (with-event-queue (display)
-                (queue-add (%display-event-queue display) parsed-event)))))
+         (let ((ev (%poll-next-event display timeout)))
+           (unless (null-pointer-p ev)
+             (if (= 0 (xcb-generic-event-t-response-type ev))
+                 (setf parsed-event (make-x-error
+                                     (xcb-generic-error-t-sequence ev)
+                                     display ev))
+                 (setf parsed-event (make-event display ev)))
+             (with-event-queue (display)
+               (queue-add (%display-event-queue display) parsed-event))))
       (when (and ev (not (null-pointer-p ev)))
         (xcb::libc_free ev)))
     parsed-event))
@@ -140,6 +150,7 @@
          (dpyq (gensym "DPYQ"))
          (ev (gensym "EV"))
          (handled (gensym "HANDLED"))
+         (err (gensym "ERR"))
          (body (mapcar (lambda (stmt)
                          `(,(car stmt)
                            (with-event-slots ,(cadr stmt) ,ev
@@ -148,10 +159,13 @@
     `(let* ((,dpy ,display)
             (,dpyq (%display-event-queue ,dpy))
             (,tq (make-queue))
-            ,handled)
+            ,err ,handled)
        (loop do (when ,force-output-p (display-force-output ,dpy))
                 (let ((,ev (%peek-next-event ,dpy ,timeout)))
                   (unless ,ev (loop-finish))
+                  (when (typep ,ev 'x-error)
+                    (setf ,err ,ev)
+                    (loop-finish))
                   (setf ,handled (case (cadr ,ev) ,@body))
                   (with-event-queue (,dpy)
                     (if ,handled
@@ -164,6 +178,7 @@
                             (queue-pop ,dpyq)
                             (queue-pop-to ,dpyq ,tq))))))
        (with-event-queue (,dpy) (queue-prepend-to ,tq ,dpyq))
+       (when ,err (error ,err))
        ,handled)))
 
 (defmacro event-case ((display &key timeout peek-p discard-p

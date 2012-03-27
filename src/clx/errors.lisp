@@ -77,7 +77,8 @@
 
 (defun make-x-error (seq dpy errptr)
   (unless (= 0 (xcb-generic-error-t-error-code errptr))
-    (let* ((type (error-code-key (xcb-generic-error-t-error-code errptr)))
+    (let* ((type (or (error-code-key (xcb-generic-error-t-error-code errptr))
+                     'unknown-error))
            (cond (make-condition type)))
       (initialize-x-error cond :seq seq :dpy dpy :ptr errptr)
       cond)))

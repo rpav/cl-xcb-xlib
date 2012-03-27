@@ -182,6 +182,16 @@
            (reduce (lambda (v1 v2) (logior v1 (,name v2)))
                    keys :initial-value 0))))))
 
+ ;; trivial hooks
+
+(defmacro add-hook (place hook)
+  `(pushnew ,hook ,place))
+
+(defmacro run-hooks (place &rest args)
+  (let ((hook (gensym "HOOK")))
+    `(loop for ,hook in ,place do
+      (funcall ,hook ,@args))))
+
  ;; etc
 
 ;; Brevity

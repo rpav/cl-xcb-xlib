@@ -18,6 +18,7 @@
                          (funcall (display-msg-fn msg))))
           (xlib-io-error (e)
             ;; special case of CLOSE-DISPLAY
+            (run-hooks (close-display-hook display) display nil)
             (setf *display* nil)
             (setf (%display-xcb-connection display) (null-pointer))
             (setf (%display-xcb-setup display) (null-pointer))
@@ -26,7 +27,8 @@
             (chanl:send (display-msg-return-channel msg) e)
             (return-from display-thread-loop))
           (error (e)
-            (chanl:send (display-msg-return-channel msg) e)))))))
+            (chanl:send (display-msg-return-channel msg) e)))))
+    (format t "Display exiting...~&")))
 
 (defun display-funcall (display function)
   (let ((msg (make-display-msg :return-channel (make-instance 'chanl:channel)
@@ -75,6 +77,7 @@
   (key-symbols (null-pointer) :type #.(type-of (null-pointer)))
   (pixmap-formats nil :type list)
   (close-down-mode :destroy :type keyword)
+  (close-hook nil)
   (plist nil :type list))
 
 (defmethod print-object ((object display) stream)
@@ -134,12 +137,12 @@
         (xset-event-queue-owner dpy :+xcbowns-event-queue+)
         (let* ((c (xget-xcbconnection dpy))
                (s (xcb-get-setup c)))
-          (setf (%display-number d) display)
-          (setf (%display-host d) host)
-          (setf (%display-xlib-display d) dpy)
-          (setf (%display-xcb-connection d) c)
-          (setf (%display-xcb-setup d) s)
-          (setf (%display-key-symbols d) (xcb-key-symbols-alloc c)))
+          (setf (%display-number d) display
+                (%display-host d) host
+                (%display-xlib-display d) dpy
+                (%display-xcb-connection d) c
+                (%display-xcb-setup d) s
+                (%display-key-symbols d) (xcb-key-symbols-alloc c)))
         (xset-error-handler (callback xcb::xlib-error-handler))
         (xset-ioerror-handler (callback xcb::xlib-io-error-handler))
         d))))
@@ -313,13 +316,22 @@
 
  ;; 2.5 Closing the Display
 
+(declaim (inline close-display-hook (setf close-display-hook)))
+
+(defun close-display-hook (display)
+  (%display-close-hook display))
+
+(defun (setf close-display-hook) (v display)
+  (setf (%display-close-hook display) v))
+
 (defun close-display (display)
   (with-display display
+    (run-hooks (close-display-hook display) display t)
     (setf *display* nil)
     (xcb-key-symbols-free (%display-key-symbols display))
     (xclose-display (%display-xlib-display display))
     (xunlock-display (%display-xlib-display display))
-    (setf (%display-xcb-connection display) (null-pointer))
-    (setf (%display-xcb-setup display) (null-pointer))
-    (setf (%display-xlib-display display) (null-pointer))
+    (setf (%display-xcb-connection display) (null-pointer)
+          (%display-xcb-setup display) (null-pointer)
+          (%display-xlib-display display) (null-pointer))
     (values)))
