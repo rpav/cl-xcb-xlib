@@ -130,9 +130,9 @@
     (do-on-display d
       (let ((dpy (xopen-display (concatenate 'string host ":"
                                              (princ-to-string display)))))
-        (xlock-display dpy)
         (if (null-pointer-p dpy)
             (error "Error opening display ~A" display))
+        (xlock-display dpy)
         (xset-event-queue-owner dpy :+xcbowns-event-queue+)
         (let* ((c (xget-xcbconnection dpy))
                (s (xcb-get-setup c)))
@@ -307,7 +307,8 @@
 (stub (setf display-after-function) (display))
 
 (defun display-force-output (display)
-  (xcb-flush (%display-xcb-connection display)))
+  (with-display display
+    (xcb-flush (%display-xcb-connection display))))
 
 ;; FIXME .. more should be done here?
 (defun display-finish-output (display)

@@ -91,7 +91,11 @@
                                               (truncate (* 1000 timeout))
                                               -1))))
         (when fds
-          (setf ptr (xcb-poll-for-event (display-ptr-xcb display))))))
+          (setf ptr (xcb-wait-for-event (display-ptr-xcb display))))))
+    (when (null-pointer-p ptr)
+      (let ((code (xcb-connection-has-error (display-ptr-xcb display))))
+        (when (/= 0 code)
+          (error (make-condition 'xlib-io-error :code code)))))
     ptr))
 
 (defun %read-queue-event (display timeout)
