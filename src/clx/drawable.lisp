@@ -80,7 +80,9 @@
         (reply (gensym "REPLY"))
         (err (gensym "ERR")))
     `(let ((*drawable-geometry* *drawable-geometry*))
-       (flet ((,fn () (let ((,geom-var *drawable-geometry*)) ,@body)))
+       (flet ((,fn () (let ((,geom-var *drawable-geometry*))
+                        (declare (ignorable ,geom-var))
+                        ,@body)))
          (if *drawable-geometry*
              (,fn)
              (do-request-response (,drawable ,c ,reply ,err)
@@ -109,7 +111,7 @@
           do-not-propagate-mask colormap cursor)
         (when (> attr-count 0)
           (xerr drawable
-              (xcb-change-window-attributes-checked (display-for drawable)
+              (xcb-change-window-attributes-checked (display-ptr-xcb drawable)
                                                     (xid drawable)
                                                     value-mask values-ptr))))))
   (hash-let (*drawable-attributes-changed*
@@ -120,7 +122,7 @@
           x y width height border-width sibling stack-mode)
         (when (> attr-count 0)
           (xerr drawable
-              (xcb-configure-window-checked (display-for drawable)
+              (xcb-configure-window-checked (display-ptr-xcb drawable)
                                             (xid drawable)
                                             value-mask values-ptr)))))))
 

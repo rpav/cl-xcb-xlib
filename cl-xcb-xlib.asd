@@ -54,6 +54,7 @@
      (:file "resources")
      (:file "control")
      (:file "keysymdefs")
+     (:file "icccm")
      (:file "undocumented")
      (:file "ext")
 

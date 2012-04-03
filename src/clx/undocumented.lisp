@@ -62,8 +62,8 @@
 (stub wm-hints (window))
 (stub wm-hints-flags (window))
 (stub wm-icon-name (window))
-(stub wm-name (window))
+;; wm-name -> icccm
 (stub wm-normal-hints (window))
-(stub wm-protocols (window))
+;; wm-protocols -> icccm
 (stub wm-resources (window))
 (stub wm-zoom-hints (window))

@@ -156,6 +156,8 @@
 
    query-best-size
 
+   with-state
+
    ;; EVENTS
    make-event-mask
    make-event-keys
@@ -443,6 +445,11 @@
    destroy-window
    destroy-subwindows
 
+   ;; ICCCM
+
+   wm-protocols
+   wm-name
+
    ;; UNDOCUMENTED
    bitmap-image
    character->keysyms
@@ -489,9 +496,7 @@
    wm-hints
    wm-hints-flags
    wm-icon-name
-   wm-name
    wm-normal-hints
-   wm-protocols
    wm-resources
    wm-zoom-hints
 

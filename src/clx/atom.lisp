@@ -159,7 +159,7 @@
          (len (- (or end 0) (or start 0)))
          (ck (xcb-get-property c (if delete-p 1 0) (xid window)
                                (find-atom window property)
-                               (and type (find-atom window type))
+                               (if type (find-atom window type) 0)
                                (or start 0) len)))
     (with-xcb-clx-reply (window ck reply err)
         (xcb-get-property-reply c ck err)
