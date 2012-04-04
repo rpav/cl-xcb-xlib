@@ -192,6 +192,25 @@
     `(loop for ,hook in ,place do
       (funcall ,hook ,@args))))
 
+ ;; trivial channels
+
+(defstruct channel
+  (queue (make-queue) :type queue)
+  (q-condition (bt:make-condition-variable))
+  (q-mutex (bt:make-lock)))
+
+(defun sendmsg (channel msg)
+  (bt:with-lock-held ((channel-q-mutex channel))
+    (queue-add (channel-queue channel) msg)
+    (bt:condition-notify (channel-q-condition channel))))
+
+(defun recvmsg (channel)
+  (bt:with-lock-held ((channel-q-mutex channel))
+    (unless (queue-has-item-p (channel-queue channel))
+      (bt:condition-wait (channel-q-condition channel)
+                         (channel-q-mutex channel)))
+    (queue-pop (channel-queue channel))))
+
  ;; etc
 
 ;; Brevity

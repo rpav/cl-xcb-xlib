@@ -136,7 +136,7 @@
 (defun store-color (colormap pixel color
                     &key (red-p t) (green-p t) (blue-p t))
   (store-colors colormap (list pixel color)
-                red-p green-p blue-p))
+                :red-p red-p :green-p green-p :blue-p blue-p))
 
 (defun store-colors (colormap pixel-colors
                      &key (red-p t) (green-p t) (blue-p t))

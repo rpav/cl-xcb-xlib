@@ -25,13 +25,13 @@
       (error "X Error: ~A" (foreign-string-to-lisp ptr)))))
 
 (define-condition xlib-io-error (error)
-  (code)
+  ((code :initform nil :initarg :code))
   (:report (lambda (c s)
              (with-slots (code) c
                (format s "XLIB-IO-ERROR, code ~A" code)))))
 
 (defcallback xlib-io-error-handler :int ((dpy :pointer))
   (declare (ignore dpy))
-  (error (make-condition 'xlib-io-error -1)))
+  (error (make-condition 'xlib-io-error)))
 
 (export '(xlib-io-error))

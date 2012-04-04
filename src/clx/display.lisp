@@ -11,11 +11,11 @@
   (let ((*display* display)
         (channel (%display-send-channel display)))
     (loop while *display* do
-      (let ((msg (chanl:recv channel)))
+      (let ((msg (recvmsg channel)))
         (handler-case
-            (chanl:send (display-msg-return-channel msg)
-                        (multiple-value-list
-                         (funcall (display-msg-fn msg))))
+            (sendmsg (display-msg-return-channel msg)
+                     (multiple-value-list
+                      (funcall (display-msg-fn msg))))
           (xlib-io-error (e)
             ;; special case of CLOSE-DISPLAY
             (run-hooks (close-display-hook display) display nil)
@@ -24,16 +24,16 @@
             (setf (%display-xcb-setup display) (null-pointer))
             (setf (%display-xlib-display display) (null-pointer))
             (setf (%display-send-channel display) nil)
-            (chanl:send (display-msg-return-channel msg) e)
+            (sendmsg (display-msg-return-channel msg) e)
             (return-from display-thread-loop))
           (error (e)
-            (chanl:send (display-msg-return-channel msg) e)))))))
+            (sendmsg (display-msg-return-channel msg) e)))))))
 
 (defun display-funcall (display function)
-  (let ((msg (make-display-msg :return-channel (make-instance 'chanl:channel)
+  (let ((msg (make-display-msg :return-channel (make-channel)
                                :fn function)))
-    (chanl:send (%display-send-channel display) msg)
-    (let ((result (chanl:recv (display-msg-return-channel msg))))
+    (sendmsg (%display-send-channel display) msg)
+    (let ((result (recvmsg (display-msg-return-channel msg))))
       (etypecase result
         (request-error
          (with-slots (error-key major minor sequence current-sequence)
@@ -71,7 +71,7 @@
   (xcb-setup (null-pointer) :type #.(type-of (null-pointer)))
   (event-queue (make-queue) :type queue)
   (queue-lock (bt:make-recursive-lock))
-  (send-channel (make-instance 'chanl:channel) :type (or null chanl:channel))
+  (send-channel (make-channel) :type (or null channel))
   (error-handler #'default-error-handler :type function)
   (key-symbols (null-pointer) :type #.(type-of (null-pointer)))
   (pixmap-formats nil :type list)
@@ -126,7 +126,7 @@
   (declare (ignore protocol))
   (let* ((d (%make-display))
          (fn (lambda () (display-thread-loop d))))
-    (chanl:pcall fn)
+    (bt:make-thread fn :name (format nil "Display ~A:~A" host display))
     (do-on-display d
       (let ((dpy (xopen-display (concatenate 'string host ":"
                                              (princ-to-string display)))))

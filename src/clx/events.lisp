@@ -85,13 +85,17 @@
   (let ((fd (xcb-get-file-descriptor (display-ptr-xcb display)))
         (ptr))
     (setf ptr (xcb-poll-for-event (display-ptr-xcb display)))
-    (when (null-pointer-p ptr)
-      (let ((fds (poll (list fd) :events '(:in :error :hup :invalid)
-                                 :timeout (if timeout
-                                              (truncate (* 1000 timeout))
-                                              -1))))
+    (loop while (null-pointer-p ptr) do
+      (let ((fds (car (poll (list fd) :events '(:in :error :hup :invalid)
+                                      :timeout (if timeout
+                                                   (truncate (* 1000 timeout))
+                                                   -1)))))
+        ;; Not strictly correct because EINTR isn't the only error possible
         (when fds
-          (setf ptr (xcb-wait-for-event (display-ptr-xcb display))))))
+          (if (or (not (eq :in (cadr fds)))
+                  (> (length (cdr fds)) 1))
+              (loop-finish) ;; display likely closed or invalid
+              (setf ptr (xcb-wait-for-event (display-ptr-xcb display)))))))
     (when (null-pointer-p ptr)
       (let ((code (xcb-connection-has-error (display-ptr-xcb display))))
         (when (/= 0 code)
@@ -167,7 +171,7 @@
        (loop do (when ,force-output-p (display-force-output ,dpy))
                 (let ((,ev (%peek-next-event ,dpy ,timeout)))
                   (unless ,ev (loop-finish))
-                  (when (typep ,ev 'x-error)
+                  (when (typep ,ev 'error)
                     (setf ,err ,ev)
                     (loop-finish))
                   (setf ,handled (case (cadr ,ev) ,@body))
