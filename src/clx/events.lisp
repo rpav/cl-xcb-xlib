@@ -93,7 +93,7 @@
         ;; Not strictly correct because EINTR isn't the only error possible
         (when fds
           (if (or (not (eq :in (cadr fds)))
-                  (> (length (cdr fds)) 1))
+                  (cddr fds))
               (loop-finish) ;; display likely closed or invalid
               (setf ptr (xcb-wait-for-event (display-ptr-xcb display)))))))
     (when (null-pointer-p ptr)

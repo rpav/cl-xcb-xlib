@@ -126,7 +126,7 @@
   (declare (ignore protocol))
   (let* ((d (%make-display))
          (fn (lambda () (display-thread-loop d))))
-    (bt:make-thread fn :name (format nil "Display ~A:~A" host display))
+    (bt:make-thread fn :name (format nil "Display ~A:~A" (or host "") display))
     (do-on-display d
       (let ((dpy (xopen-display (concatenate 'string host ":"
                                              (princ-to-string display)))))
