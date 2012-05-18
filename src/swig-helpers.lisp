@@ -5,6 +5,16 @@
 
 ;;;SWIG wrapper code starts here
 
+(define-foreign-type string-or-ptr-type (cffi::foreign-string-type)
+  ()
+  (:actual-type :string)
+  (:simple-parser string-or-ptr))
+
+(defmethod translate-into-foreign-memory (value (type string-or-ptr-type) ptr)
+  (unless (pointerp value)
+    (error "Must use a pointer (e.g., with-foreign-string) for by-value (:struct) calls"))
+  (setf (mem-ref ptr :pointer) value))
+
 (cl:defmacro defanonenum (&body enums)
    "Converts anonymous enums to defconstants."
   `(cl:progn ,@(cl:loop for value in enums

@@ -25,7 +25,7 @@
 (cl:export '#.(custom-lispify "XlibSpecificationRelease" 'constant))
 
 (cffi:defcfun ("_Xmblen" #.(custom-lispify "_Xmblen" 'function)) :int
-  (str :string)
+  (str string-or-ptr)
   (len :int))
 
 (cl:export '#.(custom-lispify "_Xmblen" 'function))
@@ -34,7 +34,7 @@
 
 (cl:export '#.(custom-lispify "X_HAVE_UTF8_STRING" 'constant))
 
-(cffi:defctype #.(custom-lispify "XPointer" 'typename) :string)
+(cffi:defctype #.(custom-lispify "XPointer" 'typename) string-or-ptr)
 
 (cl:export '#.(custom-lispify "XPointer" 'typename))
 
@@ -58,11 +58,11 @@
 
 (cl:export '#.(custom-lispify "QueuedAfterFlush" 'constant))
 
-(cffi:defcstruct #.(custom-lispify "XExtData" 'classname)
+(cffi:defcstruct #.(custom-lispify "XExtData" 'structname-decl)
 	(#.(custom-lispify "number" 'slotname) :int)
 	(#.(custom-lispify "next" 'slotname) :pointer)
 	(#.(custom-lispify "free_private" 'slotname) :pointer)
-	(#.(custom-lispify "private_data" 'slotname) :string))
+	(#.(custom-lispify "private_data" 'slotname) string-or-ptr))
 
 (cl:export '#.(custom-lispify "XExtData" 'classname))
 
@@ -74,7 +74,7 @@
 
 (cl:export '#.(custom-lispify "private_data" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XExtCodes" 'classname)
+(cffi:defcstruct #.(custom-lispify "XExtCodes" 'structname-decl)
 	(#.(custom-lispify "extension" 'slotname) :int)
 	(#.(custom-lispify "major_opcode" 'slotname) :int)
 	(#.(custom-lispify "first_event" 'slotname) :int)
@@ -90,7 +90,7 @@
 
 (cl:export '#.(custom-lispify "first_error" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XPixmapFormatValues" 'classname)
+(cffi:defcstruct #.(custom-lispify "XPixmapFormatValues" 'structname-decl)
 	(#.(custom-lispify "depth" 'slotname) :int)
 	(#.(custom-lispify "bits_per_pixel" 'slotname) :int)
 	(#.(custom-lispify "scanline_pad" 'slotname) :int))
@@ -103,7 +103,7 @@
 
 (cl:export '#.(custom-lispify "scanline_pad" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XGCValues" 'classname)
+(cffi:defcstruct #.(custom-lispify "XGCValues" 'structname-decl)
 	(#.(custom-lispify "function" 'slotname) :int)
 	(#.(custom-lispify "plane_mask" 'slotname) :unsigned-long)
 	(#.(custom-lispify "foreground" 'slotname) :unsigned-long)
@@ -180,7 +180,7 @@
 
 (cl:export '#.(custom-lispify "GC" 'typename))
 
-(cffi:defcstruct #.(custom-lispify "Visual" 'classname)
+(cffi:defcstruct #.(custom-lispify "Visual" 'structname-decl)
 	(#.(custom-lispify "ext_data" 'slotname) :pointer)
 	(#.(custom-lispify "visualid" 'slotname) :pointer)
 	(#.(custom-lispify "class" 'slotname) :int)
@@ -208,7 +208,7 @@
 
 (cl:export '#.(custom-lispify "map_entries" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "Depth" 'classname)
+(cffi:defcstruct #.(custom-lispify "Depth" 'structname-decl)
 	(#.(custom-lispify "depth" 'slotname) :int)
 	(#.(custom-lispify "nvisuals" 'slotname) :int)
 	(#.(custom-lispify "visuals" 'slotname) :pointer))
@@ -221,7 +221,7 @@
 
 (cl:export '#.(custom-lispify "visuals" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "Screen" 'classname)
+(cffi:defcstruct #.(custom-lispify "Screen" 'structname-decl)
 	(#.(custom-lispify "ext_data" 'slotname) :pointer)
 	(#.(custom-lispify "display" 'slotname) :pointer)
 	(#.(custom-lispify "root" 'slotname) :unsigned-long)
@@ -285,7 +285,7 @@
 
 (cl:export '#.(custom-lispify "root_input_mask" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "ScreenFormat" 'classname)
+(cffi:defcstruct #.(custom-lispify "ScreenFormat" 'structname-decl)
 	(#.(custom-lispify "ext_data" 'slotname) :pointer)
 	(#.(custom-lispify "depth" 'slotname) :int)
 	(#.(custom-lispify "bits_per_pixel" 'slotname) :int)
@@ -301,7 +301,7 @@
 
 (cl:export '#.(custom-lispify "scanline_pad" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XSetWindowAttributes" 'classname)
+(cffi:defcstruct #.(custom-lispify "XSetWindowAttributes" 'structname-decl)
 	(#.(custom-lispify "background_pixmap" 'slotname) :pointer)
 	(#.(custom-lispify "background_pixel" 'slotname) :unsigned-long)
 	(#.(custom-lispify "border_pixmap" 'slotname) :pointer)
@@ -350,7 +350,7 @@
 
 (cl:export '#.(custom-lispify "cursor" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XWindowAttributes" 'classname)
+(cffi:defcstruct #.(custom-lispify "XWindowAttributes" 'structname-decl)
 	(#.(custom-lispify "x" 'slotname) :int)
 	(#.(custom-lispify "y" 'slotname) :int)
 	(#.(custom-lispify "width" 'slotname) :int)
@@ -423,10 +423,10 @@
 
 (cl:export '#.(custom-lispify "screen" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XHostAddress" 'classname)
+(cffi:defcstruct #.(custom-lispify "XHostAddress" 'structname-decl)
 	(#.(custom-lispify "family" 'slotname) :int)
 	(#.(custom-lispify "length" 'slotname) :int)
-	(#.(custom-lispify "address" 'slotname) :string))
+	(#.(custom-lispify "address" 'slotname) string-or-ptr))
 
 (cl:export '#.(custom-lispify "XHostAddress" 'classname))
 
@@ -436,11 +436,11 @@
 
 (cl:export '#.(custom-lispify "address" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XServerInterpretedAddress" 'classname)
+(cffi:defcstruct #.(custom-lispify "XServerInterpretedAddress" 'structname-decl)
 	(#.(custom-lispify "typelength" 'slotname) :int)
 	(#.(custom-lispify "valuelength" 'slotname) :int)
-	(#.(custom-lispify "type" 'slotname) :string)
-	(#.(custom-lispify "value" 'slotname) :string))
+	(#.(custom-lispify "type" 'slotname) string-or-ptr)
+	(#.(custom-lispify "value" 'slotname) string-or-ptr))
 
 (cl:export '#.(custom-lispify "XServerInterpretedAddress" 'classname))
 
@@ -452,12 +452,12 @@
 
 (cl:export '#.(custom-lispify "value" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XImage" 'classname)
+(cffi:defcstruct #.(custom-lispify "XImage" 'structname-decl)
 	(#.(custom-lispify "width" 'slotname) :int)
 	(#.(custom-lispify "height" 'slotname) :int)
 	(#.(custom-lispify "xoffset" 'slotname) :int)
 	(#.(custom-lispify "format" 'slotname) :int)
-	(#.(custom-lispify "data" 'slotname) :string)
+	(#.(custom-lispify "data" 'slotname) string-or-ptr)
 	(#.(custom-lispify "byte_order" 'slotname) :int)
 	(#.(custom-lispify "bitmap_unit" 'slotname) :int)
 	(#.(custom-lispify "bitmap_bit_order" 'slotname) :int)
@@ -468,7 +468,7 @@
 	(#.(custom-lispify "red_mask" 'slotname) :unsigned-long)
 	(#.(custom-lispify "green_mask" 'slotname) :unsigned-long)
 	(#.(custom-lispify "blue_mask" 'slotname) :unsigned-long)
-	(#.(custom-lispify "obdata" 'slotname) :string)
+	(#.(custom-lispify "obdata" 'slotname) string-or-ptr)
 	(#.(custom-lispify "f" 'slotname) :pointer))
 
 (cl:export '#.(custom-lispify "XImage" 'classname))
@@ -507,7 +507,7 @@
 
 (cl:export '#.(custom-lispify "f" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XImage_f" 'classname)
+(cffi:defcstruct #.(custom-lispify "XImage_f" 'structname-decl)
 	(#.(custom-lispify "create_image" 'slotname) :pointer)
 	(#.(custom-lispify "destroy_image" 'slotname) :pointer)
 	(#.(custom-lispify "get_pixel" 'slotname) :pointer)
@@ -529,7 +529,7 @@
 
 (cl:export '#.(custom-lispify "add_pixel" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XWindowChanges" 'classname)
+(cffi:defcstruct #.(custom-lispify "XWindowChanges" 'structname-decl)
 	(#.(custom-lispify "x" 'slotname) :int)
 	(#.(custom-lispify "y" 'slotname) :int)
 	(#.(custom-lispify "width" 'slotname) :int)
@@ -554,7 +554,7 @@
 
 (cl:export '#.(custom-lispify "stack_mode" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XColor" 'classname)
+(cffi:defcstruct #.(custom-lispify "XColor" 'structname-decl)
 	(#.(custom-lispify "pixel" 'slotname) :unsigned-long)
 	(#.(custom-lispify "red" 'slotname) :unsigned-short)
 	(#.(custom-lispify "green" 'slotname) :unsigned-short)
@@ -576,7 +576,7 @@
 
 (cl:export '#.(custom-lispify "pad" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XSegment" 'classname)
+(cffi:defcstruct #.(custom-lispify "XSegment" 'structname-decl)
 	(#.(custom-lispify "x1" 'slotname) :short)
 	(#.(custom-lispify "y1" 'slotname) :short)
 	(#.(custom-lispify "x2" 'slotname) :short)
@@ -592,7 +592,7 @@
 
 (cl:export '#.(custom-lispify "y2" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XPoint" 'classname)
+(cffi:defcstruct #.(custom-lispify "XPoint" 'structname-decl)
 	(#.(custom-lispify "x" 'slotname) :short)
 	(#.(custom-lispify "y" 'slotname) :short))
 
@@ -602,7 +602,7 @@
 
 (cl:export '#.(custom-lispify "y" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XRectangle" 'classname)
+(cffi:defcstruct #.(custom-lispify "XRectangle" 'structname-decl)
 	(#.(custom-lispify "x" 'slotname) :short)
 	(#.(custom-lispify "y" 'slotname) :short)
 	(#.(custom-lispify "width" 'slotname) :unsigned-short)
@@ -618,7 +618,7 @@
 
 (cl:export '#.(custom-lispify "height" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XArc" 'classname)
+(cffi:defcstruct #.(custom-lispify "XArc" 'structname-decl)
 	(#.(custom-lispify "x" 'slotname) :short)
 	(#.(custom-lispify "y" 'slotname) :short)
 	(#.(custom-lispify "width" 'slotname) :unsigned-short)
@@ -640,7 +640,7 @@
 
 (cl:export '#.(custom-lispify "angle2" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XKeyboardControl" 'classname)
+(cffi:defcstruct #.(custom-lispify "XKeyboardControl" 'structname-decl)
 	(#.(custom-lispify "key_click_percent" 'slotname) :int)
 	(#.(custom-lispify "bell_percent" 'slotname) :int)
 	(#.(custom-lispify "bell_pitch" 'slotname) :int)
@@ -668,7 +668,7 @@
 
 (cl:export '#.(custom-lispify "auto_repeat_mode" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XKeyboardState" 'classname)
+(cffi:defcstruct #.(custom-lispify "XKeyboardState" 'structname-decl)
 	(#.(custom-lispify "key_click_percent" 'slotname) :int)
 	(#.(custom-lispify "bell_percent" 'slotname) :int)
 	(#.(custom-lispify "bell_pitch" 'slotname) :unsigned-int)
@@ -693,7 +693,7 @@
 
 (cl:export '#.(custom-lispify "auto_repeats" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XTimeCoord" 'classname)
+(cffi:defcstruct #.(custom-lispify "XTimeCoord" 'structname-decl)
 	(#.(custom-lispify "time" 'slotname) :pointer)
 	(#.(custom-lispify "x" 'slotname) :short)
 	(#.(custom-lispify "y" 'slotname) :short))
@@ -706,7 +706,7 @@
 
 (cl:export '#.(custom-lispify "y" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XModifierKeymap" 'classname)
+(cffi:defcstruct #.(custom-lispify "XModifierKeymap" 'structname-decl)
 	(#.(custom-lispify "max_keypermod" 'slotname) :int)
 	(#.(custom-lispify "modifiermap" 'slotname) :pointer))
 
@@ -720,7 +720,7 @@
 
 (cl:export '#.(custom-lispify "_XPrivDisplay" 'typename))
 
-(cffi:defcstruct #.(custom-lispify "XKeyEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XKeyEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -777,7 +777,7 @@
 
 (cl:export '#.(custom-lispify "XKeyReleasedEvent" 'typename))
 
-(cffi:defcstruct #.(custom-lispify "XButtonEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XButtonEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -834,7 +834,7 @@
 
 (cl:export '#.(custom-lispify "XButtonReleasedEvent" 'typename))
 
-(cffi:defcstruct #.(custom-lispify "XMotionEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XMotionEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -887,7 +887,7 @@
 
 (cl:export '#.(custom-lispify "XPointerMovedEvent" 'typename))
 
-(cffi:defcstruct #.(custom-lispify "XCrossingEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XCrossingEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -950,7 +950,7 @@
 
 (cl:export '#.(custom-lispify "XLeaveWindowEvent" 'typename))
 
-(cffi:defcstruct #.(custom-lispify "XFocusChangeEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XFocusChangeEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -983,7 +983,7 @@
 
 (cl:export '#.(custom-lispify "XFocusOutEvent" 'typename))
 
-(cffi:defcstruct #.(custom-lispify "XKeymapEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XKeymapEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -1005,7 +1005,7 @@
 
 (cl:export '#.(custom-lispify "key_vector" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XExposeEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XExposeEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -1039,7 +1039,7 @@
 
 (cl:export '#.(custom-lispify "count" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XGraphicsExposeEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XGraphicsExposeEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -1079,7 +1079,7 @@
 
 (cl:export '#.(custom-lispify "minor_code" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XNoExposeEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XNoExposeEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -1104,7 +1104,7 @@
 
 (cl:export '#.(custom-lispify "minor_code" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XVisibilityEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XVisibilityEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -1126,7 +1126,7 @@
 
 (cl:export '#.(custom-lispify "state" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XCreateWindowEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XCreateWindowEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -1166,7 +1166,7 @@
 
 (cl:export '#.(custom-lispify "override_redirect" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XDestroyWindowEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XDestroyWindowEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -1188,7 +1188,7 @@
 
 (cl:export '#.(custom-lispify "window" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XUnmapEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XUnmapEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -1213,7 +1213,7 @@
 
 (cl:export '#.(custom-lispify "from_configure" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XMapEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XMapEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -1238,7 +1238,7 @@
 
 (cl:export '#.(custom-lispify "override_redirect" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XMapRequestEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XMapRequestEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -1260,7 +1260,7 @@
 
 (cl:export '#.(custom-lispify "window" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XReparentEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XReparentEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -1294,7 +1294,7 @@
 
 (cl:export '#.(custom-lispify "override_redirect" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XConfigureEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XConfigureEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -1337,7 +1337,7 @@
 
 (cl:export '#.(custom-lispify "override_redirect" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XGravityEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XGravityEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -1365,7 +1365,7 @@
 
 (cl:export '#.(custom-lispify "y" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XResizeRequestEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XResizeRequestEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -1390,7 +1390,7 @@
 
 (cl:export '#.(custom-lispify "height" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XConfigureRequestEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XConfigureRequestEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -1436,7 +1436,7 @@
 
 (cl:export '#.(custom-lispify "value_mask" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XCirculateEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XCirculateEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -1461,7 +1461,7 @@
 
 (cl:export '#.(custom-lispify "place" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XCirculateRequestEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XCirculateRequestEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -1486,7 +1486,7 @@
 
 (cl:export '#.(custom-lispify "place" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XPropertyEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XPropertyEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -1514,7 +1514,7 @@
 
 (cl:export '#.(custom-lispify "state" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XSelectionClearEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XSelectionClearEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -1539,7 +1539,7 @@
 
 (cl:export '#.(custom-lispify "time" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XSelectionRequestEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XSelectionRequestEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -1573,7 +1573,7 @@
 
 (cl:export '#.(custom-lispify "time" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XSelectionEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XSelectionEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -1604,7 +1604,7 @@
 
 (cl:export '#.(custom-lispify "time" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XColormapEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XColormapEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -1632,7 +1632,7 @@
 
 (cl:export '#.(custom-lispify "state" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XClientMessageEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XClientMessageEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -1660,7 +1660,7 @@
 
 (cl:export '#.(custom-lispify "data" 'slotname))
 
-(cffi:defcunion #.(custom-lispify "XClientMessageEvent_data" 'classname)
+(cffi:defcunion #.(custom-lispify "XClientMessageEvent_data" 'unionname-decl)
 	(#.(custom-lispify "b" 'slotname) :char :count 20)
 	(#.(custom-lispify "s" 'slotname) :short :count 10)
 	(#.(custom-lispify "l" 'slotname) :long :count 5))
@@ -1673,7 +1673,7 @@
 
 (cl:export '#.(custom-lispify "l" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XMappingEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XMappingEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -1701,7 +1701,7 @@
 
 (cl:export '#.(custom-lispify "count" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XErrorEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XErrorEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "display" 'slotname) :pointer)
 	(#.(custom-lispify "resourceid" 'slotname) :unsigned-long)
@@ -1726,7 +1726,7 @@
 
 (cl:export '#.(custom-lispify "minor_code" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XAnyEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XAnyEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -1745,7 +1745,7 @@
 
 (cl:export '#.(custom-lispify "window" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XGenericEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "XGenericEvent" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -1767,7 +1767,7 @@
 
 (cl:export '#.(custom-lispify "evtype" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XGenericEventCookie" 'classname)
+(cffi:defcstruct #.(custom-lispify "XGenericEventCookie" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -1795,7 +1795,7 @@
 
 (cl:export '#.(custom-lispify "data" 'slotname))
 
-(cffi:defcunion #.(custom-lispify "XEvent" 'classname)
+(cffi:defcunion #.(custom-lispify "XEvent" 'unionname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "xany" 'slotname) #.(custom-lispify "XAnyEvent" 'structname))
 	(#.(custom-lispify "xkey" 'slotname) #.(custom-lispify "XKeyEvent" 'structname))
@@ -1904,7 +1904,7 @@
 
 (cl:export '#.(custom-lispify "pad" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XCharStruct" 'classname)
+(cffi:defcstruct #.(custom-lispify "XCharStruct" 'structname-decl)
 	(#.(custom-lispify "lbearing" 'slotname) :short)
 	(#.(custom-lispify "rbearing" 'slotname) :short)
 	(#.(custom-lispify "width" 'slotname) :short)
@@ -1926,7 +1926,7 @@
 
 (cl:export '#.(custom-lispify "attributes" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XFontProp" 'classname)
+(cffi:defcstruct #.(custom-lispify "XFontProp" 'structname-decl)
 	(#.(custom-lispify "name" 'slotname) :pointer)
 	(#.(custom-lispify "card32" 'slotname) :unsigned-long))
 
@@ -1936,7 +1936,7 @@
 
 (cl:export '#.(custom-lispify "card32" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XFontStruct" 'classname)
+(cffi:defcstruct #.(custom-lispify "XFontStruct" 'structname-decl)
 	(#.(custom-lispify "ext_data" 'slotname) :pointer)
 	(#.(custom-lispify "fid" 'slotname) :pointer)
 	(#.(custom-lispify "direction" 'slotname) :unsigned-int)
@@ -1988,8 +1988,8 @@
 
 (cl:export '#.(custom-lispify "descent" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XTextItem" 'classname)
-	(#.(custom-lispify "chars" 'slotname) :string)
+(cffi:defcstruct #.(custom-lispify "XTextItem" 'structname-decl)
+	(#.(custom-lispify "chars" 'slotname) string-or-ptr)
 	(#.(custom-lispify "nchars" 'slotname) :int)
 	(#.(custom-lispify "delta" 'slotname) :int)
 	(#.(custom-lispify "font" 'slotname) :pointer))
@@ -2004,7 +2004,7 @@
 
 (cl:export '#.(custom-lispify "font" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XChar2b" 'classname)
+(cffi:defcstruct #.(custom-lispify "XChar2b" 'structname-decl)
 	(#.(custom-lispify "byte1" 'slotname) :unsigned-char)
 	(#.(custom-lispify "byte2" 'slotname) :unsigned-char))
 
@@ -2014,7 +2014,7 @@
 
 (cl:export '#.(custom-lispify "byte2" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XTextItem16" 'classname)
+(cffi:defcstruct #.(custom-lispify "XTextItem16" 'structname-decl)
 	(#.(custom-lispify "chars" 'slotname) :pointer)
 	(#.(custom-lispify "nchars" 'slotname) :int)
 	(#.(custom-lispify "delta" 'slotname) :int)
@@ -2030,7 +2030,7 @@
 
 (cl:export '#.(custom-lispify "font" 'slotname))
 
-(cffi:defcunion #.(custom-lispify "XEDataObject" 'classname)
+(cffi:defcunion #.(custom-lispify "XEDataObject" 'unionname-decl)
 	(#.(custom-lispify "display" 'slotname) :pointer)
 	(#.(custom-lispify "gc" 'slotname) :pointer)
 	(#.(custom-lispify "visual" 'slotname) :pointer)
@@ -2052,7 +2052,7 @@
 
 (cl:export '#.(custom-lispify "font" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XFontSetExtents" 'classname)
+(cffi:defcstruct #.(custom-lispify "XFontSetExtents" 'structname-decl)
 	(#.(custom-lispify "max_ink_extent" 'slotname) #.(custom-lispify "XRectangle" 'structname))
 	(#.(custom-lispify "max_logical_extent" 'slotname) #.(custom-lispify "XRectangle" 'structname)))
 
@@ -2074,8 +2074,8 @@
 
 (cl:export '#.(custom-lispify "XFontSet" 'typename))
 
-(cffi:defcstruct #.(custom-lispify "XmbTextItem" 'classname)
-	(#.(custom-lispify "chars" 'slotname) :string)
+(cffi:defcstruct #.(custom-lispify "XmbTextItem" 'structname-decl)
+	(#.(custom-lispify "chars" 'slotname) string-or-ptr)
 	(#.(custom-lispify "nchars" 'slotname) :int)
 	(#.(custom-lispify "delta" 'slotname) :int)
 	(#.(custom-lispify "font_set" 'slotname) :pointer))
@@ -2090,7 +2090,7 @@
 
 (cl:export '#.(custom-lispify "font_set" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XwcTextItem" 'classname)
+(cffi:defcstruct #.(custom-lispify "XwcTextItem" 'structname-decl)
 	(#.(custom-lispify "chars" 'slotname) :pointer)
 	(#.(custom-lispify "nchars" 'slotname) :int)
 	(#.(custom-lispify "delta" 'slotname) :int)
@@ -2146,7 +2146,7 @@
 
 (cl:export '#.(custom-lispify "XNFontInfo" 'constant))
 
-(cffi:defcstruct #.(custom-lispify "XOMCharSetList" 'classname)
+(cffi:defcstruct #.(custom-lispify "XOMCharSetList" 'structname-decl)
 	(#.(custom-lispify "charset_count" 'slotname) :int)
 	(#.(custom-lispify "charset_list" 'slotname) :pointer))
 
@@ -2165,7 +2165,7 @@
 
 (cl:export '#.(custom-lispify "XOrientation" 'enumname))
 
-(cffi:defcstruct #.(custom-lispify "XOMOrientation" 'classname)
+(cffi:defcstruct #.(custom-lispify "XOMOrientation" 'structname-decl)
 	(#.(custom-lispify "num_orientation" 'slotname) :int)
 	(#.(custom-lispify "orientation" 'slotname) :pointer))
 
@@ -2175,7 +2175,7 @@
 
 (cl:export '#.(custom-lispify "orientation" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XOMFontInfo" 'classname)
+(cffi:defcstruct #.(custom-lispify "XOMFontInfo" 'structname-decl)
 	(#.(custom-lispify "num_font" 'slotname) :int)
 	(#.(custom-lispify "font_struct_list" 'slotname) :pointer)
 	(#.(custom-lispify "font_name_list" 'slotname) :pointer))
@@ -2212,7 +2212,7 @@
 
 (cl:export '#.(custom-lispify "XIMStyle" 'typename))
 
-(cffi:defcstruct #.(custom-lispify "XIMStyles" 'classname)
+(cffi:defcstruct #.(custom-lispify "XIMStyles" 'structname-decl)
 	(#.(custom-lispify "count_styles" 'slotname) :unsigned-short)
 	(#.(custom-lispify "supported_styles" 'slotname) :pointer))
 
@@ -2450,8 +2450,8 @@
 
 (cl:export '#.(custom-lispify "XVaNestedList" 'typename))
 
-(cffi:defcstruct #.(custom-lispify "XIMCallback" 'classname)
-	(#.(custom-lispify "client_data" 'slotname) :string)
+(cffi:defcstruct #.(custom-lispify "XIMCallback" 'structname-decl)
+	(#.(custom-lispify "client_data" 'slotname) string-or-ptr)
 	(#.(custom-lispify "callback" 'slotname) :pointer))
 
 (cl:export '#.(custom-lispify "XIMCallback" 'classname))
@@ -2460,8 +2460,8 @@
 
 (cl:export '#.(custom-lispify "callback" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XICCallback" 'classname)
-	(#.(custom-lispify "client_data" 'slotname) :string)
+(cffi:defcstruct #.(custom-lispify "XICCallback" 'structname-decl)
+	(#.(custom-lispify "client_data" 'slotname) string-or-ptr)
 	(#.(custom-lispify "callback" 'slotname) :pointer))
 
 (cl:export '#.(custom-lispify "XICCallback" 'classname))
@@ -2510,7 +2510,7 @@
 
 (cl:export '#.(custom-lispify "XIMVisibleToCenter" 'constant))
 
-(cffi:defcstruct #.(custom-lispify "XIMText" 'classname)
+(cffi:defcstruct #.(custom-lispify "XIMText" 'structname-decl)
 	(#.(custom-lispify "length" 'slotname) :unsigned-short)
 	(#.(custom-lispify "feedback" 'slotname) :pointer)
 	(#.(custom-lispify "encoding_is_wchar" 'slotname) :int)
@@ -2526,8 +2526,8 @@
 
 (cl:export '#.(custom-lispify "string" 'slotname))
 
-(cffi:defcunion #.(custom-lispify "XIMText_string" 'classname)
-	(#.(custom-lispify "multi_byte" 'slotname) :string)
+(cffi:defcunion #.(custom-lispify "XIMText_string" 'unionname-decl)
+	(#.(custom-lispify "multi_byte" 'slotname) string-or-ptr)
 	(#.(custom-lispify "wide_char" 'slotname) :pointer))
 
 (cl:export '#.(custom-lispify "XIMText_string" 'classname))
@@ -2552,7 +2552,7 @@
 
 (cl:export '#.(custom-lispify "XIMPreeditDisable" 'constant))
 
-(cffi:defcstruct #.(custom-lispify "XIMPreeditStateNotifyCallbackStruct" 'classname)
+(cffi:defcstruct #.(custom-lispify "XIMPreeditStateNotifyCallbackStruct" 'structname-decl)
 	(#.(custom-lispify "state" 'slotname) :unsigned-long))
 
 (cl:export '#.(custom-lispify "XIMPreeditStateNotifyCallbackStruct" 'classname))
@@ -2599,7 +2599,7 @@
 
 (cl:export '#.(custom-lispify "XIMStringConversionWrapped" 'constant))
 
-(cffi:defcstruct #.(custom-lispify "XIMStringConversionText" 'classname)
+(cffi:defcstruct #.(custom-lispify "XIMStringConversionText" 'structname-decl)
 	(#.(custom-lispify "length" 'slotname) :unsigned-short)
 	(#.(custom-lispify "feedback" 'slotname) :pointer)
 	(#.(custom-lispify "encoding_is_wchar" 'slotname) :int)
@@ -2615,8 +2615,8 @@
 
 (cl:export '#.(custom-lispify "string" 'slotname))
 
-(cffi:defcunion #.(custom-lispify "XIMStringConversionText_string" 'classname)
-	(#.(custom-lispify "mbs" 'slotname) :string)
+(cffi:defcunion #.(custom-lispify "XIMStringConversionText_string" 'unionname-decl)
+	(#.(custom-lispify "mbs" 'slotname) string-or-ptr)
 	(#.(custom-lispify "wcs" 'slotname) :pointer))
 
 (cl:export '#.(custom-lispify "XIMStringConversionText_string" 'classname))
@@ -2677,7 +2677,7 @@
 
 (cl:export '#.(custom-lispify "XIMCaretDirection" 'enumname))
 
-(cffi:defcstruct #.(custom-lispify "XIMStringConversionCallbackStruct" 'classname)
+(cffi:defcstruct #.(custom-lispify "XIMStringConversionCallbackStruct" 'structname-decl)
 	(#.(custom-lispify "position" 'slotname) :unsigned-short)
 	(#.(custom-lispify "direction" 'slotname) #.(custom-lispify "XIMCaretDirection" 'enumname))
 	(#.(custom-lispify "operation" 'slotname) :unsigned-short)
@@ -2696,7 +2696,7 @@
 
 (cl:export '#.(custom-lispify "text" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XIMPreeditDrawCallbackStruct" 'classname)
+(cffi:defcstruct #.(custom-lispify "XIMPreeditDrawCallbackStruct" 'structname-decl)
 	(#.(custom-lispify "caret" 'slotname) :int)
 	(#.(custom-lispify "chg_first" 'slotname) :int)
 	(#.(custom-lispify "chg_length" 'slotname) :int)
@@ -2719,7 +2719,7 @@
 
 (cl:export '#.(custom-lispify "XIMCaretStyle" 'enumname))
 
-(cffi:defcstruct #.(custom-lispify "XIMPreeditCaretCallbackStruct" 'classname)
+(cffi:defcstruct #.(custom-lispify "XIMPreeditCaretCallbackStruct" 'structname-decl)
 	(#.(custom-lispify "position" 'slotname) :int)
 	(#.(custom-lispify "direction" 'slotname) #.(custom-lispify "XIMCaretDirection" 'enumname))
 	(#.(custom-lispify "style" 'slotname) #.(custom-lispify "XIMCaretStyle" 'enumname)))
@@ -2738,7 +2738,7 @@
 
 (cl:export '#.(custom-lispify "XIMStatusDataType" 'enumname))
 
-(cffi:defcstruct #.(custom-lispify "XIMStatusDrawCallbackStruct" 'classname)
+(cffi:defcstruct #.(custom-lispify "XIMStatusDrawCallbackStruct" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) #.(custom-lispify "XIMStatusDataType" 'enumname))
 	(#.(custom-lispify "data" 'slotname) :pointer))
 
@@ -2748,7 +2748,7 @@
 
 (cl:export '#.(custom-lispify "data" 'slotname))
 
-(cffi:defcunion #.(custom-lispify "XIMStatusDrawCallbackStruct_data" 'classname)
+(cffi:defcunion #.(custom-lispify "XIMStatusDrawCallbackStruct_data" 'unionname-decl)
 	(#.(custom-lispify "text" 'slotname) :pointer)
 	(#.(custom-lispify "bitmap" 'slotname) :pointer))
 
@@ -2758,7 +2758,7 @@
 
 (cl:export '#.(custom-lispify "bitmap" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XIMHotKeyTrigger" 'classname)
+(cffi:defcstruct #.(custom-lispify "XIMHotKeyTrigger" 'structname-decl)
 	(#.(custom-lispify "keysym" 'slotname) :pointer)
 	(#.(custom-lispify "modifier" 'slotname) :int)
 	(#.(custom-lispify "modifier_mask" 'slotname) :int))
@@ -2771,7 +2771,7 @@
 
 (cl:export '#.(custom-lispify "modifier_mask" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XIMHotKeyTriggers" 'classname)
+(cffi:defcstruct #.(custom-lispify "XIMHotKeyTriggers" 'structname-decl)
 	(#.(custom-lispify "num_hot_key" 'slotname) :int)
 	(#.(custom-lispify "key" 'slotname) :pointer))
 
@@ -2793,7 +2793,7 @@
 
 (cl:export '#.(custom-lispify "XIMHotKeyStateOFF" 'constant))
 
-(cffi:defcstruct #.(custom-lispify "XIMValuesList" 'classname)
+(cffi:defcstruct #.(custom-lispify "XIMValuesList" 'structname-decl)
 	(#.(custom-lispify "count_values" 'slotname) :unsigned-short)
 	(#.(custom-lispify "supported_values" 'slotname) :pointer))
 
@@ -2810,7 +2810,7 @@
 
 (cffi:defcfun ("XLoadQueryFont" #.(custom-lispify "XLoadQueryFont" 'function)) :pointer
   (arg0 :pointer)
-  (arg1 :string))
+  (arg1 string-or-ptr))
 
 (cl:export '#.(custom-lispify "XLoadQueryFont" 'function))
 
@@ -2859,7 +2859,7 @@
   (arg2 :unsigned-int)
   (arg3 :int)
   (arg4 :int)
-  (arg5 :string)
+  (arg5 string-or-ptr)
   (arg6 :unsigned-int)
   (arg7 :unsigned-int)
   (arg8 :int)
@@ -2900,7 +2900,7 @@
 (cl:export '#.(custom-lispify "XGetSubImage" 'function))
 
 (cffi:defcfun ("XOpenDisplay" #.(custom-lispify "XOpenDisplay" 'function)) :pointer
-  (arg0 :string))
+  (arg0 string-or-ptr))
 
 (cl:export '#.(custom-lispify "XOpenDisplay" 'function))
 
@@ -2908,20 +2908,20 @@
 
 (cl:export '#.(custom-lispify "XrmInitialize" 'function))
 
-(cffi:defcfun ("XFetchBytes" #.(custom-lispify "XFetchBytes" 'function)) :string
+(cffi:defcfun ("XFetchBytes" #.(custom-lispify "XFetchBytes" 'function)) string-or-ptr
   (arg0 :pointer)
   (arg1 :pointer))
 
 (cl:export '#.(custom-lispify "XFetchBytes" 'function))
 
-(cffi:defcfun ("XFetchBuffer" #.(custom-lispify "XFetchBuffer" 'function)) :string
+(cffi:defcfun ("XFetchBuffer" #.(custom-lispify "XFetchBuffer" 'function)) string-or-ptr
   (arg0 :pointer)
   (arg1 :pointer)
   (arg2 :int))
 
 (cl:export '#.(custom-lispify "XFetchBuffer" 'function))
 
-(cffi:defcfun ("XGetAtomName" #.(custom-lispify "XGetAtomName" 'function)) :string
+(cffi:defcfun ("XGetAtomName" #.(custom-lispify "XGetAtomName" 'function)) string-or-ptr
   (arg0 :pointer)
   (arg1 :pointer))
 
@@ -2935,19 +2935,19 @@
 
 (cl:export '#.(custom-lispify "XGetAtomNames" 'function))
 
-(cffi:defcfun ("XGetDefault" #.(custom-lispify "XGetDefault" 'function)) :string
+(cffi:defcfun ("XGetDefault" #.(custom-lispify "XGetDefault" 'function)) string-or-ptr
   (arg0 :pointer)
-  (arg1 :string)
-  (arg2 :string))
+  (arg1 string-or-ptr)
+  (arg2 string-or-ptr))
 
 (cl:export '#.(custom-lispify "XGetDefault" 'function))
 
-(cffi:defcfun ("XDisplayName" #.(custom-lispify "XDisplayName" 'function)) :string
-  (arg0 :string))
+(cffi:defcfun ("XDisplayName" #.(custom-lispify "XDisplayName" 'function)) string-or-ptr
+  (arg0 string-or-ptr))
 
 (cl:export '#.(custom-lispify "XDisplayName" 'function))
 
-(cffi:defcfun ("XKeysymToString" #.(custom-lispify "XKeysymToString" 'function)) :string
+(cffi:defcfun ("XKeysymToString" #.(custom-lispify "XKeysymToString" 'function)) string-or-ptr
   (arg0 :pointer))
 
 (cl:export '#.(custom-lispify "XKeysymToString" 'function))
@@ -2966,7 +2966,7 @@
 
 (cffi:defcfun ("XInternAtom" #.(custom-lispify "XInternAtom" 'function)) :pointer
   (arg0 :pointer)
-  (arg1 :string)
+  (arg1 string-or-ptr)
   (arg2 :int))
 
 (cl:export '#.(custom-lispify "XInternAtom" 'function))
@@ -3024,7 +3024,7 @@
 
 (cffi:defcfun ("XLoadFont" #.(custom-lispify "XLoadFont" 'function)) :pointer
   (arg0 :pointer)
-  (arg1 :string))
+  (arg1 string-or-ptr))
 
 (cl:export '#.(custom-lispify "XLoadFont" 'function))
 
@@ -3059,7 +3059,7 @@
 (cffi:defcfun ("XCreateBitmapFromData" #.(custom-lispify "XCreateBitmapFromData" 'function)) :pointer
   (arg0 :pointer)
   (arg1 :pointer)
-  (arg2 :string)
+  (arg2 string-or-ptr)
   (arg3 :unsigned-int)
   (arg4 :unsigned-int))
 
@@ -3068,7 +3068,7 @@
 (cffi:defcfun ("XCreatePixmapFromBitmapData" #.(custom-lispify "XCreatePixmapFromBitmapData" 'function)) :pointer
   (arg0 :pointer)
   (arg1 :pointer)
-  (arg2 :string)
+  (arg2 string-or-ptr)
   (arg3 :unsigned-int)
   (arg4 :unsigned-int)
   (arg5 :unsigned-long)
@@ -3121,7 +3121,7 @@
 
 (cffi:defcfun ("XListFonts" #.(custom-lispify "XListFonts" 'function)) :pointer
   (arg0 :pointer)
-  (arg1 :string)
+  (arg1 string-or-ptr)
   (arg2 :int)
   (arg3 :pointer))
 
@@ -3129,7 +3129,7 @@
 
 (cffi:defcfun ("XListFontsWithInfo" #.(custom-lispify "XListFontsWithInfo" 'function)) :pointer
   (arg0 :pointer)
-  (arg1 :string)
+  (arg1 string-or-ptr)
   (arg2 :int)
   (arg3 :pointer)
   (arg4 :pointer))
@@ -3184,7 +3184,7 @@
 (cl:export '#.(custom-lispify "XGetKeyboardMapping" 'function))
 
 (cffi:defcfun ("XStringToKeysym" #.(custom-lispify "XStringToKeysym" 'function)) :pointer
-  (arg0 :string))
+  (arg0 string-or-ptr))
 
 (cl:export '#.(custom-lispify "XStringToKeysym" 'function))
 
@@ -3198,12 +3198,12 @@
 
 (cl:export '#.(custom-lispify "XExtendedMaxRequestSize" 'function))
 
-(cffi:defcfun ("XResourceManagerString" #.(custom-lispify "XResourceManagerString" 'function)) :string
+(cffi:defcfun ("XResourceManagerString" #.(custom-lispify "XResourceManagerString" 'function)) string-or-ptr
   (arg0 :pointer))
 
 (cl:export '#.(custom-lispify "XResourceManagerString" 'function))
 
-(cffi:defcfun ("XScreenResourceString" #.(custom-lispify "XScreenResourceString" 'function)) :string
+(cffi:defcfun ("XScreenResourceString" #.(custom-lispify "XScreenResourceString" 'function)) string-or-ptr
   (arg0 :pointer))
 
 (cl:export '#.(custom-lispify "XScreenResourceString" 'function))
@@ -3234,7 +3234,7 @@
 
 (cffi:defcfun ("XInitExtension" #.(custom-lispify "XInitExtension" 'function)) :pointer
   (arg0 :pointer)
-  (arg1 :string))
+  (arg1 string-or-ptr))
 
 (cl:export '#.(custom-lispify "XInitExtension" 'function))
 
@@ -3328,12 +3328,12 @@
 
 (cl:export '#.(custom-lispify "XLastKnownRequestProcessed" 'function))
 
-(cffi:defcfun ("XServerVendor" #.(custom-lispify "XServerVendor" 'function)) :string
+(cffi:defcfun ("XServerVendor" #.(custom-lispify "XServerVendor" 'function)) string-or-ptr
   (arg0 :pointer))
 
 (cl:export '#.(custom-lispify "XServerVendor" 'function))
 
-(cffi:defcfun ("XDisplayString" #.(custom-lispify "XDisplayString" 'function)) :string
+(cffi:defcfun ("XDisplayString" #.(custom-lispify "XDisplayString" 'function)) string-or-ptr
   (arg0 :pointer))
 
 (cl:export '#.(custom-lispify "XDisplayString" 'function))
@@ -3547,7 +3547,7 @@
 (cffi:defcfun ("XAllocNamedColor" #.(custom-lispify "XAllocNamedColor" 'function)) :int
   (arg0 :pointer)
   (arg1 :pointer)
-  (arg2 :string)
+  (arg2 string-or-ptr)
   (arg3 :pointer)
   (arg4 :pointer))
 
@@ -3669,7 +3669,7 @@
   (arg0 :pointer)
   (arg1 :pointer)
   (arg2 :pointer)
-  (arg3 :string))
+  (arg3 string-or-ptr))
 
 (cl:export '#.(custom-lispify "XCheckIfEvent" 'function))
 
@@ -3932,7 +3932,7 @@
   (arg2 :pointer)
   (arg3 :int)
   (arg4 :int)
-  (arg5 :string)
+  (arg5 string-or-ptr)
   (arg6 :int))
 
 (cl:export '#.(custom-lispify "XDrawImageString" 'function))
@@ -4023,7 +4023,7 @@
   (arg2 :pointer)
   (arg3 :int)
   (arg4 :int)
-  (arg5 :string)
+  (arg5 string-or-ptr)
   (arg6 :int))
 
 (cl:export '#.(custom-lispify "XDrawString" 'function))
@@ -4217,8 +4217,8 @@
 (cffi:defcfun ("XGeometry" #.(custom-lispify "XGeometry" 'function)) :int
   (arg0 :pointer)
   (arg1 :int)
-  (arg2 :string)
-  (arg3 :string)
+  (arg2 string-or-ptr)
+  (arg3 string-or-ptr)
   (arg4 :unsigned-int)
   (arg5 :unsigned-int)
   (arg6 :unsigned-int)
@@ -4233,10 +4233,10 @@
 
 (cffi:defcfun ("XGetErrorDatabaseText" #.(custom-lispify "XGetErrorDatabaseText" 'function)) :int
   (arg0 :pointer)
-  (arg1 :string)
-  (arg2 :string)
-  (arg3 :string)
-  (arg4 :string)
+  (arg1 string-or-ptr)
+  (arg2 string-or-ptr)
+  (arg3 string-or-ptr)
+  (arg4 string-or-ptr)
   (arg5 :int))
 
 (cl:export '#.(custom-lispify "XGetErrorDatabaseText" 'function))
@@ -4244,7 +4244,7 @@
 (cffi:defcfun ("XGetErrorText" #.(custom-lispify "XGetErrorText" 'function)) :int
   (arg0 :pointer)
   (arg1 :int)
-  (arg2 :string)
+  (arg2 string-or-ptr)
   (arg3 :int))
 
 (cl:export '#.(custom-lispify "XGetErrorText" 'function))
@@ -4418,7 +4418,7 @@
   (arg0 :pointer)
   (arg1 :pointer)
   (arg2 :pointer)
-  (arg3 :string))
+  (arg3 string-or-ptr))
 
 (cl:export '#.(custom-lispify "XIfEvent" 'function))
 
@@ -4448,7 +4448,7 @@
 (cffi:defcfun ("XLookupColor" #.(custom-lispify "XLookupColor" 'function)) :int
   (arg0 :pointer)
   (arg1 :pointer)
-  (arg2 :string)
+  (arg2 string-or-ptr)
   (arg3 :pointer)
   (arg4 :pointer))
 
@@ -4527,13 +4527,13 @@
 (cffi:defcfun ("XParseColor" #.(custom-lispify "XParseColor" 'function)) :int
   (arg0 :pointer)
   (arg1 :pointer)
-  (arg2 :string)
+  (arg2 string-or-ptr)
   (arg3 :pointer))
 
 (cl:export '#.(custom-lispify "XParseColor" 'function))
 
 (cffi:defcfun ("XParseGeometry" #.(custom-lispify "XParseGeometry" 'function)) :int
-  (arg0 :string)
+  (arg0 string-or-ptr)
   (arg1 :pointer)
   (arg2 :pointer)
   (arg3 :pointer)
@@ -4551,7 +4551,7 @@
   (arg0 :pointer)
   (arg1 :pointer)
   (arg2 :pointer)
-  (arg3 :string))
+  (arg3 string-or-ptr))
 
 (cl:export '#.(custom-lispify "XPeekIfEvent" 'function))
 
@@ -4658,7 +4658,7 @@
 
 (cffi:defcfun ("XQueryExtension" #.(custom-lispify "XQueryExtension" 'function)) :int
   (arg0 :pointer)
-  (arg1 :string)
+  (arg1 string-or-ptr)
   (arg2 :pointer)
   (arg3 :pointer)
   (arg4 :pointer))
@@ -4687,7 +4687,7 @@
 (cffi:defcfun ("XQueryTextExtents" #.(custom-lispify "XQueryTextExtents" 'function)) :int
   (arg0 :pointer)
   (arg1 :unsigned-long)
-  (arg2 :string)
+  (arg2 string-or-ptr)
   (arg3 :int)
   (arg4 :pointer)
   (arg5 :pointer)
@@ -4727,7 +4727,7 @@
 (cffi:defcfun ("XReadBitmapFile" #.(custom-lispify "XReadBitmapFile" 'function)) :int
   (arg0 :pointer)
   (arg1 :pointer)
-  (arg2 :string)
+  (arg2 string-or-ptr)
   (arg3 :pointer)
   (arg4 :pointer)
   (arg5 :pointer)
@@ -4737,7 +4737,7 @@
 (cl:export '#.(custom-lispify "XReadBitmapFile" 'function))
 
 (cffi:defcfun ("XReadBitmapFileData" #.(custom-lispify "XReadBitmapFileData" 'function)) :int
-  (arg0 :string)
+  (arg0 string-or-ptr)
   (arg1 :pointer)
   (arg2 :pointer)
   (arg3 :pointer)
@@ -4917,7 +4917,7 @@
   (arg0 :pointer)
   (arg1 :pointer)
   (arg2 :int)
-  (arg3 :string)
+  (arg3 string-or-ptr)
   (arg4 :int))
 
 (cl:export '#.(custom-lispify "XSetDashes" 'function))
@@ -4974,7 +4974,7 @@
 (cffi:defcfun ("XSetIconName" #.(custom-lispify "XSetIconName" 'function)) :int
   (arg0 :pointer)
   (arg1 :unsigned-long)
-  (arg2 :string))
+  (arg2 string-or-ptr))
 
 (cl:export '#.(custom-lispify "XSetIconName" 'function))
 
@@ -5116,7 +5116,7 @@
 
 (cffi:defcfun ("XStoreBuffer" #.(custom-lispify "XStoreBuffer" 'function)) :int
   (arg0 :pointer)
-  (arg1 :string)
+  (arg1 string-or-ptr)
   (arg2 :int)
   (arg3 :int))
 
@@ -5124,7 +5124,7 @@
 
 (cffi:defcfun ("XStoreBytes" #.(custom-lispify "XStoreBytes" 'function)) :int
   (arg0 :pointer)
-  (arg1 :string)
+  (arg1 string-or-ptr)
   (arg2 :int))
 
 (cl:export '#.(custom-lispify "XStoreBytes" 'function))
@@ -5147,14 +5147,14 @@
 (cffi:defcfun ("XStoreName" #.(custom-lispify "XStoreName" 'function)) :int
   (arg0 :pointer)
   (arg1 :unsigned-long)
-  (arg2 :string))
+  (arg2 string-or-ptr))
 
 (cl:export '#.(custom-lispify "XStoreName" 'function))
 
 (cffi:defcfun ("XStoreNamedColor" #.(custom-lispify "XStoreNamedColor" 'function)) :int
   (arg0 :pointer)
   (arg1 :pointer)
-  (arg2 :string)
+  (arg2 string-or-ptr)
   (arg3 :unsigned-long)
   (arg4 :int))
 
@@ -5168,7 +5168,7 @@
 
 (cffi:defcfun ("XTextExtents" #.(custom-lispify "XTextExtents" 'function)) :int
   (arg0 :pointer)
-  (arg1 :string)
+  (arg1 string-or-ptr)
   (arg2 :int)
   (arg3 :pointer)
   (arg4 :pointer)
@@ -5190,7 +5190,7 @@
 
 (cffi:defcfun ("XTextWidth" #.(custom-lispify "XTextWidth" 'function)) :int
   (arg0 :pointer)
-  (arg1 :string)
+  (arg1 string-or-ptr)
   (arg2 :int))
 
 (cl:export '#.(custom-lispify "XTextWidth" 'function))
@@ -5315,7 +5315,7 @@
 
 (cffi:defcfun ("XWriteBitmapFile" #.(custom-lispify "XWriteBitmapFile" 'function)) :int
   (arg0 :pointer)
-  (arg1 :string)
+  (arg1 string-or-ptr)
   (arg2 :pointer)
   (arg3 :unsigned-int)
   (arg4 :unsigned-int)
@@ -5328,16 +5328,16 @@
 
 (cl:export '#.(custom-lispify "XSupportsLocale" 'function))
 
-(cffi:defcfun ("XSetLocaleModifiers" #.(custom-lispify "XSetLocaleModifiers" 'function)) :string
-  (arg0 :string))
+(cffi:defcfun ("XSetLocaleModifiers" #.(custom-lispify "XSetLocaleModifiers" 'function)) string-or-ptr
+  (arg0 string-or-ptr))
 
 (cl:export '#.(custom-lispify "XSetLocaleModifiers" 'function))
 
 (cffi:defcfun ("XOpenOM" #.(custom-lispify "XOpenOM" 'function)) :pointer
   (arg0 :pointer)
   (arg1 :pointer)
-  (arg2 :string)
-  (arg3 :string))
+  (arg2 string-or-ptr)
+  (arg3 string-or-ptr))
 
 (cl:export '#.(custom-lispify "XOpenOM" 'function))
 
@@ -5346,13 +5346,13 @@
 
 (cl:export '#.(custom-lispify "XCloseOM" 'function))
 
-(cffi:defcfun ("XSetOMValues" #.(custom-lispify "XSetOMValues" 'function)) :string
+(cffi:defcfun ("XSetOMValues" #.(custom-lispify "XSetOMValues" 'function)) string-or-ptr
   (arg0 :pointer)
   &rest)
 
 (cl:export '#.(custom-lispify "XSetOMValues" 'function))
 
-(cffi:defcfun ("XGetOMValues" #.(custom-lispify "XGetOMValues" 'function)) :string
+(cffi:defcfun ("XGetOMValues" #.(custom-lispify "XGetOMValues" 'function)) string-or-ptr
   (arg0 :pointer)
   &rest)
 
@@ -5363,7 +5363,7 @@
 
 (cl:export '#.(custom-lispify "XDisplayOfOM" 'function))
 
-(cffi:defcfun ("XLocaleOfOM" #.(custom-lispify "XLocaleOfOM" 'function)) :string
+(cffi:defcfun ("XLocaleOfOM" #.(custom-lispify "XLocaleOfOM" 'function)) string-or-ptr
   (arg0 :pointer))
 
 (cl:export '#.(custom-lispify "XLocaleOfOM" 'function))
@@ -5384,13 +5384,13 @@
 
 (cl:export '#.(custom-lispify "XOMOfOC" 'function))
 
-(cffi:defcfun ("XSetOCValues" #.(custom-lispify "XSetOCValues" 'function)) :string
+(cffi:defcfun ("XSetOCValues" #.(custom-lispify "XSetOCValues" 'function)) string-or-ptr
   (arg0 :pointer)
   &rest)
 
 (cl:export '#.(custom-lispify "XSetOCValues" 'function))
 
-(cffi:defcfun ("XGetOCValues" #.(custom-lispify "XGetOCValues" 'function)) :string
+(cffi:defcfun ("XGetOCValues" #.(custom-lispify "XGetOCValues" 'function)) string-or-ptr
   (arg0 :pointer)
   &rest)
 
@@ -5398,7 +5398,7 @@
 
 (cffi:defcfun ("XCreateFontSet" #.(custom-lispify "XCreateFontSet" 'function)) :pointer
   (arg0 :pointer)
-  (arg1 :string)
+  (arg1 string-or-ptr)
   (arg2 :pointer)
   (arg3 :pointer)
   (arg4 :pointer))
@@ -5418,12 +5418,12 @@
 
 (cl:export '#.(custom-lispify "XFontsOfFontSet" 'function))
 
-(cffi:defcfun ("XBaseFontNameListOfFontSet" #.(custom-lispify "XBaseFontNameListOfFontSet" 'function)) :string
+(cffi:defcfun ("XBaseFontNameListOfFontSet" #.(custom-lispify "XBaseFontNameListOfFontSet" 'function)) string-or-ptr
   (arg0 :pointer))
 
 (cl:export '#.(custom-lispify "XBaseFontNameListOfFontSet" 'function))
 
-(cffi:defcfun ("XLocaleOfFontSet" #.(custom-lispify "XLocaleOfFontSet" 'function)) :string
+(cffi:defcfun ("XLocaleOfFontSet" #.(custom-lispify "XLocaleOfFontSet" 'function)) string-or-ptr
   (arg0 :pointer))
 
 (cl:export '#.(custom-lispify "XLocaleOfFontSet" 'function))
@@ -5450,7 +5450,7 @@
 
 (cffi:defcfun ("XmbTextEscapement" #.(custom-lispify "XmbTextEscapement" 'function)) :int
   (arg0 :pointer)
-  (arg1 :string)
+  (arg1 string-or-ptr)
   (arg2 :int))
 
 (cl:export '#.(custom-lispify "XmbTextEscapement" 'function))
@@ -5464,14 +5464,14 @@
 
 (cffi:defcfun ("Xutf8TextEscapement" #.(custom-lispify "Xutf8TextEscapement" 'function)) :int
   (arg0 :pointer)
-  (arg1 :string)
+  (arg1 string-or-ptr)
   (arg2 :int))
 
 (cl:export '#.(custom-lispify "Xutf8TextEscapement" 'function))
 
 (cffi:defcfun ("XmbTextExtents" #.(custom-lispify "XmbTextExtents" 'function)) :int
   (arg0 :pointer)
-  (arg1 :string)
+  (arg1 string-or-ptr)
   (arg2 :int)
   (arg3 :pointer)
   (arg4 :pointer))
@@ -5489,7 +5489,7 @@
 
 (cffi:defcfun ("Xutf8TextExtents" #.(custom-lispify "Xutf8TextExtents" 'function)) :int
   (arg0 :pointer)
-  (arg1 :string)
+  (arg1 string-or-ptr)
   (arg2 :int)
   (arg3 :pointer)
   (arg4 :pointer))
@@ -5498,7 +5498,7 @@
 
 (cffi:defcfun ("XmbTextPerCharExtents" #.(custom-lispify "XmbTextPerCharExtents" 'function)) :int
   (arg0 :pointer)
-  (arg1 :string)
+  (arg1 string-or-ptr)
   (arg2 :int)
   (arg3 :pointer)
   (arg4 :pointer)
@@ -5524,7 +5524,7 @@
 
 (cffi:defcfun ("Xutf8TextPerCharExtents" #.(custom-lispify "Xutf8TextPerCharExtents" 'function)) :int
   (arg0 :pointer)
-  (arg1 :string)
+  (arg1 string-or-ptr)
   (arg2 :int)
   (arg3 :pointer)
   (arg4 :pointer)
@@ -5575,7 +5575,7 @@
   (arg3 :pointer)
   (arg4 :int)
   (arg5 :int)
-  (arg6 :string)
+  (arg6 string-or-ptr)
   (arg7 :int))
 
 (cl:export '#.(custom-lispify "XmbDrawString" 'function))
@@ -5599,7 +5599,7 @@
   (arg3 :pointer)
   (arg4 :int)
   (arg5 :int)
-  (arg6 :string)
+  (arg6 string-or-ptr)
   (arg7 :int))
 
 (cl:export '#.(custom-lispify "Xutf8DrawString" 'function))
@@ -5611,7 +5611,7 @@
   (arg3 :pointer)
   (arg4 :int)
   (arg5 :int)
-  (arg6 :string)
+  (arg6 string-or-ptr)
   (arg7 :int))
 
 (cl:export '#.(custom-lispify "XmbDrawImageString" 'function))
@@ -5635,7 +5635,7 @@
   (arg3 :pointer)
   (arg4 :int)
   (arg5 :int)
-  (arg6 :string)
+  (arg6 string-or-ptr)
   (arg7 :int))
 
 (cl:export '#.(custom-lispify "Xutf8DrawImageString" 'function))
@@ -5643,8 +5643,8 @@
 (cffi:defcfun ("XOpenIM" #.(custom-lispify "XOpenIM" 'function)) :pointer
   (arg0 :pointer)
   (arg1 :pointer)
-  (arg2 :string)
-  (arg3 :string))
+  (arg2 string-or-ptr)
+  (arg3 string-or-ptr))
 
 (cl:export '#.(custom-lispify "XOpenIM" 'function))
 
@@ -5653,13 +5653,13 @@
 
 (cl:export '#.(custom-lispify "XCloseIM" 'function))
 
-(cffi:defcfun ("XGetIMValues" #.(custom-lispify "XGetIMValues" 'function)) :string
+(cffi:defcfun ("XGetIMValues" #.(custom-lispify "XGetIMValues" 'function)) string-or-ptr
   (arg0 :pointer)
   &rest)
 
 (cl:export '#.(custom-lispify "XGetIMValues" 'function))
 
-(cffi:defcfun ("XSetIMValues" #.(custom-lispify "XSetIMValues" 'function)) :string
+(cffi:defcfun ("XSetIMValues" #.(custom-lispify "XSetIMValues" 'function)) string-or-ptr
   (arg0 :pointer)
   &rest)
 
@@ -5670,7 +5670,7 @@
 
 (cl:export '#.(custom-lispify "XDisplayOfIM" 'function))
 
-(cffi:defcfun ("XLocaleOfIM" #.(custom-lispify "XLocaleOfIM" 'function)) :string
+(cffi:defcfun ("XLocaleOfIM" #.(custom-lispify "XLocaleOfIM" 'function)) string-or-ptr
   (arg0 :pointer))
 
 (cl:export '#.(custom-lispify "XLocaleOfIM" 'function))
@@ -5701,23 +5701,23 @@
 
 (cl:export '#.(custom-lispify "XwcResetIC" 'function))
 
-(cffi:defcfun ("XmbResetIC" #.(custom-lispify "XmbResetIC" 'function)) :string
+(cffi:defcfun ("XmbResetIC" #.(custom-lispify "XmbResetIC" 'function)) string-or-ptr
   (arg0 :pointer))
 
 (cl:export '#.(custom-lispify "XmbResetIC" 'function))
 
-(cffi:defcfun ("Xutf8ResetIC" #.(custom-lispify "Xutf8ResetIC" 'function)) :string
+(cffi:defcfun ("Xutf8ResetIC" #.(custom-lispify "Xutf8ResetIC" 'function)) string-or-ptr
   (arg0 :pointer))
 
 (cl:export '#.(custom-lispify "Xutf8ResetIC" 'function))
 
-(cffi:defcfun ("XSetICValues" #.(custom-lispify "XSetICValues" 'function)) :string
+(cffi:defcfun ("XSetICValues" #.(custom-lispify "XSetICValues" 'function)) string-or-ptr
   (arg0 :pointer)
   &rest)
 
 (cl:export '#.(custom-lispify "XSetICValues" 'function))
 
-(cffi:defcfun ("XGetICValues" #.(custom-lispify "XGetICValues" 'function)) :string
+(cffi:defcfun ("XGetICValues" #.(custom-lispify "XGetICValues" 'function)) string-or-ptr
   (arg0 :pointer)
   &rest)
 
@@ -5737,7 +5737,7 @@
 (cffi:defcfun ("XmbLookupString" #.(custom-lispify "XmbLookupString" 'function)) :int
   (arg0 :pointer)
   (arg1 :pointer)
-  (arg2 :string)
+  (arg2 string-or-ptr)
   (arg3 :int)
   (arg4 :pointer)
   (arg5 :pointer))
@@ -5757,7 +5757,7 @@
 (cffi:defcfun ("Xutf8LookupString" #.(custom-lispify "Xutf8LookupString" 'function)) :int
   (arg0 :pointer)
   (arg1 :pointer)
-  (arg2 :string)
+  (arg2 string-or-ptr)
   (arg3 :int)
   (arg4 :pointer)
   (arg5 :pointer))
@@ -5773,20 +5773,20 @@
 (cffi:defcfun ("XRegisterIMInstantiateCallback" #.(custom-lispify "XRegisterIMInstantiateCallback" 'function)) :int
   (arg0 :pointer)
   (arg1 :pointer)
-  (arg2 :string)
-  (arg3 :string)
+  (arg2 string-or-ptr)
+  (arg3 string-or-ptr)
   (arg4 :pointer)
-  (arg5 :string))
+  (arg5 string-or-ptr))
 
 (cl:export '#.(custom-lispify "XRegisterIMInstantiateCallback" 'function))
 
 (cffi:defcfun ("XUnregisterIMInstantiateCallback" #.(custom-lispify "XUnregisterIMInstantiateCallback" 'function)) :int
   (arg0 :pointer)
   (arg1 :pointer)
-  (arg2 :string)
-  (arg3 :string)
+  (arg2 string-or-ptr)
+  (arg3 string-or-ptr)
   (arg4 :pointer)
-  (arg5 :string))
+  (arg5 string-or-ptr))
 
 (cl:export '#.(custom-lispify "XUnregisterIMInstantiateCallback" 'function))
 
@@ -5810,34 +5810,34 @@
 (cffi:defcfun ("XAddConnectionWatch" #.(custom-lispify "XAddConnectionWatch" 'function)) :int
   (arg0 :pointer)
   (arg1 :pointer)
-  (arg2 :string))
+  (arg2 string-or-ptr))
 
 (cl:export '#.(custom-lispify "XAddConnectionWatch" 'function))
 
 (cffi:defcfun ("XRemoveConnectionWatch" #.(custom-lispify "XRemoveConnectionWatch" 'function)) :void
   (arg0 :pointer)
   (arg1 :pointer)
-  (arg2 :string))
+  (arg2 string-or-ptr))
 
 (cl:export '#.(custom-lispify "XRemoveConnectionWatch" 'function))
 
 (cffi:defcfun ("XSetAuthorization" #.(custom-lispify "XSetAuthorization" 'function)) :void
-  (arg0 :string)
+  (arg0 string-or-ptr)
   (arg1 :int)
-  (arg2 :string)
+  (arg2 string-or-ptr)
   (arg3 :int))
 
 (cl:export '#.(custom-lispify "XSetAuthorization" 'function))
 
 (cffi:defcfun ("_Xmbtowc" #.(custom-lispify "_Xmbtowc" 'function)) :int
   (arg0 :pointer)
-  (arg1 :string)
+  (arg1 string-or-ptr)
   (arg2 :int))
 
 (cl:export '#.(custom-lispify "_Xmbtowc" 'function))
 
 (cffi:defcfun ("_Xwctomb" #.(custom-lispify "_Xwctomb" 'function)) :int
-  (arg0 :string)
+  (arg0 string-or-ptr)
   (arg1 :pointer))
 
 (cl:export '#.(custom-lispify "_Xwctomb" 'function))
@@ -5886,7 +5886,7 @@
 
 (cl:export '#.(custom-lispify "YNegative" 'constant))
 
-(cffi:defcstruct #.(custom-lispify "XSizeHints" 'classname)
+(cffi:defcstruct #.(custom-lispify "XSizeHints" 'structname-decl)
 	(#.(custom-lispify "flags" 'slotname) :long)
 	(#.(custom-lispify "x" 'slotname) :int)
 	(#.(custom-lispify "y" 'slotname) :int)
@@ -5938,7 +5938,7 @@
 
 (cl:export '#.(custom-lispify "max_aspect" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XSizeHints_max_aspect" 'classname)
+(cffi:defcstruct #.(custom-lispify "XSizeHints_max_aspect" 'structname-decl)
 	(#.(custom-lispify "x" 'slotname) :int)
 	(#.(custom-lispify "y" 'slotname) :int))
 
@@ -5948,7 +5948,7 @@
 
 (cl:export '#.(custom-lispify "y" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XSizeHints_min_aspect" 'classname)
+(cffi:defcstruct #.(custom-lispify "XSizeHints_min_aspect" 'structname-decl)
 	(#.(custom-lispify "x" 'slotname) :int)
 	(#.(custom-lispify "y" 'slotname) :int))
 
@@ -6002,7 +6002,7 @@
 
 (cl:export '#.(custom-lispify "PAllHints" 'constant))
 
-(cffi:defcstruct #.(custom-lispify "XWMHints" 'classname)
+(cffi:defcstruct #.(custom-lispify "XWMHints" 'structname-decl)
 	(#.(custom-lispify "flags" 'slotname) :long)
 	(#.(custom-lispify "input" 'slotname) :int)
 	(#.(custom-lispify "initial_state" 'slotname) :int)
@@ -6093,7 +6093,7 @@
 
 (cl:export '#.(custom-lispify "InactiveState" 'constant))
 
-(cffi:defcstruct #.(custom-lispify "XTextProperty" 'classname)
+(cffi:defcstruct #.(custom-lispify "XTextProperty" 'structname-decl)
 	(#.(custom-lispify "value" 'slotname) :pointer)
 	(#.(custom-lispify "encoding" 'slotname) :pointer)
 	(#.(custom-lispify "format" 'slotname) :int)
@@ -6130,7 +6130,7 @@
 
 (cl:export '#.(custom-lispify "XICCEncodingStyle" 'enumname))
 
-(cffi:defcstruct #.(custom-lispify "XIconSize" 'classname)
+(cffi:defcstruct #.(custom-lispify "XIconSize" 'structname-decl)
 	(#.(custom-lispify "min_width" 'slotname) :int)
 	(#.(custom-lispify "min_height" 'slotname) :int)
 	(#.(custom-lispify "max_width" 'slotname) :int)
@@ -6152,9 +6152,9 @@
 
 (cl:export '#.(custom-lispify "height_inc" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XClassHint" 'classname)
-	(#.(custom-lispify "res_name" 'slotname) :string)
-	(#.(custom-lispify "res_class" 'slotname) :string))
+(cffi:defcstruct #.(custom-lispify "XClassHint" 'structname-decl)
+	(#.(custom-lispify "res_name" 'slotname) string-or-ptr)
+	(#.(custom-lispify "res_class" 'slotname) string-or-ptr))
 
 (cl:export '#.(custom-lispify "XClassHint" 'classname))
 
@@ -6162,8 +6162,8 @@
 
 (cl:export '#.(custom-lispify "res_class" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "XComposeStatus" 'classname)
-	(#.(custom-lispify "compose_ptr" 'slotname) :string)
+(cffi:defcstruct #.(custom-lispify "XComposeStatus" 'structname-decl)
+	(#.(custom-lispify "compose_ptr" 'slotname) string-or-ptr)
 	(#.(custom-lispify "chars_matched" 'slotname) :int))
 
 (cl:export '#.(custom-lispify "XComposeStatus" 'classname))
@@ -6188,7 +6188,7 @@
 
 (cl:export '#.(custom-lispify "RectanglePart" 'constant))
 
-(cffi:defcstruct #.(custom-lispify "XVisualInfo" 'classname)
+(cffi:defcstruct #.(custom-lispify "XVisualInfo" 'structname-decl)
 	(#.(custom-lispify "visual" 'slotname) :pointer)
 	(#.(custom-lispify "visualid" 'slotname) :pointer)
 	(#.(custom-lispify "screen" 'slotname) :int)
@@ -6266,7 +6266,7 @@
 
 (cl:export '#.(custom-lispify "VisualAllMask" 'constant))
 
-(cffi:defcstruct #.(custom-lispify "XStandardColormap" 'classname)
+(cffi:defcstruct #.(custom-lispify "XStandardColormap" 'structname-decl)
 	(#.(custom-lispify "colormap" 'slotname) :pointer)
 	(#.(custom-lispify "red_max" 'slotname) :unsigned-long)
 	(#.(custom-lispify "red_mult" 'slotname) :unsigned-long)
@@ -6362,7 +6362,7 @@
 
 (cl:export '#.(custom-lispify "XCreateRegion" 'function))
 
-(cffi:defcfun ("XDefaultString" #.(custom-lispify "XDefaultString" 'function)) :string)
+(cffi:defcfun ("XDefaultString" #.(custom-lispify "XDefaultString" 'function)) string-or-ptr)
 
 (cl:export '#.(custom-lispify "XDefaultString" 'function))
 
@@ -6527,7 +6527,7 @@
 
 (cffi:defcfun ("XLookupString" #.(custom-lispify "XLookupString" 'function)) :int
   (arg0 :pointer)
-  (arg1 :string)
+  (arg1 string-or-ptr)
   (arg2 :int)
   (arg3 :pointer)
   (arg4 :pointer))
@@ -6577,7 +6577,7 @@
   (arg0 :pointer)
   (arg1 :unsigned-long)
   (arg2 :int)
-  (arg3 :string))
+  (arg3 string-or-ptr))
 
 (cl:export '#.(custom-lispify "XSaveContext" 'function))
 
@@ -6623,8 +6623,8 @@
 (cffi:defcfun ("XSetStandardProperties" #.(custom-lispify "XSetStandardProperties" 'function)) :int
   (arg0 :pointer)
   (arg1 :unsigned-long)
-  (arg2 :string)
-  (arg3 :string)
+  (arg2 string-or-ptr)
+  (arg3 string-or-ptr)
   (arg4 :pointer)
   (arg5 :pointer)
   (arg6 :int)
@@ -6691,8 +6691,8 @@
 (cffi:defcfun ("XmbSetWMProperties" #.(custom-lispify "XmbSetWMProperties" 'function)) :void
   (arg0 :pointer)
   (arg1 :unsigned-long)
-  (arg2 :string)
-  (arg3 :string)
+  (arg2 string-or-ptr)
+  (arg3 string-or-ptr)
   (arg4 :pointer)
   (arg5 :int)
   (arg6 :pointer)
@@ -6704,8 +6704,8 @@
 (cffi:defcfun ("Xutf8SetWMProperties" #.(custom-lispify "Xutf8SetWMProperties" 'function)) :void
   (arg0 :pointer)
   (arg1 :unsigned-long)
-  (arg2 :string)
-  (arg3 :string)
+  (arg2 string-or-ptr)
+  (arg3 string-or-ptr)
   (arg4 :pointer)
   (arg5 :int)
   (arg6 :pointer)
@@ -6845,8 +6845,8 @@
 (cffi:defcfun ("XWMGeometry" #.(custom-lispify "XWMGeometry" 'function)) :int
   (arg0 :pointer)
   (arg1 :int)
-  (arg2 :string)
-  (arg3 :string)
+  (arg2 string-or-ptr)
+  (arg3 string-or-ptr)
   (arg4 :unsigned-int)
   (arg5 :pointer)
   (arg6 :pointer)
@@ -7375,20 +7375,20 @@
 
 (cl:export '#.(custom-lispify "glXUseXFont" 'function))
 
-(cffi:defcfun ("glXQueryExtensionsString" #.(custom-lispify "glXQueryExtensionsString" 'function)) :string
+(cffi:defcfun ("glXQueryExtensionsString" #.(custom-lispify "glXQueryExtensionsString" 'function)) string-or-ptr
   (dpy :pointer)
   (screen :int))
 
 (cl:export '#.(custom-lispify "glXQueryExtensionsString" 'function))
 
-(cffi:defcfun ("glXQueryServerString" #.(custom-lispify "glXQueryServerString" 'function)) :string
+(cffi:defcfun ("glXQueryServerString" #.(custom-lispify "glXQueryServerString" 'function)) string-or-ptr
   (dpy :pointer)
   (screen :int)
   (name :int))
 
 (cl:export '#.(custom-lispify "glXQueryServerString" 'function))
 
-(cffi:defcfun ("glXGetClientString" #.(custom-lispify "glXGetClientString" 'function)) :string
+(cffi:defcfun ("glXGetClientString" #.(custom-lispify "glXGetClientString" 'function)) string-or-ptr
   (dpy :pointer)
   (name :int))
 
@@ -7887,7 +7887,7 @@
 
 (cl:export '#.(custom-lispify "glXReleaseTexImageEXT" 'function))
 
-(cffi:defcstruct #.(custom-lispify "GLXPbufferClobberEvent" 'classname)
+(cffi:defcstruct #.(custom-lispify "GLXPbufferClobberEvent" 'structname-decl)
 	(#.(custom-lispify "event_type" 'slotname) :int)
 	(#.(custom-lispify "draw_type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
@@ -7930,7 +7930,7 @@
 
 (cl:export '#.(custom-lispify "count" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "GLXBufferSwapComplete" 'classname)
+(cffi:defcstruct #.(custom-lispify "GLXBufferSwapComplete" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -7961,7 +7961,7 @@
 
 (cl:export '#.(custom-lispify "sbc" 'slotname))
 
-(cffi:defcunion #.(custom-lispify "GLXEvent" 'classname)
+(cffi:defcunion #.(custom-lispify "GLXEvent" 'unionname-decl)
 	(#.(custom-lispify "glxpbufferclobber" 'slotname) #.(custom-lispify "GLXPbufferClobberEvent" 'structname))
 	(#.(custom-lispify "glxbufferswapcomplete" 'slotname) #.(custom-lispify "GLXBufferSwapComplete" 'structname))
 	(#.(custom-lispify "pad" 'slotname) :long :count 24))
@@ -7974,7 +7974,7 @@
 
 (cl:export '#.(custom-lispify "pad" 'slotname))
 
-(cl:defconstant #.(custom-lispify "GLX_GLXEXT_VERSION" 'constant) 32)
+(cl:defconstant #.(custom-lispify "GLX_GLXEXT_VERSION" 'constant) 33)
 
 (cl:export '#.(custom-lispify "GLX_GLXEXT_VERSION" 'constant))
 
@@ -8530,6 +8530,10 @@
 
 (cl:export '#.(custom-lispify "GLX_CONTEXT_ES2_PROFILE_BIT_EXT" 'constant))
 
+(cl:defconstant #.(custom-lispify "GLX_LATE_SWAPS_TEAR_EXT" 'constant) #x020F3)
+
+(cl:export '#.(custom-lispify "GLX_LATE_SWAPS_TEAR_EXT" 'constant))
+
 (cffi:defctype #.(custom-lispify "GLXVideoSourceSGIX" 'typename) :unsigned-long)
 
 (cl:export '#.(custom-lispify "GLXVideoSourceSGIX" 'typename))
@@ -8546,7 +8550,7 @@
 
 (cl:export '#.(custom-lispify "GLXPbufferSGIX" 'typename))
 
-(cffi:defcstruct #.(custom-lispify "GLXBufferClobberEventSGIX" 'classname)
+(cffi:defcstruct #.(custom-lispify "GLXBufferClobberEventSGIX" 'structname-decl)
 	(#.(custom-lispify "type" 'slotname) :int)
 	(#.(custom-lispify "serial" 'slotname) :unsigned-long)
 	(#.(custom-lispify "send_event" 'slotname) :int)
@@ -9191,7 +9195,7 @@
 
 (cl:export '#.(custom-lispify "GLX_SGIX_hyperpipe" 'constant))
 
-(cffi:defcstruct #.(custom-lispify "GLXHyperpipeNetworkSGIX" 'classname)
+(cffi:defcstruct #.(custom-lispify "GLXHyperpipeNetworkSGIX" 'structname-decl)
 	(#.(custom-lispify "pipeName" 'slotname) :char :count 80)
 	(#.(custom-lispify "networkId" 'slotname) :int))
 
@@ -9201,7 +9205,7 @@
 
 (cl:export '#.(custom-lispify "networkId" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "GLXHyperpipeConfigSGIX" 'classname)
+(cffi:defcstruct #.(custom-lispify "GLXHyperpipeConfigSGIX" 'structname-decl)
 	(#.(custom-lispify "pipeName" 'slotname) :char :count 80)
 	(#.(custom-lispify "channel" 'slotname) :int)
 	(#.(custom-lispify "participationType" 'slotname) :unsigned-int)
@@ -9217,7 +9221,7 @@
 
 (cl:export '#.(custom-lispify "timeSlice" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "GLXPipeRect" 'classname)
+(cffi:defcstruct #.(custom-lispify "GLXPipeRect" 'structname-decl)
 	(#.(custom-lispify "pipeName" 'slotname) :char :count 80)
 	(#.(custom-lispify "srcXOrigin" 'slotname) :int)
 	(#.(custom-lispify "srcYOrigin" 'slotname) :int)
@@ -9248,7 +9252,7 @@
 
 (cl:export '#.(custom-lispify "destHeight" 'slotname))
 
-(cffi:defcstruct #.(custom-lispify "GLXPipeRectLimits" 'classname)
+(cffi:defcstruct #.(custom-lispify "GLXPipeRectLimits" 'structname-decl)
 	(#.(custom-lispify "pipeName" 'slotname) :char :count 80)
 	(#.(custom-lispify "XOrigin" 'slotname) :int)
 	(#.(custom-lispify "YOrigin" 'slotname) :int)
@@ -9617,7 +9621,7 @@
 
 (cl:export '#.(custom-lispify "GLX_EXT_swap_control" 'constant))
 
-(cffi:defcfun ("glXSwapIntervalEXT" #.(custom-lispify "glXSwapIntervalEXT" 'function)) :int
+(cffi:defcfun ("glXSwapIntervalEXT" #.(custom-lispify "glXSwapIntervalEXT" 'function)) :void
   (dpy :pointer)
   (drawable :unsigned-long)
   (interval :int))
@@ -9665,5 +9669,9 @@
 (cl:defconstant #.(custom-lispify "GLX_NV_multisample_coverage" 'constant) 1)
 
 (cl:export '#.(custom-lispify "GLX_NV_multisample_coverage" 'constant))
+
+(cl:defconstant #.(custom-lispify "GLX_EXT_swap_control_tear" 'constant) 1)
+
+(cl:export '#.(custom-lispify "GLX_EXT_swap_control_tear" 'constant))
 
 
