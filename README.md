@@ -11,7 +11,7 @@ drop-in replacement for [CLX](http://www.cliki.net/CLX)**.
 * XCB, of course; if you're using a recent Xorg, you probably have
   this already
 
-* Lisp: cffi/libffi branch, ChanL, static-vectors, trivial-garbage
+* Lisp: cffi master (with libffi), static-vectors, trivial-garbage
 
 * Not strictly necessary: cl-opengl if you want to use GLX, cl-cairo2
   if you want cairo-xcb integration.
