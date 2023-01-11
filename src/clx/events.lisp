@@ -91,11 +91,13 @@
                                                    (truncate (* 1000 timeout))
                                                    -1)))))
         ;; Not strictly correct because EINTR isn't the only error possible
-        (when fds
+        (if fds
           (if (or (not (eq :in (cadr fds)))
                   (cddr fds))
               (loop-finish) ;; display likely closed or invalid
-              (setf ptr (xcb-wait-for-event (display-ptr-xcb display)))))))
+              (setf ptr (xcb-poll-for-event (display-ptr-xcb display))))
+          ;; poll timed out:
+          (return-from %poll-next-event (null-pointer)))))
     (when (null-pointer-p ptr)
       (let ((code (xcb-connection-has-error (display-ptr-xcb display))))
         (when (/= 0 code)
