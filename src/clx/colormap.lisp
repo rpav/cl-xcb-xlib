@@ -126,7 +126,7 @@
                             :blue (xcb-rgb-t-blue ptr)))
                          #'xcb-query-colors-colors
                          #'xcb-query-colors-colors-length
-                         reply 'xcb-rgb-t)))))
+                         reply '(:struct xcb-rgb-t))))))
 
  ;; 9.3.5 Changing Colors
 

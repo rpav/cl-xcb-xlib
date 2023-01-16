@@ -52,7 +52,7 @@
                      (cons (xcb-fontprop-t-name ptr)
                            (xcb-fontprop-t-value ptr)))
                    head-fn len-fn
-                   ptr 'xcb-fontprop-t))
+                   ptr '(:struct xcb-fontprop-t)))
 
 (defun query-font (font name)
   (do-request-response (font c reply err)
@@ -65,7 +65,7 @@
                              #'make-font-charinfo
                              #'xcb-query-font-char-infos
                              #'xcb-query-font-char-infos-length
-                             reply 'xcb-charinfo-t))))
+                             reply '(:struct xcb-charinfo-t)))))
 
 (defun open-font (display name)
   (xchk (display c id (font (%make-font :display display :id id)))

@@ -222,7 +222,7 @@
                                                              (xcb-format-t-scanline-pad ptr)))
                                        #'xcb-setup-pixmap-formats
                                        #'xcb-setup-pixmap-formats-length
-                                       setup 'xcb-format-t)))
+                                       setup '(:struct xcb-format-t))))
         (setf (%display-pixmap-formats display) formats))))
 
 (defun find-pixmap-format (display &key depth bpp)
