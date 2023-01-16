@@ -109,7 +109,7 @@
        function
        (loop with ptr = (funcall head-function reply-pointer)
              for i from 0 below (funcall length-function reply-pointer)
-             collect (mem-aref ptr type i))))
+             collect (mem-aptr ptr type i))))
 
  ;; Copy to foreign array
 

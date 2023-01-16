@@ -274,7 +274,7 @@
                              (xcb-timecoord-t-time ptr)))
                      #'xcb-get-motion-events-events
                      #'xcb-get-motion-events-events-length
-                     reply 'xcb-timecoord-t)))
+                     reply '(:struct xcb-timecoord-t))))
 
 (defun warp-pointer (destination dest-x dest-y)
   (xerr destination
